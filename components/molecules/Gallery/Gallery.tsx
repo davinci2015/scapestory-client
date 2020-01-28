@@ -13,7 +13,7 @@ interface Props {
     onClose: VoidFunction
     isOpen: boolean
     images: ReactImageGalleryItem[]
-    startIndex: number
+    startIndex?: number
 }
 
 type GalleryType = React.FunctionComponent<Props> & {
