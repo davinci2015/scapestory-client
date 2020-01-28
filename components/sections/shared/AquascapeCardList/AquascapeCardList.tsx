@@ -25,8 +25,8 @@ const AquascapeCardList: AquascapeCardListType = ({children, loadMore, title}) =
             <div className={classes.title}>{title}</div>
             {children}
             {loadMore && (
-                <div className="load-more" onClick={loadMore}>
-                    <div className="load-more-button">
+                <div className="load-more">
+                    <button className="load-more-button" onClick={loadMore}>
                         <Headline as="h5" variant="h5" color={colors.PRIMARY}>
                             <FormattedMessage
                                 id="card_list.load_more"
@@ -34,7 +34,7 @@ const AquascapeCardList: AquascapeCardListType = ({children, loadMore, title}) =
                             />
                         </Headline>
                         <Icon d={Icon.ARROW_DOWN} color={colors.PRIMARY} />
-                    </div>
+                    </button>
                 </div>
             )}
         </div>
@@ -54,9 +54,12 @@ const AquascapeCardList: AquascapeCardListType = ({children, loadMore, title}) =
             }
 
             .load-more-button {
-                cursor: pointer;
                 display: flex;
                 align-items: center;
+                cursor: pointer;
+                outline: 0;
+                border: 0;
+                background: transparent;
             }
 
             .load-more-button :global(svg) {
