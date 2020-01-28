@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import Modal from 'react-modal'
-import ScrollLock from 'react-scrolllock'
+import ScrollLock, {TouchScrollable} from 'react-scrolllock'
 
 import {colors, zIndex, media, spaces} from 'styles'
 
@@ -16,7 +16,9 @@ const CustomModal = ({children, ...rest}: Props) => {
     return (
         <>
             <Modal className="modal" overlayClassName="modal-overlay" {...rest}>
-                <ScrollLock>{children}</ScrollLock>
+                <ScrollLock>
+                    <TouchScrollable>{children}</TouchScrollable>
+                </ScrollLock>
             </Modal>
 
             <style jsx>{`

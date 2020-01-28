@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react'
 import ImageGallery, {ReactImageGalleryItem} from 'react-image-gallery'
+import ScrollLock from 'react-scrolllock'
 
 import {zIndex, colors, spaces} from 'styles'
 import {Icon} from 'components/atoms'
@@ -38,13 +39,15 @@ const Gallery: GalleryType = ({images, isOpen, onClose, startIndex = 0}) => {
         <>
             <div className="gallery">
                 <div className="gallery__overlay">
-                    <div className="slider">
-                        <a onClick={onClose} className="gallery__outside"></a>
-                        <ImageGallery startIndex={startIndex} items={images} />
-                    </div>
-                    <div onClick={onClose} className="gallery__close-icon">
-                        <Icon d={Icon.CLOSE} color={colors.SHADE_LIGHT} size={36} />
-                    </div>
+                    <ScrollLock>
+                        <div className="slider">
+                            <a onClick={onClose} className="gallery__outside"></a>
+                            <ImageGallery startIndex={startIndex} items={images} />
+                        </div>
+                        <div onClick={onClose} className="gallery__close-icon">
+                            <Icon d={Icon.CLOSE} color={colors.SHADE_LIGHT} size={36} />
+                        </div>
+                    </ScrollLock>
                 </div>
             </div>
             <style jsx>{`
