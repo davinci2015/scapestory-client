@@ -6,7 +6,7 @@ export default {
     registerValidate: '/register/validate/[token]',
     about: '/about',
     privacyPolicy: '/privacy-policy',
-    termsAndConditions: '/terms-and-condition',
+    termsAndConditions: '/terms-and-conditions',
     aquascapeDetails: '/aquascape/[title]/[id]',
     aquascapeDetailsEdit: '/aquascape/edit/[title]/[id]',
     profile: '/profile/[slug]',
