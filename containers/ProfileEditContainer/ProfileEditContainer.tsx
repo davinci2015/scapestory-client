@@ -1,21 +1,15 @@
 import React, {useContext, useState} from 'react'
 import {useRouter} from 'next/router'
+import {toast} from 'react-toastify'
 import {useQuery, useMutation} from 'react-apollo'
 
 import {UserBySlugQuery, UserBySlugQueryVariables, ImageVariant} from 'graphql/generated/queries'
 import {Content, Grid} from 'components/core'
-import {AquascapeCardList} from 'components/sections/shared'
-import {Headline, FormattedMessage} from 'components/atoms'
 import {renderAquascapeCards, showUploadImageToast} from 'utils/render'
 import {GridWidth} from 'components/core/Grid'
 import {USER_BY_SLUG} from 'graphql/queries'
 import {AuthContext} from 'providers/AuthenticationProvider'
 import routes, {createDynamicPath} from 'routes'
-
-import {
-    MutationUploadUserImageArgs,
-    MutationUpdateUserDetailsArgs,
-} from 'graphql/generated/mutations'
 import {UPLOAD_USER_IMAGE} from 'graphql/mutations'
 import {updateProfileCache, ProfileActions} from 'containers/ProfileContainer/cache'
 import {User} from 'graphql/generated/types'
@@ -23,7 +17,11 @@ import CoverSectionEditContainer from './CoverSectionEditContainer'
 import UserSectionEditContainer from './UserSectionEditContainer'
 import {UPDATE_USER_DETAILS} from './mutations'
 import logger from 'services/logger'
-import {toast} from 'react-toastify'
+import AquascapesSection from 'components/sections/Profile/AquascapesSection.tsx'
+import {
+    MutationUploadUserImageArgs,
+    MutationUpdateUserDetailsArgs,
+} from 'graphql/generated/mutations'
 
 const ProfileContainer = () => {
     const router = useRouter()
@@ -111,19 +109,8 @@ const ProfileContainer = () => {
                     onChangeProfileImage={onImageUpload(ImageVariant.Profile)}
                     user={userResult.user}
                 />
-                {!!userResult.user.aquascapes.rows.length && (
-                    <AquascapeCardList
-                        variant="condensed"
-                        title={
-                            <Headline as="h2" variant="h5">
-                                <FormattedMessage
-                                    id="home_list_title_explore"
-                                    defaultMessage="{name}'s aquascapes"
-                                    values={{name: userResult.user.name}}
-                                />
-                            </Headline>
-                        }
-                    >
+                {Boolean(userResult.user.aquascapes.rows.length) && (
+                    <AquascapesSection name={userResult.user.name}>
                         <Grid.Row>
                             {renderAquascapeCards(userResult.user.aquascapes.rows, {
                                 large: 6,
@@ -132,7 +119,7 @@ const ProfileContainer = () => {
                                 extraSmall: 12,
                             })}
                         </Grid.Row>
-                    </AquascapeCardList>
+                    </AquascapesSection>
                 )}
             </Grid>
         </Content>
