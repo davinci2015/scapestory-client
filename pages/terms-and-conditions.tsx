@@ -1,5 +1,6 @@
 import React from 'react'
 import {useRouter} from 'next/router'
+import Head from 'next/head'
 
 import {Grid, Content} from 'components/core'
 import {Headline, Paragraph, Button, FormattedMessage} from 'components/atoms'
@@ -12,10 +13,11 @@ import routes from 'routes'
 import withAuth from 'hocs/withAuth'
 import {GridWidth} from 'components/core/Grid'
 import config from 'config'
-import Head from 'next/head'
+import useLogPageView from 'hooks/analytics'
 
 const Terms = () => {
     const router = useRouter()
+    useLogPageView()
 
     return (
         <>

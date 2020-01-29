@@ -7,18 +7,23 @@ import HomeContainer from 'containers/Home'
 import withAuth from 'hocs/withAuth'
 import ModalProvider from 'providers/ModalProvider'
 import config from 'config'
+import useLogPageView from 'hooks/analytics'
 
-const Index = () => (
-    <>
-        <Head>
-            <title>{config.APP_NAME}</title>
-        </Head>
-        <ModalProvider>
-            <NavigationContainer />
-            <HomeContainer />
-            <FooterContainer />
-        </ModalProvider>
-    </>
-)
+const Index = () => {
+    useLogPageView()
+
+    return (
+        <>
+            <Head>
+                <title>{config.APP_NAME}</title>
+            </Head>
+            <ModalProvider>
+                <NavigationContainer />
+                <HomeContainer />
+                <FooterContainer />
+            </ModalProvider>
+        </>
+    )
+}
 
 export default withAuth(Index)

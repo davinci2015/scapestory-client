@@ -7,18 +7,23 @@ import NavigationContainer from 'containers/NavigationContainer'
 import FooterContainer from 'containers/FooterContainer'
 import ProfileContainer from 'containers/ProfileContainer'
 import config from 'config'
+import useLogPageView from 'hooks/analytics'
 
-const UserProfile = () => (
-    <>
-        <Head>
-            <title>{config.APP_NAME}</title>
-        </Head>
-        <ModalProvider>
-            <NavigationContainer />
-            <ProfileContainer />
-            <FooterContainer />
-        </ModalProvider>
-    </>
-)
+const UserProfile = () => {
+    useLogPageView()
+
+    return (
+        <>
+            <Head>
+                <title>{config.APP_NAME}</title>
+            </Head>
+            <ModalProvider>
+                <NavigationContainer />
+                <ProfileContainer />
+                <FooterContainer />
+            </ModalProvider>
+        </>
+    )
+}
 
 export default withAuth(UserProfile)
