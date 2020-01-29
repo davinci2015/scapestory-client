@@ -51,6 +51,7 @@ const Login = ({children, onSuccess}: Props) => {
             {login => (
                 <FacebookLogin
                     appId={process.env.FACEBOOK_APP_ID}
+                    fields="name,email,picture"
                     // @ts-ignore
                     callback={responseFacebook(login)}
                     onFailure={onFailure}
