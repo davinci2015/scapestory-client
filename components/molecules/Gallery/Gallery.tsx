@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react'
 import ImageGallery, {ReactImageGalleryItem} from 'react-image-gallery'
-import ScrollLock from 'react-scrolllock'
 
 import {zIndex, colors, spaces} from 'styles'
 import {Icon} from 'components/atoms'
 import GalleryImage from './GalleryImage'
+import useScrollLock from 'hooks/useScrollLock'
 
 const classes = {
     root: 'list',
@@ -23,7 +23,7 @@ type GalleryType = React.FunctionComponent<Props> & {
 }
 
 const Gallery: GalleryType = ({images, isOpen, onClose, startIndex = 0}) => {
-    if (!isOpen) return null
+    const targetRef = useScrollLock(isOpen)
 
     useEffect(() => {
         document.addEventListener('keydown', onEscape)
@@ -32,14 +32,14 @@ const Gallery: GalleryType = ({images, isOpen, onClose, startIndex = 0}) => {
 
     const onEscape = (e: KeyboardEvent) => {
         const escape = 27
-        if (e.keyCode === escape) onClose()
+        if (e.keyCode === escape) isOpen && onClose()
     }
 
     return (
         <>
-            <div className="gallery">
-                <div className="gallery__overlay">
-                    <ScrollLock>
+            <div className="gallery" ref={targetRef}>
+                {isOpen && (
+                    <div className="gallery__overlay">
                         <div className="slider">
                             <a onClick={onClose} className="gallery__outside"></a>
                             <ImageGallery startIndex={startIndex} items={images} />
@@ -47,8 +47,8 @@ const Gallery: GalleryType = ({images, isOpen, onClose, startIndex = 0}) => {
                         <div onClick={onClose} className="gallery__close-icon">
                             <Icon d={Icon.CLOSE} color={colors.SHADE_LIGHT} size={36} />
                         </div>
-                    </ScrollLock>
-                </div>
+                    </div>
+                )}
             </div>
             <style jsx>{`
                 .gallery {
