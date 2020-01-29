@@ -81,7 +81,7 @@ const PlantsSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => 
         <FloraListEdit
             icon={<Icon d={Icon.PLANT} color={colors.WHITE} size={48} viewBox="0 0 48 48" />}
             title={
-                <FormattedMessage id="aquascape.flora_and_fauna.plants" defaultMessage="Plant" />
+                <FormattedMessage id="aquascape.flora_and_fauna.plants" defaultMessage="Plants" />
             }
             noEntityText={
                 <FormattedMessage
