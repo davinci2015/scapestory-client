@@ -67,9 +67,11 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) =
             coverImage={user.coverImage}
             actionButtons={
                 <>
-                    <Hide after={pxToNumber(breakpoints.small)}>
-                        <AddAquascapeButton onClick={onCreateAquascape} />
-                    </Hide>
+                    {isMyProfile && (
+                        <Hide after={pxToNumber(breakpoints.small)}>
+                            <AddAquascapeButton onClick={onCreateAquascape} />
+                        </Hide>
+                    )}
                     {!isMyProfile &&
                         (user.isFollowedByMe ? (
                             <UnfollowButton toggleFollow={toggleFollow} />
