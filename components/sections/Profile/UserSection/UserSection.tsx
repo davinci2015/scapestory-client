@@ -63,6 +63,7 @@ const UserSection: React.FunctionComponent<Props> = ({about, stats, userImage, u
 
                 .section .username {
                     color: ${colors.WHITE};
+                    justify-content: flex-start;
                 }
 
                 .section .user-image {
