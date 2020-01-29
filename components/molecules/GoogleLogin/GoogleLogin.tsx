@@ -1,10 +1,7 @@
 import gql from 'graphql-tag'
 import React from 'react'
 import {Mutation, MutationResult} from 'react-apollo'
-import GoogleLogin, {
-    GoogleLoginResponse,
-    GoogleLoginResponseOffline,
-} from 'react-google-login'
+import GoogleLogin, {GoogleLoginResponse, GoogleLoginResponseOffline} from 'react-google-login'
 
 import config from 'config'
 import logger from 'services/logger'
@@ -38,14 +35,10 @@ interface Data {
 
 const Login = ({children, onSuccess}: Props) => {
     const responseGoogle = (
-        login: (props: {
-            variables: Variables
-        }) => Promise<void | MutationResult<Data>>
+        login: (props: {variables: Variables}) => Promise<void | MutationResult<Data>>
     ) => async (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
         if ('code' in response) {
-            return logger.warn(
-                `Failed to login with Google with status ${response.code}`
-            )
+            return logger.warn(`Failed to login with Google with status ${response.code}`)
         }
 
         const token = response.getAuthResponse().access_token
@@ -65,7 +58,7 @@ const Login = ({children, onSuccess}: Props) => {
         <Mutation<Data, Variables> mutation={LOGIN}>
             {login => (
                 <GoogleLogin
-                    clientId={config.GOOGLE_CLIENT_ID}
+                    clientId={process.env.GOOGLE_CLIENT_ID as string}
                     // @ts-ignore
                     onSuccess={responseGoogle(login)}
                     onFailure={onFailure}
