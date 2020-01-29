@@ -4,7 +4,6 @@ import {Mutation, MutationResult} from 'react-apollo'
 import {ReactFacebookFailureResponse, ReactFacebookLoginInfo} from 'react-facebook-login'
 // @ts-ignore
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
-
 import logger from 'services/logger'
 
 const LOGIN = gql`

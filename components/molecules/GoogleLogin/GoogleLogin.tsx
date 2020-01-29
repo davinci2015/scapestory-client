@@ -2,8 +2,6 @@ import gql from 'graphql-tag'
 import React from 'react'
 import {Mutation, MutationResult} from 'react-apollo'
 import GoogleLogin, {GoogleLoginResponse, GoogleLoginResponseOffline} from 'react-google-login'
-
-import config from 'config'
 import logger from 'services/logger'
 
 const LOGIN = gql`
