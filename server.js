@@ -1,5 +1,4 @@
 const express = require('express')
-const forceSSL = require('express-force-ssl')
 const next = require('next')
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -12,7 +11,14 @@ app.prepare().then(() => {
     const server = express()
 
     if (production) {
-        server.use(forceSSL)
+        // Force SSL
+        server.use((req, res, next) => {
+            if (req.headers['x-forwarded-proto'] !== 'https') {
+                res.redirect(status, 'https://' + req.hostname + req.originalUrl)
+            } else {
+                next()
+            }
+        })
     }
 
     server.get('*', (req, res) => handle(req, res))
