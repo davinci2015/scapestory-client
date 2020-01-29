@@ -1,0 +1,24 @@
+const express = require('express')
+const forceSSL = require('express-force-ssl')
+const next = require('next')
+
+const dev = process.env.NODE_ENV !== 'production'
+const production = process.env.NODE_ENV === 'production'
+const app = next({dev})
+const handle = app.getRequestHandler()
+
+app.prepare().then(() => {
+    const port = process.env.PORT || 3000
+    const server = express()
+
+    if (production) {
+        server.use(forceSSL)
+    }
+
+    server.get('*', (req, res) => handle(req, res))
+
+    server.listen(port, error => {
+        if (error) throw error
+        console.log(`Listening on port ${port}`)
+    })
+})
