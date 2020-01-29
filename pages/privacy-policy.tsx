@@ -165,6 +165,7 @@ const PrivacyPolicy = () => {
                                 often users visit our site, what pages they visit when they do so,
                                 and what other sites they used prior to coming to our site.
                                 <br />
+                                <br />
                                 Collected informations from Google Analytics are used to to improve
                                 the site. Google Analytics collects only the IP address assigned to
                                 you on the date you visit our site, rather than your name or other
@@ -176,22 +177,17 @@ const PrivacyPolicy = () => {
                                 Google’s ability to use and share information collected by Google
                                 Analytics about your visits to our site is restricted by the Google
                                 Analytics Terms of Use.
+                                <br />
                                 <a
-                                    href="https://www.google.com/analytics"
+                                    href="https://marketingplatform.google.com/about/analytics/terms/us/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    https://www.google.com/analytics
+                                    https://marketingplatform.google.com/about/analytics/terms/us/
                                 </a>
+                                <br />
                                 You can prevent Google Analytics from recognizing you on return
                                 visits to this site by disabling cookies on your browser.
-                                <a
-                                    href="https://tools.google.com/dlpage"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    https://tools.google.com/dlpage
-                                </a>
                             </Paragraph>
                             <Headline variant="h4">Links to Other Sites</Headline>
                             <Paragraph>
