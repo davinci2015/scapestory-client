@@ -1,5 +1,6 @@
 import React from 'react'
 import {useRouter} from 'next/router'
+import Head from 'next/head'
 
 import {Grid, Content} from 'components/core'
 import {Headline, Paragraph, FormattedMessage, Button} from 'components/atoms'
@@ -11,12 +12,16 @@ import ArrowBackIcon from 'assets/icons/arrow-left.svg'
 import routes from 'routes'
 import withAuth from 'hocs/withAuth'
 import {GridWidth} from 'components/core/Grid'
+import config from 'config'
 
 const PrivacyPolicy = () => {
     const router = useRouter()
 
     return (
         <>
+            <Head>
+                <title>{config.APP_NAME} - Privacy Policy</title>
+            </Head>
             <ModalProvider>
                 <NavigationContainer />
                 <Content>
@@ -115,12 +120,14 @@ const PrivacyPolicy = () => {
                             <Paragraph>
                                 I may employ third-party companies and individuals due to the
                                 following reasons:
-                                <ul>
-                                    <li>To facilitate our Service;</li>
-                                    <li>To provide the Service on our behalf;</li>
-                                    <li>To perform Service-related services;</li>
-                                    <li>To assist us in analyzing how our Service is used.</li>
-                                </ul>
+                            </Paragraph>
+                            <ul>
+                                <li>To facilitate our Service;</li>
+                                <li>To provide the Service on our behalf;</li>
+                                <li>To perform Service-related services;</li>
+                                <li>To assist us in analyzing how our Service is used.</li>
+                            </ul>
+                            <Paragraph>
                                 I want to inform users of this Service that these third parties have
                                 access to your Personal Information. The reason is to perform the
                                 tasks assigned to them on our behalf. However, they are obligated

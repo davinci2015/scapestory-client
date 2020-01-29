@@ -11,12 +11,17 @@ import ArrowBackIcon from 'assets/icons/arrow-left.svg'
 import routes from 'routes'
 import withAuth from 'hocs/withAuth'
 import {GridWidth} from 'components/core/Grid'
+import config from 'config'
+import Head from 'next/head'
 
 const Terms = () => {
     const router = useRouter()
 
     return (
         <>
+            <Head>
+                <title>{config.APP_NAME} - Terms & Conditions</title>
+            </Head>
             <ModalProvider>
                 <NavigationContainer />
                 <Content>

@@ -1,12 +1,17 @@
 import React from 'react'
+import Head from 'next/head'
 
 import FooterContainer from 'containers/FooterContainer'
 import {Paragraph, FormattedMessage, Headline} from 'components/atoms'
 import {Content, Grid} from 'components/core'
 import {spaces} from 'styles'
+import config from 'config'
 
 const RegisterSuccess = () => (
     <>
+        <Head>
+            <title>{config.APP_NAME}</title>
+        </Head>
         <Content>
             <Grid>
                 <div className="content">
