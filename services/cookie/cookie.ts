@@ -4,6 +4,7 @@ import {IncomingHttpHeaders} from 'http2'
 import {addYears} from 'date-fns'
 
 const path = '/'
+const domain = process.env.COOKIE_DOMAIN
 
 export default {
     persistAuthToken(token: string) {
@@ -11,12 +12,13 @@ export default {
         cookies.set(appConstants.COOKIE_AUTH, token, {
             expires: addYears(Date.now(), 10),
             path,
+            domain,
         })
     },
 
     removeAuthToken() {
         const cookies = new Cookies()
-        cookies.remove(appConstants.COOKIE_AUTH, {path})
+        cookies.remove(appConstants.COOKIE_AUTH, {path, domain})
     },
 
     getAuthToken(headers?: IncomingHttpHeaders) {
@@ -34,6 +36,7 @@ export default {
         cookies.set(appConstants.COOKIE_VISITOR_ID, visitorId, {
             expires: addYears(Date.now(), 10),
             path: '/',
+            domain,
         })
     },
 }
