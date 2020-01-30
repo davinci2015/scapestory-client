@@ -40,7 +40,8 @@ const Login = ({children, onSuccess}: Props) => {
         <FacebookLogin
             appId={process.env.FACEBOOK_APP_ID}
             fields="name,email,picture"
-            disableMobileRedirect={true}
+            disableMobileRedirect
+            isMobile={false}
             callback={responseFacebook}
             onFailure={onFailure}
             render={children}
