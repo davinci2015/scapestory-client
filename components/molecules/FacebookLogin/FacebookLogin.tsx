@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import React from 'react'
-import {Mutation, MutationResult} from 'react-apollo'
+import {useMutation} from 'react-apollo'
 import {ReactFacebookFailureResponse, ReactFacebookLoginInfo} from 'react-facebook-login'
 // @ts-ignore
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
@@ -18,25 +18,15 @@ export interface FacebookProps {
     onClick(): void
 }
 
-interface Variables {
-    token: string
-}
-
 interface Props {
     children: (props: FacebookProps) => React.ReactElement
     onSuccess: (token: string) => void
 }
 
-interface Data {
-    fbRegister: {
-        token: string
-    }
-}
-
 const Login = ({children, onSuccess}: Props) => {
-    const responseFacebook = (
-        login: (props: {variables: Variables}) => Promise<void | MutationResult<Data>>
-    ) => async (response: ReactFacebookLoginInfo) => {
+    const [login] = useMutation(LOGIN)
+
+    const responseFacebook = async (response: ReactFacebookLoginInfo) => {
         const res = await login({variables: {token: response.accessToken}})
         if (res && res.data) {
             onSuccess(res.data.fbRegister.token)
@@ -47,18 +37,14 @@ const Login = ({children, onSuccess}: Props) => {
         logger.warn(`Failed to login with FB with status ${response.status}`)
 
     return (
-        <Mutation<Data, Variables> mutation={LOGIN}>
-            {login => (
-                <FacebookLogin
-                    appId={process.env.FACEBOOK_APP_ID}
-                    fields="name,email,picture"
-                    // @ts-ignore
-                    callback={responseFacebook(login)}
-                    onFailure={onFailure}
-                    render={children}
-                />
-            )}
-        </Mutation>
+        <FacebookLogin
+            appId={process.env.FACEBOOK_APP_ID}
+            fields="name,email,picture"
+            disableMobileRedirect={true}
+            callback={responseFacebook}
+            onFailure={onFailure}
+            render={children}
+        />
     )
 }
 
