@@ -55,6 +55,7 @@ const Login = ({children, onSuccess}: Props) => {
                     // @ts-ignore
                     callback={responseFacebook(login)}
                     onFailure={onFailure}
+                    disableMobileRedirect={true}
                     render={children}
                 />
             )}
