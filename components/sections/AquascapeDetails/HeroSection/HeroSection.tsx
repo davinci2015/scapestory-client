@@ -97,8 +97,8 @@ const HeroSection: React.FunctionComponent<Props> = ({
                             </ProfileLink>
                         </Hero.TopLeft>
                         <Hero.TopRight>
-                            {!mineAquascape && (
-                                <Hero.ActionButtons>
+                            <Hero.ActionButtons>
+                                {!mineAquascape && (
                                     <Button
                                         onClick={toggleLike}
                                         leftIcon={
@@ -119,27 +119,19 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                             defaultMessage="Like"
                                         />
                                     </Button>
-                                    <Button
-                                        onClick={onShare}
-                                        leftIcon={<Icon d={Icon.SHARE} color={colors.WHITE} />}
-                                        dimensions="extraSmall"
-                                        color="tertiary"
-                                    >
-                                        <FormattedMessage
-                                            id="aquascape.hero_section.share"
-                                            defaultMessage="Share"
-                                        />
-                                    </Button>
-                                    {aquascape.user.isFollowedByMe ? (
-                                        <UnfollowButton toggleFollow={toggleFollow} />
-                                    ) : (
-                                        <FollowButton toggleFollow={toggleFollow} />
-                                    )}
-                                </Hero.ActionButtons>
-                            )}
-
-                            {mineAquascape && (
-                                <Hero.ActionButtons>
+                                )}
+                                <Button
+                                    onClick={onShare}
+                                    leftIcon={<Icon d={Icon.SHARE} color={colors.WHITE} />}
+                                    dimensions="extraSmall"
+                                    color="tertiary"
+                                >
+                                    <FormattedMessage
+                                        id="aquascape.hero_section.share"
+                                        defaultMessage="Share"
+                                    />
+                                </Button>
+                                {mineAquascape && (
                                     <Button
                                         leftIcon={<Icon d={Icon.EDIT} color={colors.WHITE} />}
                                         dimensions="extraSmall"
@@ -151,8 +143,14 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                             defaultMessage="Edit"
                                         />
                                     </Button>
-                                </Hero.ActionButtons>
-                            )}
+                                )}
+                                {!mineAquascape &&
+                                    (aquascape.user.isFollowedByMe ? (
+                                        <UnfollowButton toggleFollow={toggleFollow} />
+                                    ) : (
+                                        <FollowButton toggleFollow={toggleFollow} />
+                                    ))}
+                            </Hero.ActionButtons>
                         </Hero.TopRight>
                     </div>
                 }
