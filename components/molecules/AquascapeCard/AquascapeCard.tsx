@@ -162,7 +162,7 @@ const AquascapeCard = ({
                     background: linear-gradient(to bottom, ${colors.BLACK}, rgba(0, 0, 0, 0));
                 }
 
-                .header > .icons {
+                .card__header > .icons {
                     position: absolute;
                     top: 0;
                     width: 100%;
@@ -170,12 +170,12 @@ const AquascapeCard = ({
                     padding: ${spaces.s18} ${spaces.s16} 0 ${spaces.s16};
                 }
 
-                .header > .icons > :global(.${IconText.classes.root}) {
+                .card__header > .icons > :global(.${IconText.classes.root}) {
                     margin-left: ${spaces.s12};
                     opacity: 0.9;
                 }
 
-                .header > .icons > :global(.${IconText.classes.root}) :global(svg) {
+                .card__header > .icons > :global(.${IconText.classes.root}) :global(svg) {
                     height: 16px;
                     width: 16px;
                 }

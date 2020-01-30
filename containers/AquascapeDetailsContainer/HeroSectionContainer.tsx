@@ -24,6 +24,7 @@ import {
 } from 'graphql/generated/mutations'
 import routes, {createDynamicPath, getAquascapeDetailsSlug} from 'routes'
 import config from 'config'
+import {shareOnFacebook} from 'utils/general'
 
 interface Props {
     aquascape: AquascapeDetailsQuery['aquascape']
@@ -95,6 +96,11 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         mutateFollow({variables: {userId: aquascape.user.id}})
     }
 
+    const onShare = () => {
+        if (!process.browser) return
+        shareOnFacebook(window.location.href)
+    }
+
     const redirectToEdit = () => {
         if (!aquascape) return null
 
@@ -112,6 +118,7 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
 
     return (
         <HeroSection
+            onShare={onShare}
             onEdit={redirectToEdit}
             mineAquascape={mineAquascape}
             aquascape={aquascape}
