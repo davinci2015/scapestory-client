@@ -5,6 +5,7 @@ import {ReactFacebookFailureResponse, ReactFacebookLoginInfo} from 'react-facebo
 // @ts-ignore
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import logger from 'services/logger'
+import {isMobile} from 'utils/general'
 
 const LOGIN = gql`
     mutation Login($token: String!) {
@@ -56,6 +57,7 @@ const Login = ({children, onSuccess}: Props) => {
                     callback={responseFacebook(login)}
                     onFailure={onFailure}
                     disableMobileRedirect={true}
+                    isMobile={isMobile()}
                     render={children}
                 />
             )}
