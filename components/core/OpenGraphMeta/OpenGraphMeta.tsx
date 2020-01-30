@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 
 interface Props {
-    url: string
+    url?: string
     type?: string
     title: string
     description: string
@@ -23,6 +23,7 @@ const OpenGraphMeta: React.FunctionComponent<Props> = ({
             <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />
             <meta property="og:image" content={image} />
+            <meta property="fb:app_id" content={process.env.FACEBOOK_APP_ID} />
         </Head>
     )
 }

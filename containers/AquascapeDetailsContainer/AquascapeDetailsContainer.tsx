@@ -94,7 +94,6 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
     return (
         <>
             <OpenGraphMeta
-                url={process.browser ? window.location.href : ''}
                 title={aquascapeResult.aquascape.title || config.AQUASCAPE_TITLE_PLACEHOLDER}
                 image={aquascapeResult.aquascape.mainImageUrl || ''}
                 description={`Slice of nature created by ${aquascapeResult.aquascape.user?.name}`}
