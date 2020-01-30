@@ -11,6 +11,7 @@ import {
 } from 'react-select'
 
 import {colors} from 'styles'
+import {NoSSR} from 'components/core'
 
 export interface Props<OptionType> {
     options: GroupedOptionsType<OptionType> | OptionsType<OptionType>
@@ -49,16 +50,18 @@ const SelectCreatable = function<OptionType>({
     placeholder,
 }: Props<OptionType>) {
     return (
-        <CreatableSelect
-            controlShouldRenderValue={false}
-            onChange={onChange}
-            options={options}
-            onCreateOption={onCreateOption}
-            filterOption={filterOptions}
-            placeholder={placeholder}
-            styles={styles}
-            theme={theme}
-        />
+        <NoSSR>
+            <CreatableSelect
+                controlShouldRenderValue={false}
+                onChange={onChange}
+                options={options}
+                onCreateOption={onCreateOption}
+                filterOption={filterOptions}
+                placeholder={placeholder}
+                styles={styles}
+                theme={theme}
+            />
+        </NoSSR>
     )
 }
 
