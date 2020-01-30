@@ -20,15 +20,17 @@ import config from 'config'
 interface Props {
     mineAquascape: boolean
     aquascape: AquascapeDetailsQuery['aquascape']
-    toggleLike: () => void
-    toggleFollow: () => void
-    onEdit: () => void
+    toggleLike: VoidFunction
+    toggleFollow: VoidFunction
+    onEdit: VoidFunction
+    onShare: VoidFunction
 }
 
 const HeroSection: React.FunctionComponent<Props> = ({
     aquascape,
     mineAquascape,
     onEdit,
+    onShare,
     toggleFollow,
     toggleLike,
 }) => {
@@ -115,6 +117,17 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                         <FormattedMessage
                                             id="aquascape.hero_section.like"
                                             defaultMessage="Like"
+                                        />
+                                    </Button>
+                                    <Button
+                                        onClick={onShare}
+                                        leftIcon={<Icon d={Icon.SHARE} color={colors.WHITE} />}
+                                        dimensions="extraSmall"
+                                        color="tertiary"
+                                    >
+                                        <FormattedMessage
+                                            id="aquascape.hero_section.share"
+                                            defaultMessage="Share"
                                         />
                                     </Button>
                                     {aquascape.user.isFollowedByMe ? (
