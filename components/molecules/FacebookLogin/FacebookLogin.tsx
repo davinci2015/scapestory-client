@@ -57,7 +57,7 @@ const Login = ({children, onSuccess}: Props) => {
                     callback={responseFacebook(login)}
                     onFailure={onFailure}
                     disableMobileRedirect={true}
-                    isMobile={isMobile()}
+                    isMobile={false}
                     render={children}
                 />
             )}
