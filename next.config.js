@@ -3,6 +3,11 @@ require('dotenv').config()
 module.exports = {
     webpack(config) {
         config.resolve.modules.unshift(__dirname)
+        config.module.rules.push({
+            test: /\.js$/,
+            exclude: /node_modules\/(?!universal-cookie)/,
+            loader: 'babel-loader',
+        })
         return config
     },
     env: {

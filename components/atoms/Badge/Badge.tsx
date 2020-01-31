@@ -9,7 +9,7 @@ interface Props {
 
 const backgroundMapping = {
     plain: colors.SHADE_MIDDLE,
-    gradient: `background-image: linear-gradient(to bottom, ${colors.SECONDARY}, ${colors.SECONDARY_DARK})`,
+    gradient: `linear-gradient(to bottom, ${colors.SECONDARY}, ${colors.SECONDARY_DARK})`,
 }
 
 const Badge = ({background = 'plain', children, icon}: Props) => (
