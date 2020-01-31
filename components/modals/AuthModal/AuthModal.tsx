@@ -6,6 +6,7 @@ import {FacebookProps} from 'components/molecules/FacebookLogin'
 import {GoogleProps} from 'components/molecules/GoogleLogin'
 import {colors, spaces, media} from 'styles'
 import {ModalContext} from 'providers/ModalProvider'
+import useScrollLock from 'hooks/useScrollLock'
 
 interface Props {
     onSuccess: (token: string) => void
@@ -17,12 +18,13 @@ interface Props {
 }
 
 const AuthModal = ({footer, form, onSuccess, socialText, subtitle, title}: Props) => {
-    const {closeModal} = useContext(ModalContext)
+    const {closeModal, isOpen} = useContext(ModalContext)
+    const targetRef = useScrollLock(isOpen)
 
     return (
         <>
             <div className="wrapper">
-                <div className="body">
+                <div className="body" ref={targetRef}>
                     <div className="bubble-left">
                         <Bubble size="369px" />
                     </div>

@@ -1,27 +1,20 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import Modal from 'react-modal'
 
 import {colors, zIndex, media, spaces} from 'styles'
-import useScrollLock from 'hooks/useScrollLock'
 
 interface Props extends ReactModal.Props {
     children: React.ReactNode
 }
 
+Modal.setAppElement('#__next')
+
 const CustomModal = ({children, isOpen, ...rest}: Props) => {
-    const targetRef = useScrollLock(isOpen)
-
-    useEffect(() => {
-        Modal.setAppElement('#__next')
-    }, [])
-
     return (
         <>
-            <div ref={targetRef}>
-                <Modal className="modal" overlayClassName="modal-overlay" isOpen={isOpen} {...rest}>
-                    {children}
-                </Modal>
-            </div>
+            <Modal className="modal" overlayClassName="modal-overlay" isOpen={isOpen} {...rest}>
+                {children}
+            </Modal>
 
             <style jsx>{`
                 :global(.modal) {
