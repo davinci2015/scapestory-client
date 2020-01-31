@@ -100,6 +100,17 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                         defaultMessage="Preview"
                                     />
                                 </Button>
+                                <Button
+                                    leftIcon={<Icon size={20} d={Icon.BIN} color={colors.WHITE} />}
+                                    dimensions="extraSmall"
+                                    color="tertiary"
+                                    onClick={() => null}
+                                >
+                                    <FormattedMessage
+                                        id="aquascape.hero_section.remove_aquascape"
+                                        defaultMessage="Remove aquascape"
+                                    />
+                                </Button>
                             </Hero.ActionButtons>
                         </Hero.TopRight>
                     </div>
