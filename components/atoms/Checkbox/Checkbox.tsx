@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
+import classnames from 'classnames'
 
-import {colors, borderRadius, applyStyles, spaces, typography} from 'styles'
+import {colors, borderRadius, spaces, typography} from 'styles'
 import {Paragraph, Icon} from 'components/atoms'
 
 const classes = {
@@ -16,14 +17,7 @@ export interface Props {
     children: React.ReactNode
 }
 
-const Checkbox = ({
-    id,
-    children,
-    onChange,
-    defaultChecked = false,
-    error,
-    errorMessage,
-}: Props) => {
+const Checkbox = ({children, defaultChecked = false, error, errorMessage, id, onChange}: Props) => {
     const [checked, setChecked] = useState(defaultChecked)
 
     const toggleChecked = () => {
@@ -41,7 +35,11 @@ const Checkbox = ({
                 onChange={toggleChecked}
             />
             <label className="label" htmlFor={id}>
-                <div className="selector">
+                <div
+                    className={classnames('selector', {
+                        'selector--checked': checked,
+                    })}
+                >
                     <Icon d={Icon.DONE} color={colors.WHITE} />
                 </div>
                 <div className="content">{children}</div>
@@ -85,11 +83,11 @@ const Checkbox = ({
                     margin-right: ${spaces.s18};
                     border: 2px solid ${colors.SHADE_LIGHT};
                     border-radius: ${borderRadius.TERTIARY};
+                }
 
-                    ${applyStyles(checked)(`
-                        background-color: ${colors.PRIMARY};
-                        border: 2px solid ${colors.PRIMARY};
-                    `)}
+                .selector--checked {
+                    background-color: ${colors.PRIMARY};
+                    border: 2px solid ${colors.PRIMARY};
                 }
             `}</style>
         </div>

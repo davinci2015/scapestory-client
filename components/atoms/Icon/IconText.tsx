@@ -1,4 +1,5 @@
-import {spaces, typography, applyStyles} from 'styles'
+import React from 'react'
+import {spaces, typography} from 'styles'
 import {Icon} from 'components/atoms'
 
 interface Props {
@@ -17,7 +18,12 @@ const iconSizeMapping = {
     small: 14,
 }
 
-const IconText = ({icon, text, color, size = 'default'}: Props) => (
+const fontSizeMapping = {
+    default: typography.fontSize.fs16,
+    small: typography.fontSize.fs13,
+}
+
+const IconText = ({color, icon, size = 'default', text}: Props) => (
     <div className={classes.root}>
         <Icon d={icon} color={color} size={iconSizeMapping[size]} />
         <p className="paragraph">{text}</p>
@@ -30,22 +36,14 @@ const IconText = ({icon, text, color, size = 'default'}: Props) => (
 
             .paragraph {
                 margin: 0;
-                
-                font-size: ${typography.fontSize.fs16}
+
+                font-size: ${fontSizeMapping[size]};
                 font-weight: ${typography.fontWeight.semibold};
                 color: ${color};
-
-                ${applyStyles(size === 'small')(`
-                    font-size: ${typography.fontSize.fs13};
-                `)}
             }
 
             .icon-text :global(svg) {
-                margin-right: ${spaces.s16};
-
-                ${applyStyles(size === 'small')(`
-                    margin-right: ${spaces.s6};
-                `)}
+                margin-right: ${size === 'small' ? spaces.s6 : spaces.s16};
             }
         `}</style>
     </div>

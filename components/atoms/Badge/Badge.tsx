@@ -1,4 +1,5 @@
-import {spaces, colors, applyStyles, typography} from 'styles'
+import React from 'react'
+import {spaces, colors, typography} from 'styles'
 
 interface Props {
     children?: React.ReactNode
@@ -6,7 +7,12 @@ interface Props {
     background?: 'plain' | 'gradient'
 }
 
-const Badge = ({icon, children, background = 'plain'}: Props) => (
+const backgroundMapping = {
+    plain: colors.SHADE_MIDDLE,
+    gradient: `background-image: linear-gradient(to bottom, ${colors.SECONDARY}, ${colors.SECONDARY_DARK})`,
+}
+
+const Badge = ({background = 'plain', children, icon}: Props) => (
     <>
         <div className="badge">
             <div className="badge-icon">{icon}</div>
@@ -34,13 +40,7 @@ const Badge = ({icon, children, background = 'plain'}: Props) => (
 
                 border-radius: 50%;
 
-                ${applyStyles(background === 'plain')(`
-                    background: ${colors.SHADE_MIDDLE};
-                `)}
-
-                ${applyStyles(background === 'gradient')(`
-                    background-image: linear-gradient(to bottom, ${colors.SECONDARY}, ${colors.SECONDARY_DARK});
-                `)}
+                background: ${backgroundMapping[background]};
             }
         `}</style>
     </>
