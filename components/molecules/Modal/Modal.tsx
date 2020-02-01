@@ -1,69 +1,55 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import Modal from 'react-modal'
 
-import {colors, zIndex, media, spaces} from 'styles'
-import useScrollLock from 'hooks/useScrollLock'
+import {zIndex} from 'styles'
+import CloseButton from './CloseButton'
+import Content from './Content'
 
 interface Props extends ReactModal.Props {
     children: React.ReactNode
 }
 
-const CustomModal = ({children, isOpen, ...rest}: Props) => {
-    const targetRef = useScrollLock(isOpen)
-
-    useEffect(() => {
-        Modal.setAppElement('#__next')
-    }, [])
-
-    return (
-        <>
-            <div ref={targetRef}>
-                <Modal className="modal" overlayClassName="modal-overlay" isOpen={isOpen} {...rest}>
-                    {children}
-                </Modal>
-            </div>
-
-            <style jsx>{`
-                :global(.modal) {
-                    position: absolute;
-                    top: 0;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    background: rgb(255, 255, 255);
-                    overflow: auto;
-                    outline: none;
-                    background-color: ${colors.WHITE};
-                    z-index: ${zIndex.HIGH};
-                }
-
-                @media ${media.up('small')} {
-                    :global(.modal) {
-                        width: calc(100% - ${spaces.s36});
-                        max-width: 730px;
-
-                        top: 40px;
-                        bottom: 40px;
-                        left: 50%;
-
-                        border-radius: 16px;
-                        border: 1px solid ${colors.SHADE_LIGHT};
-                        transform: translateX(-50%);
-                    }
-                }
-
-                :global(.modal-overlay) {
-                    position: fixed;
-                    top: 0px;
-                    left: 0px;
-                    right: 0px;
-                    bottom: 0px;
-                    background-color: rgba(0, 0, 0, 0.7);
-                    z-index: ${zIndex.HIGH};
-                }
-            `}</style>
-        </>
-    )
+type ModalType = React.FunctionComponent<Props> & {
+    CloseButton: typeof CloseButton
+    Content: typeof Content
 }
+
+Modal.setAppElement('#__next')
+
+const CustomModal: ModalType = ({children, isOpen, ...rest}) => (
+    <>
+        <Modal className="modal" overlayClassName="modal-overlay" isOpen={isOpen} {...rest}>
+            {children}
+        </Modal>
+
+        <style jsx>{`
+            :global(.modal) {
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                outline: none;
+                z-index: ${zIndex.HIGH};
+            }
+
+            :global(.modal-overlay) {
+                -webkit-overflow-scrolling: touch;
+                position: fixed;
+                top: 0px;
+                left: 0px;
+                right: 0px;
+                bottom: 0px;
+                background-color: rgba(0, 0, 0, 0.7);
+                z-index: ${zIndex.HIGH};
+            }
+        `}</style>
+    </>
+)
+
+CustomModal.CloseButton = CloseButton
+CustomModal.Content = Content
 
 export default CustomModal

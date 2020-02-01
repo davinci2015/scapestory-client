@@ -1,5 +1,5 @@
 import React from 'react'
-import {colors, zIndex} from 'styles'
+import {colors} from 'styles'
 
 interface Props {
     size?: string
@@ -15,7 +15,7 @@ const Bubble = ({opacity = 0.05, size = '300px'}: Props) => (
                 border-radius: 50%;
                 border: 14px solid ${colors.PRIMARY};
                 opacity: ${opacity};
-                z-index: ${zIndex.BELOW};
+                pointer-events: none;
             }
         `}</style>
     </div>

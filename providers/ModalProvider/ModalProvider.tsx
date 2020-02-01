@@ -15,6 +15,7 @@ export interface ModalContextInterface {
     modalType: ModalType | null
     modalProps: Object
     closeModal: VoidFunction
+    isOpen: boolean
 }
 
 export const ModalContext = React.createContext<ModalContextInterface>({
@@ -22,6 +23,7 @@ export const ModalContext = React.createContext<ModalContextInterface>({
     closeModal: () => new Error('closeModal is not implemented'),
     modalProps: {},
     modalType: null,
+    isOpen: false,
 })
 
 const modalMapping = {
@@ -59,6 +61,7 @@ const ModalProvider = ({children}: Props) => {
     return (
         <ModalContext.Provider
             value={{
+                isOpen: Boolean(modalType),
                 openModal,
                 closeModal,
                 modalProps,
@@ -66,7 +69,7 @@ const ModalProvider = ({children}: Props) => {
             }}
         >
             {children}
-            <Modal isOpen={!!modalType} onRequestClose={closeModal}>
+            <Modal isOpen={Boolean(modalType)} onRequestClose={closeModal}>
                 {getComponent()}
             </Modal>
         </ModalContext.Provider>

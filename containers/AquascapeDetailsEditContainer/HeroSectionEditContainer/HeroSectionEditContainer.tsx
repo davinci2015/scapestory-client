@@ -13,7 +13,7 @@ import {
     UpdateAquascapeMainImageMutationVariables,
 } from 'graphql/generated/mutations'
 import routes, {createDynamicPath, getAquascapeDetailsSlug} from 'routes'
-import {UPDATE_AQUASCAPE_TITLE, UPDATE_AQUASCAPE_MAIN_IMAGE} from './mutations'
+import {UPDATE_AQUASCAPE_TITLE, UPDATE_AQUASCAPE_MAIN_IMAGE, REMOVE_AQUASCAPE} from './mutations'
 import {
     updateAquascapeDetailsCache,
     AquascapeDetailsActions,
@@ -34,6 +34,8 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         UpdateAquascapeTitleMutation,
         UpdateAquascapeTitleMutationVariables
     >(UPDATE_AQUASCAPE_TITLE)
+
+    const [removeAquascape] = useMutation(REMOVE_AQUASCAPE)
 
     const [updateMainImage] = useMutation<
         UpdateAquascapeMainImageMutation,
@@ -77,8 +79,15 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         )
     }
 
+    const onRemove = () => {
+        removeAquascape({
+            variables: {aquascapeId: aquascape.id},
+        }).then(() => router.push(routes.index))
+    }
+
     return (
         <HeroSectionEdit
+            onRemove={onRemove}
             onTitleChange={onTitleChange}
             onPreview={redirectToPreview}
             aquascape={aquascape}
