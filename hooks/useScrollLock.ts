@@ -1,5 +1,5 @@
 import {useEffect, createRef} from 'react'
-import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock'
+import {disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks} from 'body-scroll-lock'
 
 const useScrollLock = (isOpen: boolean) => {
     const targetRef = createRef<any>()
@@ -9,10 +9,8 @@ const useScrollLock = (isOpen: boolean) => {
             isOpen ? disableBodyScroll(targetRef.current) : enableBodyScroll(targetRef.current)
         }
 
-        return () => {
-            targetRef.current && enableBodyScroll(targetRef.current)
-        }
-    }, [isOpen])
+        return () => clearAllBodyScrollLocks()
+    }, [])
 
     return targetRef
 }

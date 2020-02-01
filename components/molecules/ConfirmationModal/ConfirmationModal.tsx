@@ -20,7 +20,7 @@ const ConfirmationModal: React.FunctionComponent<Props> = ({
     render,
     title,
 }) => {
-    const [isOpen, setOpen] = useState(true)
+    const [isOpen, setOpen] = useState(false)
 
     const open = () => setOpen(true)
 

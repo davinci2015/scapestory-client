@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from 'react-modal'
 
-import {zIndex, media} from 'styles'
+import {zIndex} from 'styles'
 import CloseButton from './CloseButton'
 import Content from './Content'
 
@@ -33,11 +33,6 @@ const CustomModal: ModalType = ({children, isOpen, ...rest}) => (
 
                 outline: none;
                 z-index: ${zIndex.HIGH};
-            }
-
-            @media ${media.up('small')} {
-                :global(.modal) {
-                }
             }
 
             :global(.modal-overlay) {

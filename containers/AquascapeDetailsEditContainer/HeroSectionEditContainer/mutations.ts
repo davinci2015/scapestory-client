@@ -14,3 +14,9 @@ export const UPDATE_AQUASCAPE_MAIN_IMAGE = gql`
         }
     }
 `
+
+export const REMOVE_AQUASCAPE = gql`
+    mutation removeAquascape($aquascapeId: Int!) {
+        removeAquascape(aquascapeId: $aquascapeId)
+    }
+`

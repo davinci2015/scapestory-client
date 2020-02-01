@@ -6,12 +6,17 @@ import {IntlProvider} from 'react-intl'
 import {ToastContainer} from 'react-toastify'
 import {GlobalStyles} from 'components/core'
 import withApollo from 'lib/withApollo'
+import {clearAllBodyScrollLocks} from 'body-scroll-lock'
 
 interface Props {
     apollo: ApolloClient<NormalizedCacheObject>
 }
 
 class MyApp extends App<Props> {
+    componentDidMount() {
+        clearAllBodyScrollLocks()
+    }
+
     render() {
         const {Component, apollo, pageProps} = this.props
 

@@ -13,13 +13,15 @@ interface Props {
     aquascape: AquascapeDetailsQuery['aquascape']
     onTitleChange: (title: string) => void
     onImageChange: (files: FileList | null) => void
-    onPreview: () => void
+    onPreview: VoidFunction
+    onRemove: VoidFunction
 }
 
 const HeroSection: React.FunctionComponent<Props> = ({
     aquascape,
     onImageChange,
     onPreview,
+    onRemove,
     onTitleChange,
 }) => {
     if (!aquascape || !aquascape.user) return null
@@ -101,7 +103,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                     />
                                 </Button>
                                 <ConfirmationModal
-                                    onConfirm={() => null}
+                                    onConfirm={onRemove}
                                     title={
                                         <Headline variant="h4">
                                             <FormattedMessage
@@ -128,8 +130,8 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                             onClick={open}
                                         >
                                             <FormattedMessage
-                                                id="aquascape.hero_section.remove_aquascape"
-                                                defaultMessage="Remove aquascape"
+                                                id="aquascape.hero_section.delete_aquascape"
+                                                defaultMessage="Delete aquascape"
                                             />
                                         </Button>
                                     )}
