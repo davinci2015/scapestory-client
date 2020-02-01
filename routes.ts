@@ -2,7 +2,7 @@ import slugify from 'slugify'
 
 export default {
     index: '/',
-    registerSuccess: '/register/confirmed',
+    registerSuccess: '/register/success/[email]',
     registerConfirm: '/register/confirm/[token]',
     about: '/about',
     privacyPolicy: '/privacy-policy',
