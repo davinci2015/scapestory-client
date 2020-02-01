@@ -1,9 +1,9 @@
 import React from 'react'
 
-import {FormattedMessage, Paragraph, Icon, Tag, IconText, Button} from 'components/atoms'
+import {FormattedMessage, Paragraph, Icon, Tag, IconText, Button, Headline} from 'components/atoms'
 import {colors, spaces, zIndex, media} from 'styles'
 import {Hero} from 'components/sections/shared'
-import {UserWidget} from 'components/molecules'
+import {UserWidget, ConfirmationModal} from 'components/molecules'
 import {AquascapeDetailsQuery} from 'graphql/generated/queries'
 import {ProfileLink, ImageUpload} from 'components/core'
 import {UserWidgetSize, UserWidgetVariant} from 'components/molecules/UserWidget/UserWidget'
@@ -100,17 +100,40 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                         defaultMessage="Preview"
                                     />
                                 </Button>
-                                <Button
-                                    leftIcon={<Icon size={20} d={Icon.BIN} color={colors.WHITE} />}
-                                    dimensions="extraSmall"
-                                    color="tertiary"
-                                    onClick={() => null}
-                                >
-                                    <FormattedMessage
-                                        id="aquascape.hero_section.remove_aquascape"
-                                        defaultMessage="Remove aquascape"
-                                    />
-                                </Button>
+                                <ConfirmationModal
+                                    onConfirm={() => null}
+                                    title={
+                                        <Headline variant="h4">
+                                            <FormattedMessage
+                                                id="aquascape.hero_section.remove_aquascape_title"
+                                                defaultMessage="Are you sure that you want to delete your aquascape?"
+                                            />
+                                        </Headline>
+                                    }
+                                    description={
+                                        <Paragraph color={colors.SHADE_DEEP}>
+                                            <FormattedMessage
+                                                id="aquascape.hero_section.remove_aquascape_description"
+                                                defaultMessage="If you delete the aquascape all uploaded content for the aquascape will be deleted also."
+                                            />
+                                        </Paragraph>
+                                    }
+                                    render={({open}) => (
+                                        <Button
+                                            leftIcon={
+                                                <Icon size={20} d={Icon.BIN} color={colors.WHITE} />
+                                            }
+                                            dimensions="extraSmall"
+                                            color="tertiary"
+                                            onClick={open}
+                                        >
+                                            <FormattedMessage
+                                                id="aquascape.hero_section.remove_aquascape"
+                                                defaultMessage="Remove aquascape"
+                                            />
+                                        </Button>
+                                    )}
+                                />
                             </Hero.ActionButtons>
                         </Hero.TopRight>
                     </div>

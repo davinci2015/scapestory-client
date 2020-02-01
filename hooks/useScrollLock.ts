@@ -2,7 +2,7 @@ import {useEffect, createRef} from 'react'
 import {disableBodyScroll, enableBodyScroll} from 'body-scroll-lock'
 
 const useScrollLock = (isOpen: boolean) => {
-    const targetRef = createRef<HTMLDivElement>()
+    const targetRef = createRef<any>()
 
     useEffect(() => {
         if (targetRef.current) {
