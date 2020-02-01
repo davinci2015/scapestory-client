@@ -1,28 +1,44 @@
 import React from 'react'
-import {media, colors} from 'styles'
+import {media, colors, spaces} from 'styles'
+import useScrollLock from 'hooks/useScrollLock'
 
-interface Props {}
+interface Props {
+    isOpen: boolean
+}
 
-const Content: React.FunctionComponent<Props> = ({children}) => (
-    <>
-        <div className="modal__content">{children}</div>
+const Content: React.FunctionComponent<Props> = ({children, isOpen}) => {
+    const targetRef = useScrollLock(isOpen)
 
-        <style jsx>{`
-            :global(.modal__content) {
-                position: relative;
-                height: 100%;
-                background: ${colors.WHITE};
-            }
+    return (
+        <>
+            <div className="modal__content" ref={targetRef}>
+                {children}
+            </div>
 
-            @media ${media.up('small')} {
+            <style jsx>{`
                 :global(.modal__content) {
                     position: relative;
-                    border-radius: 16px;
+                    max-height: 100%;
+
                     background: ${colors.WHITE};
+                    overflow-y: auto;
+                    overflow-x: hidden;
                 }
-            }
-        `}</style>
-    </>
-)
+
+                @media ${media.up('small')} {
+                    :global(.modal__content) {
+                        position: relative;
+                        margin: 0 ${spaces.s36};
+                        max-height: calc(100% - ${spaces.s60});
+                        max-width: 730px;
+
+                        border-radius: 16px;
+                        background: ${colors.WHITE};
+                    }
+                }
+            `}</style>
+        </>
+    )
+}
 
 export default Content

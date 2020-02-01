@@ -29,7 +29,7 @@ const ConfirmationModal: React.FunctionComponent<Props> = ({
     return (
         <>
             <Modal isOpen={isOpen} shouldCloseOnEsc>
-                <Modal.Content>
+                <Modal.Content isOpen={isOpen}>
                     <div className="confirmation-modal">
                         <Modal.CloseButton onClick={close} />
                         <div>

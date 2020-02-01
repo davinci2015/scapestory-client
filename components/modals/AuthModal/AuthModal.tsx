@@ -17,11 +17,11 @@ interface Props {
 }
 
 const AuthModal = ({footer, form, onSuccess, socialText, subtitle, title}: Props) => {
-    const {closeModal} = useContext(ModalContext)
+    const {closeModal, isOpen} = useContext(ModalContext)
 
     return (
         <>
-            <Modal.Content>
+            <Modal.Content isOpen={isOpen}>
                 <div className="wrapper">
                     <div className="body">
                         <div className="bubble-left">
@@ -106,7 +106,6 @@ const AuthModal = ({footer, form, onSuccess, socialText, subtitle, title}: Props
                     height: 100%;
                     padding: ${spaces.s36} ${spaces.s12} 0 ${spaces.s12};
                     position: relative;
-                    overflow-x: hidden;
                 }
 
                 .body :global(.${Headline.classes.root}) {
