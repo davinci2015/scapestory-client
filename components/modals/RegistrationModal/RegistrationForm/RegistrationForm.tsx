@@ -7,7 +7,7 @@ import {Paragraph, Button, Input, PasswordInput, Checkbox} from 'components/atom
 import {SIGN_UP_MUTATION} from 'components/modals/RegistrationModal/RegistrationForm/mutations'
 import validator from 'services/validator'
 import {spaces} from 'styles'
-import routes from 'routes'
+import routes, {createDynamicPath} from 'routes'
 import {MutationRegisterArgs} from 'graphql/generated/queries'
 import {User} from 'graphql/generated/types'
 import {renderInnerLink} from '../RegistrationModal'
@@ -55,7 +55,12 @@ const RegistrationForm: React.FunctionComponent<Props> = () => {
     const onSubmit = async () => {
         try {
             const {data} = await register({variables: {email, password, name}})
-            if (data) router.push(routes.registerSuccess)
+            if (data)
+                router.push(
+                    createDynamicPath(routes.registerSuccess, {
+                        email: btoa(email),
+                    })
+                )
         } catch (e) {
             logger.error(e)
         }
