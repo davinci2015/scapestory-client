@@ -11,8 +11,8 @@ import config from 'config'
 import logger from 'services/logger'
 
 const useCreateAquascape = () => {
-    const {openModal} = useContext(ModalContext)
     const router = useRouter()
+    const {openModal} = useContext(ModalContext)
     const {isAuthenticated} = useContext(AuthContext)
     const [createAquascapeMutation] = useMutation<CreateAquascapeMutation>(CREATE_AQUASCAPE)
 

@@ -249,6 +249,7 @@ export type Mutation = {
   createAquascape: Aquascape,
   updateAquascapeTitle?: Maybe<Scalars['String']>,
   updateAquascapeMainImage: MainImageUploadResult,
+  removeAquascape: Scalars['Int'],
   addComment?: Maybe<Comment>,
   removeComment?: Maybe<Comment>,
   followUser?: Maybe<User>,
@@ -257,6 +258,7 @@ export type Mutation = {
   register?: Maybe<User>,
   fbRegister?: Maybe<AuthPayload>,
   googleRegister?: Maybe<AuthPayload>,
+  resendConfirmationMail?: Maybe<Scalars['Int']>,
   visitAquascape: VisitAquascapeResult,
 };
 
@@ -377,6 +379,11 @@ export type MutationUpdateAquascapeMainImageArgs = {
 };
 
 
+export type MutationRemoveAquascapeArgs = {
+  aquascapeId: Scalars['Int']
+};
+
+
 export type MutationAddCommentArgs = {
   entity: CommentEntityType,
   entityId: Scalars['Int'],
@@ -423,6 +430,11 @@ export type MutationGoogleRegisterArgs = {
 };
 
 
+export type MutationResendConfirmationMailArgs = {
+  email: Scalars['String']
+};
+
+
 export type MutationVisitAquascapeArgs = {
   aquascapeId: Scalars['Int']
 };
@@ -430,6 +442,7 @@ export type MutationVisitAquascapeArgs = {
 export type Pagination = {
   limit?: Maybe<Scalars['Int']>,
   cursor?: Maybe<Scalars['String']>,
+  offset?: Maybe<Scalars['Int']>,
 };
 
 export type Plant = {
