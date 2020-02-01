@@ -5,8 +5,13 @@ import {spaces} from 'styles'
 interface Props {
     onResend: VoidFunction
     disableResend: boolean
+    email: string
 }
-const RegisterSuccessContainer: React.FunctionComponent<Props> = ({disableResend, onResend}) => (
+const RegisterSuccessContainer: React.FunctionComponent<Props> = ({
+    disableResend,
+    email,
+    onResend,
+}) => (
     <>
         <div className="content">
             <Headline variant="h3">
@@ -15,7 +20,8 @@ const RegisterSuccessContainer: React.FunctionComponent<Props> = ({disableResend
             <Paragraph type="s3">
                 <FormattedMessage
                     id="register_success.description"
-                    defaultMessage="We've sent you an email. Open it up to activate your account."
+                    defaultMessage="We've sent a mail to {email}. Open it up to activate your account."
+                    values={{email}}
                 />
             </Paragraph>
             <div className="note">

@@ -17,10 +17,19 @@ const RegisterSuccessContainer = () => {
     const [buttonDisabled, setDisabled] = useState(false)
 
     const email = router.query.email as string
+    let decodedEmail = '[invalid email provided]'
 
     if (!email) {
         router.push(routes.index)
         return null
+    }
+
+    try {
+        if (process.browser) {
+            decodedEmail = atob(email)
+        }
+    } catch (e) {
+        logger.error(e)
     }
 
     const [resendEmailMutation] = useMutation(RESEND_EMAIL)
@@ -28,7 +37,7 @@ const RegisterSuccessContainer = () => {
     const resendEmail = () => {
         const timeout = 10 * 1000 // 10 sec
         resendEmailMutation({
-            variables: {email: atob(email)},
+            variables: {email: decodedEmail},
         })
             .then(() => {
                 toast.success(
@@ -54,7 +63,11 @@ const RegisterSuccessContainer = () => {
             </Head>
             <Content>
                 <Grid>
-                    <RegisterSuccess onResend={resendEmail} disableResend={buttonDisabled} />
+                    <RegisterSuccess
+                        email={decodedEmail}
+                        onResend={resendEmail}
+                        disableResend={buttonDisabled}
+                    />
                 </Grid>
             </Content>
         </>
