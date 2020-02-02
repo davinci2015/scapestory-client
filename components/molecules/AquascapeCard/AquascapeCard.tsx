@@ -3,7 +3,7 @@ import numeral from 'numeral'
 import Truncate from 'react-truncate'
 import classnames from 'classnames'
 
-import {Headline, Tag, IconText, Icon, Paragraph} from 'components/atoms'
+import {Headline, Tag, IconText, Icon, Paragraph, FormattedMessage} from 'components/atoms'
 import {colors, spaces, borderRadius, media} from 'styles'
 import UserWidget from 'components/molecules/UserWidget'
 import {Tag as TagInterface} from 'graphql/generated/types'
@@ -83,7 +83,15 @@ const AquascapeCard = ({
                             <div className="headline">
                                 <Headline as="h2" variant="h5">
                                     <Truncate trimWhitespace>
-                                        {title || config.AQUASCAPE_TITLE_PLACEHOLDER}
+                                        {title || (
+                                            <FormattedMessage
+                                                id="aquascape_card.placeholder_title"
+                                                defaultMessage="{name}'s aquascape"
+                                                values={{
+                                                    name: user?.name,
+                                                }}
+                                            />
+                                        )}
                                     </Truncate>
                                 </Headline>
                             </div>
