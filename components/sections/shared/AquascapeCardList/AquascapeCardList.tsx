@@ -21,8 +21,8 @@ type AquascapeCardListType = React.FunctionComponent<Props> & {
 
 const AquascapeCardList: AquascapeCardListType = ({children, loadMore, title}) => (
     <>
-        <div className={classes.root}>
-            <div className={classes.title}>{title}</div>
+        <div className="card-section">
+            <div className="card-section__title">{title}</div>
             {children}
             {loadMore && (
                 <div className="load-more">
