@@ -15,7 +15,6 @@ import {UserWidget, UnfollowButton, FollowButton} from 'components/molecules'
 import {AquascapeDetailsQuery} from 'graphql/generated/queries'
 import {ProfileLink} from 'components/core'
 import {UserWidgetSize, UserWidgetVariant} from 'components/molecules/UserWidget/UserWidget'
-import config from 'config'
 
 interface Props {
     mineAquascape: boolean
@@ -40,7 +39,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
         <>
             <Hero
                 variant="cover"
-                title={aquascape.title || config.AQUASCAPE_TITLE_PLACEHOLDER}
+                title={aquascape.title}
                 image={aquascape.mainImageUrl}
                 topSection={
                     <div className="top-section">
