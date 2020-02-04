@@ -113,6 +113,18 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
                             <Icon d={Icon.CAMERA} />
                         </Hide>
                     </SubNavigation.Item>
+                    <SubNavigation.Item offset={90} id={sections.COMMENTS}>
+                        <Hide upTo={pxToNumber(breakpoints.small)}>
+                            <FormattedMessage
+                                id="aquascape.subnavigation.comments"
+                                defaultMessage="Comments ({count})"
+                                values={{count: aquascapeResult.aquascape.comments.length}}
+                            />
+                        </Hide>
+                        <Hide after={pxToNumber(breakpoints.small)}>
+                            <Icon d={Icon.COMMENT} />
+                        </Hide>
+                    </SubNavigation.Item>
                     <SubNavigation.Item offset={90} id={sections.FLORA}>
                         <Hide upTo={pxToNumber(breakpoints.small)}>
                             <FormattedMessage
@@ -135,22 +147,19 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
                             <SettingsIcon />
                         </Hide>
                     </SubNavigation.Item>
-                    <SubNavigation.Item offset={90} id={sections.COMMENTS}>
-                        <Hide upTo={pxToNumber(breakpoints.small)}>
-                            <FormattedMessage
-                                id="aquascape.subnavigation.comments"
-                                defaultMessage="Comments ({count})"
-                                values={{count: aquascapeResult.aquascape.comments.length}}
-                            />
-                        </Hide>
-                        <Hide after={pxToNumber(breakpoints.small)}>
-                            <Icon d={Icon.COMMENT} />
-                        </Hide>
-                    </SubNavigation.Item>
                 </SubNavigation>
                 <Grid>
                     <Element name={sections.PHOTO_POSTS}>
                         <PhotoSection images={aquascapeResult.aquascape.images} />
+                    </Element>
+
+                    <Divider />
+
+                    <Element name={sections.COMMENTS}>
+                        <CommentsContainer
+                            aquascapeId={aquascapeId}
+                            comments={aquascapeResult.aquascape.comments}
+                        />
                     </Element>
 
                     <Divider />
@@ -342,19 +351,10 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
                             </>
                         )}
 
-                    <Element name={sections.COMMENTS}>
-                        <CommentsContainer
-                            aquascapeId={aquascapeId}
-                            comments={aquascapeResult.aquascape.comments}
-                        />
-                    </Element>
-
-                    {aquascapeResult.aquascapes && Boolean(aquascapeResult.aquascapes.rows.length) && (
-                        <>
-                            <Divider />
+                    {aquascapeResult.aquascapes &&
+                        Boolean(aquascapeResult.aquascapes.rows.length) && (
                             <OtherAquascapesSection aquascapes={aquascapeResult.aquascapes.rows} />
-                        </>
-                    )}
+                        )}
                 </Grid>
             </Content>
         </>
