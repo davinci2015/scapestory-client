@@ -150,7 +150,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                     color={colors.WHITE}
                                 />
                                 <IconText
-                                    icon={Icon.HEART_OUTLINE}
+                                    icon={Icon.HEART}
                                     text={aquascape.likesCount}
                                     color={colors.WHITE}
                                 />

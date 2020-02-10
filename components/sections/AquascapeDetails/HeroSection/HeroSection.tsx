@@ -25,6 +25,10 @@ interface Props {
     onShare: VoidFunction
 }
 
+const HeartIcon = ({count}: {count: number}) => (
+    <IconText icon={Icon.HEART} text={count} color={colors.WHITE} />
+)
+
 const HeroSection: React.FunctionComponent<Props> = ({
     aquascape,
     mineAquascape,
@@ -162,15 +166,13 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                     text={aquascape.viewsCount}
                                     color={colors.WHITE}
                                 />
-                                <IconButton onClick={toggleLike}>
-                                    <IconText
-                                        icon={
-                                            aquascape.isLikedByMe ? Icon.HEART : Icon.HEART_OUTLINE
-                                        }
-                                        text={aquascape.likesCount}
-                                        color={colors.WHITE}
-                                    />
-                                </IconButton>
+                                {mineAquascape ? (
+                                    <HeartIcon count={aquascape.likesCount} />
+                                ) : (
+                                    <IconButton onClick={toggleLike}>
+                                        <HeartIcon count={aquascape.likesCount} />
+                                    </IconButton>
+                                )}
                             </div>
                         </Hero.BottomLeft>
                         <Hero.BottomRight>
