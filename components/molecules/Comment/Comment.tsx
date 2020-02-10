@@ -43,7 +43,11 @@ const Comment: CardInterface = ({
         <>
             <div className={classes.root}>
                 <ProfileLink slug={comment.user.slug}>
-                    <UserImage size={UserImageSize.s36} image={comment.user.profileImage} />
+                    <UserImage
+                        size={UserImageSize.s36}
+                        image={comment.user.profileImage}
+                        placeholder={comment.user.name.charAt(0)}
+                    />
                 </ProfileLink>
                 <div className="wrapper">
                     <ProfileLink slug={comment.user.slug}>

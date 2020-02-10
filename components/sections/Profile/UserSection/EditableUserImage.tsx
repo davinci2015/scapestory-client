@@ -6,11 +6,12 @@ import {colors, spaces} from 'styles'
 import {ImageUpload} from 'components/core'
 
 interface Props {
+    username?: string
     image?: string | null
     onChange: (files: FileList | null) => void
 }
 
-const EditableUserImage: React.FunctionComponent<Props> = ({image, onChange}) => {
+const EditableUserImage: React.FunctionComponent<Props> = ({image, onChange, username}) => {
     return (
         <>
             <ImageUpload
@@ -20,6 +21,7 @@ const EditableUserImage: React.FunctionComponent<Props> = ({image, onChange}) =>
                         image={image}
                         size={UserImageSize.s148}
                         variant={UserImageVariant.BORDER}
+                        placeholder={username?.charAt(0)}
                     >
                         <button onClick={openFinder} className="button">
                             <Icon d={Icon.CAMERA} size={20} color={colors.WHITE} />

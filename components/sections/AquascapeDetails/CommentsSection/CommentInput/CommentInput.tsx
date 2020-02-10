@@ -8,6 +8,7 @@ import {pxToNumber} from 'utils/converter'
 
 interface Props {
     userImage?: string | null
+    username?: string | null
     value?: string
     onChange: (e: FormEvent<HTMLTextAreaElement>) => void
     onSubmit: () => void
@@ -21,12 +22,17 @@ const CommentInput: React.FunctionComponent<Props> = ({
     placeholder,
     submitText,
     userImage,
+    username,
     value,
 }) => (
     <>
         <div className="textarea">
             <Hide upTo={pxToNumber(breakpoints.medium)}>
-                <UserImage size={UserImageSize.s36} image={userImage} />
+                <UserImage
+                    size={UserImageSize.s36}
+                    image={userImage}
+                    placeholder={username?.charAt(0)}
+                />
             </Hide>
             <Textarea
                 rows={1}

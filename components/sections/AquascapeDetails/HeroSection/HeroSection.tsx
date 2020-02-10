@@ -50,6 +50,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                         <Hero.TopLeft>
                             <ProfileLink slug={aquascape.user.slug}>
                                 <UserWidget
+                                    placeholder={aquascape.user.name.charAt(0)}
                                     size={UserWidgetSize.s36}
                                     variant={UserWidgetVariant.BORDER}
                                     image={aquascape.user.profileImage}

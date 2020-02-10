@@ -123,10 +123,9 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
 
     return (
         <CommentsSection
-            userId={user?.id}
+            user={user}
             replies={replies}
             enteredComment={comment || ''}
-            userImage={user?.profileImage}
             toggleLike={toggleLike}
             onReply={onReply}
             comments={comments}

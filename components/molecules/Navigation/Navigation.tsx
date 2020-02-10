@@ -116,7 +116,11 @@ const Navigation = ({
                             href={routes.profile}
                         >
                             <div>
-                                <UserImage size={UserImageSize.s36} image={user.profileImage} />
+                                <UserImage
+                                    size={UserImageSize.s36}
+                                    image={user.profileImage}
+                                    placeholder={user.name.charAt(0)}
+                                />
                             </div>
                         </NavLink>
                     )}

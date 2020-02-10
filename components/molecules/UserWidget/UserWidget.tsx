@@ -21,6 +21,7 @@ interface Props {
     size?: UserWidgetSize
     variant?: UserWidgetVariant
     onClick?: (event: SyntheticEvent) => void
+    placeholder?: string
 }
 
 const userImageSizeMapping = {
@@ -43,6 +44,7 @@ const UserWidget = ({
     text,
     size = UserWidgetSize.s24,
     variant = UserWidgetVariant.DEFAULT,
+    placeholder,
 }: Props) => (
     <div
         onClick={onClick}
@@ -52,6 +54,7 @@ const UserWidget = ({
     >
         <UserImage
             variant={userImageVariantMapping[variant]}
+            placeholder={placeholder}
             size={userImageSizeMapping[size]}
             image={image}
         />

@@ -14,7 +14,9 @@ type ModalType = React.FunctionComponent<Props> & {
     Content: typeof Content
 }
 
-Modal.setAppElement('#__next')
+if (process.browser && document.getElementById('#__next')) {
+    Modal.setAppElement('#__next')
+}
 
 const CustomModal: ModalType = ({children, isOpen, ...rest}) => (
     <>

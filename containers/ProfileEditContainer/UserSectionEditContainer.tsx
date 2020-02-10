@@ -111,7 +111,11 @@ const UserSectionEditContainer: React.FunctionComponent<Props> = ({
                 />
             }
             userImage={
-                <EditableUserImage image={user.profileImage} onChange={onChangeProfileImage} />
+                <EditableUserImage
+                    image={user.profileImage}
+                    onChange={onChangeProfileImage}
+                    username={user.name}
+                />
             }
             stats={
                 <UserStats>
