@@ -86,7 +86,7 @@ const Hero = ({
         <style jsx>{`
             .container {
                 position: relative;
-                height: 80vh;
+                height: 70vh;
             }
 
             .container--compact {
@@ -95,7 +95,7 @@ const Hero = ({
 
             .headline-input {
                 width: 100%;
-                margin-bottom: ${spaces.s36};
+                margin-bottom: ${spaces.s20};
 
                 font-weight: ${typography.fontWeight.extraBold};
                 font-size: ${typography.fontSize.fs38};
@@ -151,7 +151,7 @@ const Hero = ({
             }
 
             .content :global(.${Headline.classes.root}) {
-                margin-bottom: ${spaces.s60};
+                margin-bottom: ${spaces.s20};
             }
 
             .content .bottom {
@@ -177,6 +177,10 @@ const Hero = ({
 
                 .content--cover {
                     padding: ${spaces.s36} ${spaces.s24} ${spaces.s48} ${spaces.s24};
+                }
+
+                .content :global(.${Headline.classes.root}) {
+                    margin-bottom: ${spaces.s60};
                 }
 
                 .headline-input {
