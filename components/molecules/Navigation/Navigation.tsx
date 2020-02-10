@@ -61,7 +61,7 @@ const Navigation = ({
                     </Link>
                     <NavLink href={routes.index}>
                         <a>
-                            <FormattedMessage id="navigation_discover" defaultMessage="Discover" />
+                            <FormattedMessage id="navigation_home" defaultMessage="Home" />
                         </a>
                     </NavLink>
                 </div>

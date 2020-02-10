@@ -49,6 +49,9 @@ export const USER_PROFILE = gql`
             name
             country
             profileImage
+            aquascapes(pagination: {limit: 0}) {
+                count
+            }
         }
     }
 `

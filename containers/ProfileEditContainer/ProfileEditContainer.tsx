@@ -78,7 +78,7 @@ const ProfileContainer = () => {
     }
 
     const updateField = (key: string, value: string) => {
-        setUserDetails({...userDetails, [key]: value})
+        setUserDetails({...userDetails, [key]: value.trim()})
     }
 
     if (error) {

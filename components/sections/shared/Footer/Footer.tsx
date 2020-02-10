@@ -31,10 +31,7 @@ const Footer: FooterType = () => (
                             <Link href={routes.index}>
                                 <a>
                                     <Paragraph weight="bold">
-                                        <FormattedMessage
-                                            id="footer.discover"
-                                            defaultMessage="Discover"
-                                        />
+                                        <FormattedMessage id="footer.home" defaultMessage="Home" />
                                     </Paragraph>
                                 </a>
                             </Link>

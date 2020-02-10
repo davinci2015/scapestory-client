@@ -41,7 +41,7 @@ const CommentsSection: React.FunctionComponent<Props> = ({
     return (
         <>
             <div className="section">
-                <Headline as="h4">
+                <Headline as="h2" variant="h3">
                     <FormattedMessage
                         id="aquascape.comments.title"
                         defaultMessage="Aqua comments ({count})"
