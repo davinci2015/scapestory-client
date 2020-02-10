@@ -51,7 +51,7 @@ type UserImageType = React.FunctionComponent<Props> & {
     classes: typeof classes
 }
 
-const IMAGE_PLACEHOLDER = '/static/placeholders/user.png'
+const PLACEHOLDER = '/static/placeholders/user.png'
 
 const UserImage: UserImageType = ({
     image,
@@ -66,14 +66,9 @@ const UserImage: UserImageType = ({
                 border: variant === UserImageVariant.BORDER,
             })}
         >
-            {image && (
-                <img
-                    className="image"
-                    src={image || IMAGE_PLACEHOLDER}
-                    alt="Aquascaper profile photo"
-                />
-            )}
-            {!image && <div className="placeholder">{placeholder}</div>}
+            {image && <img className="image" src={image || PLACEHOLDER} alt="Aquascaper" />}
+            {!image && placeholder && <div className="placeholder">{placeholder}</div>}
+            {!image && !placeholder && <img className="image" src={PLACEHOLDER} alt="Aquascaper" />}
             {children}
         </div>
 

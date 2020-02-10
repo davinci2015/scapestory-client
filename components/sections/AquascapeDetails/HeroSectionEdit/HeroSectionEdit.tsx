@@ -50,11 +50,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                                 color={colors.WHITE}
                                                 weight="bold"
                                             >
-                                                <FormattedMessage
-                                                    id="aquascape.hero_section.username"
-                                                    defaultMessage="by {username}"
-                                                    values={{username: aquascape.user.name}}
-                                                />
+                                                {aquascape.user.name}
                                             </Paragraph>
                                         </div>
                                     }
