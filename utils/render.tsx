@@ -1,10 +1,10 @@
 import React from 'react'
+import {toast} from 'react-toastify'
 
 import {AquascapeCard} from 'components/molecules'
 import {Grid} from 'components/core'
 import {AquascapeFieldsFragment} from 'graphql/generated/queries'
 import {ItemProps} from 'components/core/Grid/Item'
-import {toast} from 'react-toastify'
 import {ToastMessage, FormattedMessage} from 'components/atoms'
 
 export const renderAquascapeCards = (
@@ -25,7 +25,6 @@ export const renderAquascapeCards = (
                 viewsCount={scape.viewsCount}
                 likesCount={scape.likesCount}
                 image={scape.mainImageUrl}
-                tags={scape.tags}
             />
         </Grid.Item>
     ))

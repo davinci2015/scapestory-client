@@ -3,17 +3,18 @@ import numeral from 'numeral'
 import Truncate from 'react-truncate'
 import classnames from 'classnames'
 
-import {Headline, Tag, IconText, Icon, Paragraph, FormattedMessage} from 'components/atoms'
-import {colors, spaces, borderRadius, media} from 'styles'
+import {Headline, IconText, Icon, Paragraph, FormattedMessage} from 'components/atoms'
+import {colors, spaces, borderRadius, media, breakpoints} from 'styles'
 import UserWidget from 'components/molecules/UserWidget'
-import {Tag as TagInterface} from 'graphql/generated/types'
-import {AquascapeDetailsLink, ProfileLink} from 'components/core'
+import {AquascapeDetailsLink, ProfileLink, Hide} from 'components/core'
 import config from 'config'
 import {AquascapeFieldsFragment} from 'graphql/generated/queries'
 import {AuthContext} from 'providers/AuthenticationProvider'
 import routes, {createDynamicPath, getAquascapeDetailsSlug} from 'routes'
 import {Transition} from 'react-transition-group'
 import {TransitionStatus} from 'react-transition-group/Transition'
+import Link from 'next/link'
+import {pxToNumber} from 'utils/converter'
 
 interface Props {
     id: number
@@ -22,22 +23,13 @@ interface Props {
     title?: string | null
     viewsCount: number
     likesCount: number
-    tags: Pick<TagInterface, 'name'>[]
 }
 
 const classes = {
     root: 'aquascape-card',
 }
 
-const AquascapeCard = ({
-    id,
-    image,
-    user,
-    title,
-    viewsCount = 0,
-    likesCount = 0,
-    tags = [],
-}: Props) => {
+const AquascapeCard = ({id, image, likesCount = 0, title, user, viewsCount = 0}: Props) => {
     const {user: loggedInUser} = useContext(AuthContext)
 
     const href =
@@ -87,9 +79,7 @@ const AquascapeCard = ({
                                             <FormattedMessage
                                                 id="aquascape_card.placeholder_title"
                                                 defaultMessage="{name}'s aquascape"
-                                                values={{
-                                                    name: user?.name,
-                                                }}
+                                                values={{name: user?.name}}
                                             />
                                         )}
                                     </Truncate>
@@ -102,16 +92,33 @@ const AquascapeCard = ({
                                         image={user?.profileImage}
                                         text={
                                             <Paragraph type="t1" color={colors.SHADE_DEEP}>
-                                                {user?.name}
+                                                <FormattedMessage
+                                                    id="aquascape_card.created_by"
+                                                    defaultMessage="by {name}"
+                                                    values={{name: user?.name}}
+                                                />
                                             </Paragraph>
                                         }
                                     />
                                 </ProfileLink>
-                                <div className="tags">
-                                    {tags.map((tag, index) => (
-                                        <Tag key={index} text={tag.name} variant="primary" />
-                                    ))}
-                                </div>
+                                <Hide after={pxToNumber(breakpoints.medium)}>
+                                    <div>
+                                        <Link href={href} as={as}>
+                                            <a className="details-link">
+                                                <Paragraph color={colors.PRIMARY} weight="semibold">
+                                                    <FormattedMessage
+                                                        id="aquascape_card.details"
+                                                        defaultMessage="Details"
+                                                    />
+                                                </Paragraph>
+                                                <Icon
+                                                    d={Icon.ARROW_RIGHT_FILL}
+                                                    color={colors.PRIMARY}
+                                                />
+                                            </a>
+                                        </Link>
+                                    </div>
+                                </Hide>
                             </div>
                         </div>
                     </div>
@@ -211,8 +218,14 @@ const AquascapeCard = ({
                     text-decoration: none;
                 }
 
-                .card__footer > .tags :global(.${Tag.classes.root}) {
-                    margin-left: ${spaces.s6};
+                .card__footer .details-link {
+                    text-decoration: none;
+                    display: flex;
+                    padding-left: ${spaces.s12};
+                }
+
+                .card__footer .details-link :global(.${Paragraph.classes.root}) {
+                    margin-right: ${spaces.s6};
                 }
 
                 @media ${media.up('extraSmall')} {
