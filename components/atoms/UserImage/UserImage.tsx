@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 
-import {colors} from 'styles'
+import {colors, typography} from 'styles'
 
 const classes = {
     root: 'userImage',
@@ -23,6 +23,7 @@ interface Props {
     image?: string | null
     size?: UserImageSize
     variant?: UserImageVariant
+    placeholder?: string
 }
 
 const sizeMapping = {
@@ -39,16 +40,24 @@ const borderSizeMapping = {
     [UserImageSize.s148]: '3px',
 }
 
-const IMAGE_PLACEHOLDER = '/static/placeholders/user.png'
+const placeholderFontSizeMapping = {
+    [UserImageSize.s24]: typography.fontSize.fs14,
+    [UserImageSize.s36]: typography.fontSize.fs20,
+    [UserImageSize.s90]: typography.fontSize.fs38,
+    [UserImageSize.s148]: typography.fontSize.fs51,
+}
 
 type UserImageType = React.FunctionComponent<Props> & {
     classes: typeof classes
 }
 
+const IMAGE_PLACEHOLDER = '/static/placeholders/user.png'
+
 const UserImage: UserImageType = ({
     image,
     size = UserImageSize.s24,
     variant = UserImageVariant.DEFAULT,
+    placeholder,
     children,
 }) => (
     <>
@@ -57,19 +66,28 @@ const UserImage: UserImageType = ({
                 border: variant === UserImageVariant.BORDER,
             })}
         >
-            <img
-                className="image"
-                src={image || IMAGE_PLACEHOLDER}
-                alt="Aquascaper profile photo"
-            />
+            {image && (
+                <img
+                    className="image"
+                    src={image || IMAGE_PLACEHOLDER}
+                    alt="Aquascaper profile photo"
+                />
+            )}
+            {!image && <div className="placeholder">{placeholder}</div>}
             {children}
         </div>
+
         <style jsx>{`
             .${classes.root} {
                 position: relative;
                 width: ${sizeMapping[size]};
                 height: ${sizeMapping[size]};
 
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                background-color: ${colors.SHADE_MIDDLE};
                 border-radius: 50%;
                 overflow: hidden;
             }
@@ -79,6 +97,16 @@ const UserImage: UserImageType = ({
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+            }
+
+            .placeholder {
+                margin-top: 2px;
+
+                color: ${colors.WHITE};
+                font-size: ${placeholderFontSizeMapping[size]};
+                font-family: ${typography.fontFamily.PRIMARY};
+                font-weight: ${typography.fontWeight.bold};
+                text-transform: lowercase;
             }
 
             .border {

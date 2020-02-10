@@ -4,15 +4,14 @@ import {useIntl} from 'react-intl'
 import {FormattedMessage, Headline} from 'components/atoms'
 import {Grid} from 'components/core'
 import {Comment} from 'components/molecules'
-import {CommentFieldsFragment} from 'graphql/generated/queries'
+import {CommentFieldsFragment, User_ProfileQuery} from 'graphql/generated/queries'
 import CommentsBlock from './CommentBlock/CommentBlock'
 import CommentInput from 'components/sections/AquascapeDetails/CommentsSection/CommentInput'
 import {spaces, media} from 'styles'
 
 interface Props {
+    user?: User_ProfileQuery['me']
     comments: CommentFieldsFragment[]
-    userImage?: string | null
-    userId?: number
     enteredComment: string
     onCommentChange: (e: FormEvent<HTMLTextAreaElement>) => void
     onReplyChange: (e: FormEvent<HTMLTextAreaElement>, commentId: number) => void
@@ -33,8 +32,7 @@ const CommentsSection: React.FunctionComponent<Props> = ({
     removeComment,
     replies,
     toggleLike,
-    userId,
-    userImage,
+    user,
 }) => {
     const intl = useIntl()
 
@@ -54,7 +52,8 @@ const CommentsSection: React.FunctionComponent<Props> = ({
                             value={enteredComment}
                             onChange={onCommentChange}
                             onSubmit={onSubmit}
-                            userImage={userImage}
+                            username={user?.name}
+                            userImage={user?.profileImage}
                             submitText={
                                 <FormattedMessage
                                     id="aquascape.comments.input.submit"
@@ -75,8 +74,9 @@ const CommentsSection: React.FunctionComponent<Props> = ({
                             .map(comment => (
                                 <CommentsBlock
                                     key={comment.id}
-                                    userId={userId}
-                                    userImage={userImage}
+                                    userId={user?.id}
+                                    username={user?.name}
+                                    userImage={user?.profileImage}
                                     replies={replies}
                                     onReply={onReply}
                                     onReplyChange={onReplyChange}

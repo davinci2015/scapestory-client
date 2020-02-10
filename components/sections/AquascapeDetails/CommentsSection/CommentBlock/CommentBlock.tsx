@@ -17,6 +17,7 @@ interface Props {
     onReply: (commentId: number) => void
     toggleLike: (comment: CommentFieldsFragment) => void
     userId?: number
+    username?: string
     userImage?: string | null
 }
 
@@ -24,6 +25,7 @@ const CommentsBlock: React.FunctionComponent<Props> = ({
     comment,
     userId,
     userImage,
+    username,
     childComments = [],
     toggleLike,
     replies,
@@ -63,6 +65,7 @@ const CommentsBlock: React.FunctionComponent<Props> = ({
                             ))}
                         <Grid.Item key={comment.id} extraSmall={12} medium={6}>
                             <CommentInput
+                                username={username}
                                 value={replies[comment.id]}
                                 onChange={e => onReplyChange(e, comment.id)}
                                 onSubmit={() => onReply(comment.id)}

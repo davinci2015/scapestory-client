@@ -32,6 +32,7 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({user}) => {
                             image={user.profileImage}
                             size={UserImageSize.s148}
                             variant={UserImageVariant.BORDER}
+                            placeholder={user.name.charAt(0)}
                         />
                     </Hide>
                     <Hide after={pxToNumber(breakpoints.medium)}>
@@ -39,6 +40,7 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({user}) => {
                             image={user.profileImage}
                             size={UserImageSize.s90}
                             variant={UserImageVariant.BORDER}
+                            placeholder={user.name.charAt(0)}
                         />
                     </Hide>
                 </>

@@ -98,6 +98,7 @@ const AquascapeCard = ({
                             <div className="card__footer">
                                 <ProfileLink slug={user?.slug || ''}>
                                     <UserWidget
+                                        placeholder={user?.name.charAt(0)}
                                         image={user?.profileImage}
                                         text={
                                             <Paragraph type="t1" color={colors.SHADE_DEEP}>

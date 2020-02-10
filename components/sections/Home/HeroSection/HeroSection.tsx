@@ -64,6 +64,7 @@ const HeroSection: React.FunctionComponent<Props> = ({aquascape}) => {
                                 <div className="bottom-left">
                                     {aquascape.user && (
                                         <UserWidget
+                                            placeholder={aquascape.user.name.charAt(0)}
                                             onClick={redirectToProfile}
                                             size={UserWidgetSize.s36}
                                             variant={UserWidgetVariant.BORDER}

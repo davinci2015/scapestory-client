@@ -7,18 +7,11 @@ import mock from 'mocks/storybook'
 storiesOf('Atoms | UserImage', module)
     .add('default', () => <UserImage image={mock.userImage} />)
     .add('size large', () => <UserImage image={mock.userImage} size={UserImageSize.s148} />)
+    .add('with placeholder', () => <UserImage size={UserImageSize.s36} placeholder="D" />)
     .add('with border', () => (
-        <div
-            style={{
-                width: 50,
-                height: 50,
-                backgroundColor: 'gray',
-            }}
-        >
-            <UserImage
-                image={mock.userImage}
-                size={UserImageSize.s148}
-                variant={UserImageVariant.BORDER}
-            />
-        </div>
+        <UserImage
+            image={mock.userImage}
+            size={UserImageSize.s148}
+            variant={UserImageVariant.BORDER}
+        />
     ))
