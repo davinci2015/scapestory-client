@@ -69,6 +69,7 @@ const UserWidget = ({
 
             .user-widget :global(.${UserImage.classes.root}) {
                 margin-right: ${spaces.s6};
+                flex: 0 0 auto;
             }
 
             .large.user-widget :global(.${UserImage.classes.root}) {
