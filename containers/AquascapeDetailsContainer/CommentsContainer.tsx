@@ -22,6 +22,7 @@ import {
     RemoveCommentMutationVariables,
 } from 'graphql/generated/mutations'
 import {CommentFieldsFragment} from 'graphql/generated/queries'
+import logger from 'services/logger'
 
 interface Props {
     aquascapeId: number
@@ -83,7 +84,7 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
                 entityId: aquascapeId,
                 content: comment.trim(),
             },
-        })
+        }).catch(logger.error)
     }
 
     const onReply = (commentId: number) => {
@@ -97,7 +98,9 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
                 content: reply.trim(),
                 parentCommentId: commentId,
             },
-        }).finally(() => setReply({...replies, [commentId]: ''}))
+        })
+            .catch(logger.error)
+            .finally(() => setReply({...replies, [commentId]: ''}))
     }
 
     const toggleLike = useCallback(

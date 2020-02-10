@@ -9,12 +9,13 @@ import {
     Button,
     IconButton,
 } from 'components/atoms'
-import {colors, spaces, zIndex, media} from 'styles'
+import {colors, spaces, zIndex, media, breakpoints} from 'styles'
 import {Hero} from 'components/sections/shared'
-import {UserWidget, UnfollowButton, FollowButton} from 'components/molecules'
+import {UserWidget} from 'components/molecules'
 import {AquascapeDetailsQuery} from 'graphql/generated/queries'
-import {ProfileLink} from 'components/core'
+import {ProfileLink, Hide} from 'components/core'
 import {UserWidgetSize, UserWidgetVariant} from 'components/molecules/UserWidget/UserWidget'
+import {pxToNumber} from 'utils/converter'
 
 interface Props {
     mineAquascape: boolean
@@ -61,39 +62,37 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                                 color={colors.WHITE}
                                                 weight="bold"
                                             >
-                                                <FormattedMessage
-                                                    id="aquascape.hero_section.username"
-                                                    defaultMessage="by {username}"
-                                                    values={{username: aquascape.user.name}}
-                                                />
+                                                {aquascape.user.name}
                                             </Paragraph>
                                             {!mineAquascape && (
-                                                <div
-                                                    className="follow"
-                                                    onClick={(event: SyntheticEvent) => {
-                                                        event.preventDefault()
-                                                        toggleFollow()
-                                                    }}
-                                                    role="presentation"
-                                                >
-                                                    <Paragraph
-                                                        type="s2"
-                                                        color={colors.WHITE}
-                                                        weight="semibold"
+                                                <Hide upTo={pxToNumber(breakpoints.medium)}>
+                                                    <div
+                                                        className="follow"
+                                                        onClick={(event: SyntheticEvent) => {
+                                                            event.preventDefault()
+                                                            toggleFollow()
+                                                        }}
+                                                        role="presentation"
                                                     >
-                                                        {aquascape.user?.isFollowedByMe ? (
-                                                            <FormattedMessage
-                                                                id="aquascape.hero_section.unfollow"
-                                                                defaultMessage="Unfollow"
-                                                            />
-                                                        ) : (
-                                                            <FormattedMessage
-                                                                id="aquascape.hero_section.follow"
-                                                                defaultMessage="Follow"
-                                                            />
-                                                        )}
-                                                    </Paragraph>
-                                                </div>
+                                                        <Paragraph
+                                                            type="s2"
+                                                            color={colors.WHITE}
+                                                            weight="semibold"
+                                                        >
+                                                            {aquascape.user?.isFollowedByMe ? (
+                                                                <FormattedMessage
+                                                                    id="aquascape.hero_section.unfollow"
+                                                                    defaultMessage="Unfollow"
+                                                                />
+                                                            ) : (
+                                                                <FormattedMessage
+                                                                    id="aquascape.hero_section.follow"
+                                                                    defaultMessage="Follow"
+                                                                />
+                                                            )}
+                                                        </Paragraph>
+                                                    </div>
+                                                </Hide>
                                             )}
                                         </div>
                                     }
@@ -148,12 +147,6 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                         />
                                     </Button>
                                 )}
-                                {!mineAquascape &&
-                                    (aquascape.user.isFollowedByMe ? (
-                                        <UnfollowButton toggleFollow={toggleFollow} />
-                                    ) : (
-                                        <FollowButton toggleFollow={toggleFollow} />
-                                    ))}
                             </Hero.ActionButtons>
                         </Hero.TopRight>
                     </div>
@@ -192,6 +185,10 @@ const HeroSection: React.FunctionComponent<Props> = ({
 
                 .follow {
                     cursor: pointer;
+                }
+
+                .follow :global(.${Paragraph.classes.root}) {
+                    text-decoration: underline;
                 }
 
                 .top-section {
