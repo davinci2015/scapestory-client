@@ -77,6 +77,7 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         const mutateLike = aquascape.isLikedByMe ? dislike : like
         mutateLike({
             variables: {
+                aquascapeId: aquascape.id,
                 entity: LikeEntityType.Aquascape,
                 entityId: aquascape.id,
             },

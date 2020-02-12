@@ -94,6 +94,7 @@ export type Co2 = {
 
 export type Comment = {
    __typename?: 'Comment',
+  aquascape?: Maybe<Aquascape>,
   id: Scalars['Int'],
   createdAt: Scalars['String'],
   content: Scalars['String'],
@@ -205,6 +206,8 @@ export type Like = {
   aquascapeImageId?: Maybe<Scalars['Int']>,
   aquascapeId?: Maybe<Scalars['Int']>,
   commentId?: Maybe<Scalars['Int']>,
+  aquascape?: Maybe<Aquascape>,
+  comment?: Maybe<Comment>,
 };
 
 export enum LikeEntityType {
@@ -252,6 +255,7 @@ export type Mutation = {
   removeAquascape: Scalars['Int'],
   addComment?: Maybe<Comment>,
   removeComment?: Maybe<Comment>,
+  readNotifications?: Maybe<Scalars['Boolean']>,
   followUser?: Maybe<User>,
   unfollowUser?: Maybe<User>,
   login?: Maybe<AuthPayload>,
@@ -344,6 +348,7 @@ export type MutationRemoveLivestockArgs = {
 
 
 export type MutationLikeArgs = {
+  aquascapeId: Scalars['Int'],
   entity: LikeEntityType,
   entityId: Scalars['Int']
 };
@@ -397,6 +402,11 @@ export type MutationRemoveCommentArgs = {
 };
 
 
+export type MutationReadNotificationsArgs = {
+  notifications: Array<Scalars['Int']>
+};
+
+
 export type MutationFollowUserArgs = {
   userId: Scalars['Int']
 };
@@ -439,6 +449,24 @@ export type MutationVisitAquascapeArgs = {
   aquascapeId: Scalars['Int']
 };
 
+export type Notification = {
+   __typename?: 'Notification',
+  creator?: Maybe<User>,
+  like?: Maybe<Like>,
+  comment?: Maybe<Comment>,
+  id: Scalars['Int'],
+  type: Scalars['Int'],
+  createdAt: Scalars['Int'],
+};
+
+export type Notifier = {
+   __typename?: 'Notifier',
+  id: Scalars['Int'],
+  notification?: Maybe<Notification>,
+  status?: Maybe<Scalars['Int']>,
+  createdAt: Scalars['Int'],
+};
+
 export type Pagination = {
   limit?: Maybe<Scalars['Int']>,
   cursor?: Maybe<Scalars['String']>,
@@ -479,6 +507,7 @@ export type Query = {
   aquascape?: Maybe<Aquascape>,
   brands: Array<Brand>,
   comments: Array<Comment>,
+  notifications: Array<Notifier>,
   userProfileSlugExists?: Maybe<Scalars['Boolean']>,
 };
 
@@ -794,6 +823,7 @@ export type ConfirmEmailMutation = (
 );
 
 export type LikeMutationVariables = {
+  aquascapeId: Scalars['Int'],
   entity: LikeEntityType,
   entityId: Scalars['Int']
 };

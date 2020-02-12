@@ -111,6 +111,7 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
 
             const alreadyLiked = comment.likes.some(like => like.userId === user.id)
             const variables = {
+                aquascapeId,
                 entity: LikeEntityType.Comment,
                 entityId: comment.id,
             }
