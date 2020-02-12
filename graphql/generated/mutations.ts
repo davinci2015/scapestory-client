@@ -390,6 +390,7 @@ export type MutationRemoveAquascapeArgs = {
 
 
 export type MutationAddCommentArgs = {
+  aquascapeId: Scalars['Int'],
   entity: CommentEntityType,
   entityId: Scalars['Int'],
   content: Scalars['String'],
@@ -630,6 +631,7 @@ export type Visitor = {
 };
 
 export type AddCommentMutationVariables = {
+  aquascapeId: Scalars['Int'],
   entity: CommentEntityType,
   entityId: Scalars['Int'],
   content: Scalars['String'],
