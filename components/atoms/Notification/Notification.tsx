@@ -6,6 +6,10 @@ import {spaces, colors, typography} from 'styles'
 import UserImage, {UserImageSize} from 'components/atoms/UserImage'
 import Icon from 'components/atoms/Icon'
 
+const classes = {
+    root: 'notification',
+}
+
 interface Props {
     image?: string
     createdAt: number
@@ -13,13 +17,11 @@ interface Props {
     active?: boolean
 }
 
-const Notification: React.FunctionComponent<Props> = ({
-    active,
-    children,
-    createdAt,
-    icon,
-    image,
-}) => (
+type NotificationType = React.FunctionComponent<Props> & {
+    classes: typeof classes
+}
+
+const Notification: NotificationType = ({active, children, createdAt, icon, image}) => (
     <>
         <div
             className={classnames('notification', {
@@ -75,5 +77,7 @@ const Notification: React.FunctionComponent<Props> = ({
         `}</style>
     </>
 )
+
+Notification.classes = classes
 
 export default Notification
