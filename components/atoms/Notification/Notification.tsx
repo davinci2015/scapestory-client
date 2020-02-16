@@ -40,7 +40,6 @@ const Notification: React.FunctionComponent<Props> = ({
         <style jsx>{`
             .notification {
                 display: flex;
-
                 padding: ${spaces.s20} ${spaces.s24};
                 background-color: ${colors.WHITE};
             }
@@ -70,6 +69,7 @@ const Notification: React.FunctionComponent<Props> = ({
 
             .notification .bottom .date {
                 color: ${colors.SHADE_DEEP};
+                font-size: ${typography.fontSize.fs14};
                 margin-left: ${spaces.s6};
             }
         `}</style>
