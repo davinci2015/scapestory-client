@@ -30,7 +30,8 @@
                 "./containers/AquascapeDetailsEditContainer/PhotoSectionEditContainer/mutations.ts",
                 "./containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/HardscapeSectionContainer/mutations.ts",
                 "./containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/LivestockSectionContainer/mutations.ts",
-                "./containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/PlantsSectionContainer/mutations.ts"
+                "./containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/PlantsSectionContainer/mutations.ts",
+                "./containers/NotificationsContainer/mutations.ts"
             ]
         }
     }

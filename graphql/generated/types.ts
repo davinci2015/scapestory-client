@@ -255,7 +255,7 @@ export type Mutation = {
   removeAquascape: Scalars['Int'],
   addComment?: Maybe<Comment>,
   removeComment?: Maybe<Comment>,
-  readNotifications?: Maybe<Scalars['Boolean']>,
+  readNotifications?: Maybe<Scalars['Int']>,
   followUser?: Maybe<User>,
   unfollowUser?: Maybe<User>,
   login?: Maybe<AuthPayload>,
@@ -404,7 +404,7 @@ export type MutationRemoveCommentArgs = {
 
 
 export type MutationReadNotificationsArgs = {
-  notifications: Array<Scalars['Int']>
+  notifierId: Scalars['Int']
 };
 
 

@@ -1,21 +1,24 @@
-import React from 'react'
-import {useQuery} from 'react-apollo'
+import React, {useEffect, useContext} from 'react'
+import {useQuery, useMutation} from 'react-apollo'
 import Truncate from 'react-truncate'
 import {isToday, isYesterday} from 'date-fns'
 
+import {AuthContext} from 'providers/AuthenticationProvider'
 import NotificationBlock from 'components/molecules/NotificationBlock'
 import Notification from 'components/atoms/Notification'
 import {Content, Grid} from 'components/core'
 import {Icon, FormattedMessage} from 'components/atoms'
 import {GridWidth} from 'components/core/Grid'
-import {colors} from 'styles'
-import {NOTIFICATIONS} from './queries'
 import {NotificationStatus, NotificationType} from 'graphql/generated/types'
 import {NotificationsQuery} from 'graphql/generated/queries'
+import {MutationReadNotificationsArgs} from 'graphql/generated/mutations'
 import {renderFormattedMessageLink} from 'utils/render'
 import UserFollowIcon from 'assets/icons/user-plus.svg'
 import routes, {createDynamicPath} from 'routes'
+import {colors} from 'styles'
 import config from 'config'
+import {NOTIFICATIONS} from './queries'
+import {READ_NOTIFICATIONS} from './mutations'
 
 const notificationIconMapping = {
     [NotificationType.Like]: <Icon d={Icon.HEART_OUTLINE} color={colors.SHADE_DEEP} />,
@@ -50,9 +53,19 @@ const renderAquascapeLink = (id?: number, title?: string | null) => {
 }
 
 const NotificationsContainer = () => {
+    const {user} = useContext(AuthContext)
+
+    const [readNotificationsMutation] = useMutation<undefined, MutationReadNotificationsArgs>(
+        READ_NOTIFICATIONS
+    )
+
     const {data, error} = useQuery<NotificationsQuery>(NOTIFICATIONS, {
         fetchPolicy: 'cache-and-network',
     })
+
+    useEffect(() => {
+        if (user) readNotificationsMutation({variables: {notifierId: user.id}})
+    }, [])
 
     if (!data || error) return null
 
