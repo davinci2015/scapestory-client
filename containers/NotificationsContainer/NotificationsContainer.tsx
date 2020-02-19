@@ -31,7 +31,7 @@ const titleMapping = [
 ]
 
 const renderCreatorLink = (name?: string, slug?: string) => {
-    if (!slug) return routes.index
+    if (!slug) return 'User'
 
     return renderFormattedMessageLink(createDynamicPath(routes.profile, {slug}))(
         name || 'Unknown user'
@@ -39,7 +39,7 @@ const renderCreatorLink = (name?: string, slug?: string) => {
 }
 
 const renderAquascapeLink = (id?: number, title?: string | null) => {
-    if (!id) return routes.index
+    if (!id) return config.AQUASCAPE_TITLE_PLACEHOLDER
 
     return renderFormattedMessageLink(
         createDynamicPath(routes.aquascapeDetails, {
@@ -151,17 +151,19 @@ const NotificationsContainer = () => {
                                                                 item.notification.creator?.slug
                                                             ),
                                                             aquascape: renderAquascapeLink(
-                                                                item.notification.like?.aquascape
+                                                                item.notification.comment?.aquascape
                                                                     ?.id,
-                                                                item.notification.like?.aquascape
+                                                                item.notification.comment?.aquascape
                                                                     ?.title
                                                             ),
                                                         }}
                                                     />
                                                     <br />
+                                                    &quot;
                                                     <Truncate lines={1} trimWhitespace>
                                                         {item.notification.comment?.content}
                                                     </Truncate>
+                                                    &quot;
                                                 </>
                                             )}
                                         </Notification>
