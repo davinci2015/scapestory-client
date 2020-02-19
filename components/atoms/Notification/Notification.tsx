@@ -4,14 +4,15 @@ import * as timeago from 'timeago.js'
 
 import {spaces, colors, typography} from 'styles'
 import UserImage, {UserImageSize} from 'components/atoms/UserImage'
+import {User} from 'graphql/generated/types'
 
 const classes = {
     root: 'notification',
 }
 
 interface Props {
-    image?: string
     createdAt: number
+    creator?: Pick<User, 'id' | 'slug' | 'name' | 'profileImage'> | null
     icon: React.ReactNode
     active?: boolean
 }
@@ -20,7 +21,7 @@ type NotificationType = React.FunctionComponent<Props> & {
     classes: typeof classes
 }
 
-const Notification: NotificationType = ({active, children, createdAt, icon, image}) => (
+const Notification: NotificationType = ({active, children, createdAt, creator, icon}) => (
     <>
         <div
             className={classnames('notification', {
@@ -28,7 +29,11 @@ const Notification: NotificationType = ({active, children, createdAt, icon, imag
             })}
         >
             <div className="creator-image">
-                <UserImage image={image} size={UserImageSize.s42} />
+                <UserImage
+                    image={creator?.profileImage}
+                    placeholder={creator?.name.charAt(0)}
+                    size={UserImageSize.s42}
+                />
             </div>
             <div>
                 <div className="content">{children}</div>
@@ -58,9 +63,10 @@ const Notification: NotificationType = ({active, children, createdAt, icon, imag
                 margin-right: ${spaces.s18};
             }
 
-            .notification .content :global(strong) {
+            .notification .content :global(a) {
                 color: ${colors.BLACK};
                 font-weight: ${typography.fontWeight.semibold};
+                text-decoration: none;
             }
 
             .notification .bottom {

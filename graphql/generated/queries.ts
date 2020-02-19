@@ -475,8 +475,8 @@ export enum NotificationType {
 export type Notifier = {
    __typename?: 'Notifier',
   id: Scalars['Int'],
-  notification?: Maybe<Notification>,
-  status?: Maybe<NotificationStatus>,
+  notification: Notification,
+  status: NotificationStatus,
   createdAt: Scalars['String'],
 };
 
@@ -894,7 +894,7 @@ export type NotificationsQuery = (
   & { notifications: Array<(
     { __typename?: 'Notifier' }
     & Pick<Notifier, 'id' | 'status' | 'createdAt'>
-    & { notification: Maybe<(
+    & { notification: (
       { __typename?: 'Notification' }
       & Pick<Notification, 'id' | 'type'>
       & { like: Maybe<(
@@ -922,7 +922,7 @@ export type NotificationsQuery = (
         { __typename?: 'User' }
         & Pick<User, 'id' | 'slug' | 'name' | 'profileImage'>
       )> }
-    )> }
+    ) }
   )> }
 );
 

@@ -30,7 +30,7 @@ const useCreateAquascape = () => {
                 router.push(
                     createDynamicPath(routes.aquascapeDetailsEdit, {
                         id: id.toString(),
-                        title: config.EDIT_AQUASCAPE_URL_TITLE_PLACEHOLDER,
+                        title: config.AQUASCAPE_URL_TITLE_PLACEHOLDER,
                     })
                 )
             })

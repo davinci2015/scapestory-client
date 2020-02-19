@@ -475,8 +475,8 @@ export enum NotificationType {
 export type Notifier = {
    __typename?: 'Notifier',
   id: Scalars['Int'],
-  notification?: Maybe<Notification>,
-  status?: Maybe<NotificationStatus>,
+  notification: Notification,
+  status: NotificationStatus,
   createdAt: Scalars['String'],
 };
 
