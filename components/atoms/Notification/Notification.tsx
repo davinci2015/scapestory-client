@@ -4,7 +4,6 @@ import * as timeago from 'timeago.js'
 
 import {spaces, colors, typography} from 'styles'
 import UserImage, {UserImageSize} from 'components/atoms/UserImage'
-import Icon from 'components/atoms/Icon'
 
 const classes = {
     root: 'notification',
@@ -13,7 +12,7 @@ const classes = {
 interface Props {
     image?: string
     createdAt: number
-    icon: string
+    icon: React.ReactNode
     active?: boolean
 }
 
@@ -34,7 +33,7 @@ const Notification: NotificationType = ({active, children, createdAt, icon, imag
             <div>
                 <div className="content">{children}</div>
                 <div className="bottom">
-                    <Icon d={icon} size={18} color={colors.SHADE_DEEP} />
+                    {icon}
                     <span className="date">{timeago.format(createdAt)}</span>
                 </div>
             </div>
@@ -66,7 +65,14 @@ const Notification: NotificationType = ({active, children, createdAt, icon, imag
 
             .notification .bottom {
                 display: flex;
+                align-items: center;
                 margin-top: ${spaces.s6};
+            }
+
+            .notification .bottom :global(svg) {
+                color: ${colors.SHADE_DEEP};
+                width: 18px;
+                height: 18px;
             }
 
             .notification .bottom .date {
