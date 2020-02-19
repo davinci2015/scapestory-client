@@ -1,4 +1,7 @@
 import React from 'react'
+import {useQuery} from 'react-apollo'
+import Truncate from 'react-truncate'
+
 import NotificationBlock from 'components/molecules/NotificationBlock'
 import Notification from 'components/atoms/Notification'
 import {Content, Grid} from 'components/core'
@@ -6,9 +9,15 @@ import {Icon} from 'components/atoms'
 import {GridWidth} from 'components/core/Grid'
 import {colors} from 'styles'
 import UserFollowIcon from 'assets/icons/user-plus.svg'
-import Truncate from 'react-truncate'
+import {NOTIFICATIONS} from './queries'
 
 const NotificationsContainer = () => {
+    const {data, error} = useQuery(NOTIFICATIONS, {
+        fetchPolicy: 'cache-and-network',
+    })
+
+    if (!data || error) return null
+
     return (
         <Content>
             <Grid width={GridWidth.SMALL}>

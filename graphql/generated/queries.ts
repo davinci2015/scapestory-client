@@ -456,16 +456,28 @@ export type Notification = {
   like?: Maybe<Like>,
   comment?: Maybe<Comment>,
   id: Scalars['Int'],
-  type: Scalars['Int'],
+  type: NotificationType,
   createdAt: Scalars['Int'],
 };
+
+export enum NotificationStatus {
+  Read = 'READ',
+  Unread = 'UNREAD'
+}
+
+export enum NotificationType {
+  Like = 'LIKE',
+  Follow = 'FOLLOW',
+  Comment = 'COMMENT',
+  Reply = 'REPLY'
+}
 
 export type Notifier = {
    __typename?: 'Notifier',
   id: Scalars['Int'],
   notification?: Maybe<Notification>,
-  status?: Maybe<Scalars['Int']>,
-  createdAt: Scalars['Int'],
+  status?: Maybe<NotificationStatus>,
+  createdAt: Scalars['String'],
 };
 
 export type Pagination = {
@@ -870,6 +882,46 @@ export type AquascapeDetailsEditQuery = (
     )>, comments: Array<(
       { __typename?: 'Comment' }
       & CommentFieldsFragment
+    )> }
+  )> }
+);
+
+export type NotificationsQueryVariables = {};
+
+
+export type NotificationsQuery = (
+  { __typename?: 'Query' }
+  & { notifications: Array<(
+    { __typename?: 'Notifier' }
+    & Pick<Notifier, 'id' | 'status' | 'createdAt'>
+    & { notification: Maybe<(
+      { __typename?: 'Notification' }
+      & Pick<Notification, 'id' | 'type'>
+      & { like: Maybe<(
+        { __typename?: 'Like' }
+        & Pick<Like, 'id'>
+        & { aquascape: Maybe<(
+          { __typename?: 'Aquascape' }
+          & Pick<Aquascape, 'id' | 'title'>
+        )>, comment: Maybe<(
+          { __typename?: 'Comment' }
+          & Pick<Comment, 'id'>
+          & { aquascape: Maybe<(
+            { __typename?: 'Aquascape' }
+            & Pick<Aquascape, 'id' | 'title'>
+          )> }
+        )> }
+      )>, comment: Maybe<(
+        { __typename?: 'Comment' }
+        & Pick<Comment, 'id' | 'content'>
+        & { aquascape: Maybe<(
+          { __typename?: 'Aquascape' }
+          & Pick<Aquascape, 'id' | 'title'>
+        )> }
+      )>, creator: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'slug' | 'name' | 'profileImage'>
+      )> }
     )> }
   )> }
 );

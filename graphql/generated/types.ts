@@ -456,16 +456,28 @@ export type Notification = {
   like?: Maybe<Like>,
   comment?: Maybe<Comment>,
   id: Scalars['Int'],
-  type: Scalars['Int'],
+  type: NotificationType,
   createdAt: Scalars['Int'],
 };
+
+export enum NotificationStatus {
+  Read = 'READ',
+  Unread = 'UNREAD'
+}
+
+export enum NotificationType {
+  Like = 'LIKE',
+  Follow = 'FOLLOW',
+  Comment = 'COMMENT',
+  Reply = 'REPLY'
+}
 
 export type Notifier = {
    __typename?: 'Notifier',
   id: Scalars['Int'],
   notification?: Maybe<Notification>,
-  status?: Maybe<Scalars['Int']>,
-  createdAt: Scalars['Int'],
+  status?: Maybe<NotificationStatus>,
+  createdAt: Scalars['String'],
 };
 
 export type Pagination = {
