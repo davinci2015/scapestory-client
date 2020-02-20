@@ -9,7 +9,7 @@ class MyDocument extends Document {
                 <Head>
                     <meta
                         name="description"
-                        content="Share your aquascape or aquarium and inspire others all around the globe to bring a piece of nature in their home."
+                        content="Share your aquarium and inspire others all around the globe to create a piece of nature in their home"
                     />
 
                     <meta charSet="utf-8" />
