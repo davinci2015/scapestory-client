@@ -20,6 +20,7 @@ const NavigationContainer = () => {
             openLoginModal={openLoginModal}
             openRegisterModal={openRegisterModal}
             onCreateAquascape={onCreateAquascape}
+            unreadNotificationsCount={10}
         />
     )
 }
