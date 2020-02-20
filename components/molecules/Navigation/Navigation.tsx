@@ -4,7 +4,7 @@ import classnames from 'classnames'
 
 import * as styles from 'styles'
 import useScrollPosition from 'hooks/useScrollPosition'
-import {Button, FormattedMessage, UserImage, Paragraph} from 'components/atoms'
+import {Button, FormattedMessage, UserImage, Paragraph, Icon} from 'components/atoms'
 
 import NavLink from './NavLink'
 import routes, {createDynamicPath} from 'routes'
@@ -111,18 +111,30 @@ const Navigation = ({
                     </Hide>
 
                     {isAuthenticated && user && (
-                        <NavLink
-                            as={createDynamicPath(routes.profile, {slug: user.slug})}
-                            href={routes.profile}
-                        >
-                            <div>
-                                <UserImage
-                                    size={UserImageSize.s36}
-                                    image={user.profileImage}
-                                    placeholder={user.name.charAt(0)}
-                                />
-                            </div>
-                        </NavLink>
+                        <>
+                            <Link href={routes.notifications}>
+                                <a className="bell-btn">
+                                    <Icon
+                                        d={Icon.BELL}
+                                        color={styles.colors.SHADE_MIDDLE}
+                                        size={24}
+                                        viewBox="4 4 28 28"
+                                    />
+                                </a>
+                            </Link>
+                            <NavLink
+                                as={createDynamicPath(routes.profile, {slug: user.slug})}
+                                href={routes.profile}
+                            >
+                                <div>
+                                    <UserImage
+                                        size={UserImageSize.s36}
+                                        image={user.profileImage}
+                                        placeholder={user.name.charAt(0)}
+                                    />
+                                </div>
+                            </NavLink>
+                        </>
                     )}
                 </div>
             </div>
@@ -183,6 +195,10 @@ const Navigation = ({
                     flex: 1 1 100%;
                 }
 
+                .right .bell-btn {
+                    margin: 0 ${spaces.s36};
+                }
+
                 .right .text .signup {
                     display: inline;
                     margin-left: ${styles.spaces.s6};
@@ -206,7 +222,8 @@ const Navigation = ({
 
                     .right :global(.${UserImage.classes.root}) {
                         flex: 0 0 auto;
-                        margin: 0 ${styles.spaces.s36};
+                        margin-left: 0;
+                        margin-right: ${styles.spaces.s36};
                         cursor: pointer;
                     }
                 }
