@@ -1,7 +1,7 @@
 import React from 'react'
 
-import {FormattedMessage, Headline, Icon} from 'components/atoms'
-import {colors, spaces, media} from 'styles'
+import {FormattedMessage, LoadMoreButton} from 'components/atoms'
+import {spaces, media} from 'styles'
 import {AquascapeCard} from 'components/molecules'
 
 interface Props {
@@ -26,15 +26,15 @@ const AquascapeCardList: AquascapeCardListType = ({children, loadMore, title}) =
             {children}
             {loadMore && (
                 <div className="load-more">
-                    <button className="load-more-button" onClick={loadMore}>
-                        <Headline as="h5" variant="h5" color={colors.PRIMARY}>
+                    <LoadMoreButton
+                        onClick={loadMore}
+                        text={
                             <FormattedMessage
                                 id="card_list.load_more"
                                 defaultMessage="Load more aquascapes"
                             />
-                        </Headline>
-                        <Icon d={Icon.ARROW_DOWN} color={colors.PRIMARY} />
-                    </button>
+                        }
+                    />
                 </div>
             )}
         </div>
@@ -51,19 +51,6 @@ const AquascapeCardList: AquascapeCardListType = ({children, loadMore, title}) =
                 margin-top: ${spaces.s60};
                 display: flex;
                 justify-content: center;
-            }
-
-            .load-more-button {
-                display: flex;
-                align-items: center;
-                cursor: pointer;
-                outline: 0;
-                border: 0;
-                background: transparent;
-            }
-
-            .load-more-button :global(svg) {
-                margin-left: ${spaces.s12};
             }
 
             @media ${media.up('medium')} {

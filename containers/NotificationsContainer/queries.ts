@@ -3,44 +3,47 @@ import gql from 'graphql-tag'
 export const NOTIFICATIONS = gql`
     query notifications($pagination: Pagination!) {
         notifications(pagination: $pagination) {
-            id
-            status
-            createdAt
-
-            notification {
+            count
+            rows {
                 id
-                type
+                status
+                createdAt
 
-                like {
+                notification {
                     id
-                    aquascape {
-                        id
-                        title
-                    }
+                    type
 
-                    comment {
+                    like {
                         id
                         aquascape {
                             id
                             title
                         }
-                    }
-                }
 
-                comment {
-                    id
-                    content
-                    aquascape {
+                        comment {
+                            id
+                            aquascape {
+                                id
+                                title
+                            }
+                        }
+                    }
+
+                    comment {
                         id
-                        title
+                        content
+                        aquascape {
+                            id
+                            title
+                        }
                     }
-                }
 
-                creator {
-                    id
-                    slug
-                    name
-                    profileImage
+                    creator {
+                        id
+                        slug
+                        name
+                        profileImage
+                    }
                 }
             }
         }

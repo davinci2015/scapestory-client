@@ -460,6 +460,12 @@ export type Notification = {
   createdAt: Scalars['Int'],
 };
 
+export type NotificationsResult = {
+   __typename?: 'NotificationsResult',
+  rows: Array<Notifier>,
+  count: Scalars['Int'],
+};
+
 export enum NotificationStatus {
   Read = 'READ',
   Unread = 'UNREAD'
@@ -520,7 +526,7 @@ export type Query = {
   aquascape?: Maybe<Aquascape>,
   brands: Array<Brand>,
   comments: Array<Comment>,
-  notifications: Array<Notifier>,
+  notifications: NotificationsResult,
   unreadNotificationsCount: Scalars['Int'],
   userProfileSlugExists?: Maybe<Scalars['Boolean']>,
 };

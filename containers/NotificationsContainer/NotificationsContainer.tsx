@@ -87,17 +87,20 @@ const NotificationsContainer = () => {
             variables: {
                 pagination: {
                     limit: NOTIFICATIONS_PER_LOAD,
-                    offset: data?.notifications.length || 0,
+                    offset: data?.notifications.rows.length || 0,
                 },
             },
             updateQuery: (prev, options) => {
                 if (!options.fetchMoreResult) return prev
 
                 return {
-                    notifications: [
-                        ...prev.notifications,
-                        ...options.fetchMoreResult.notifications,
-                    ],
+                    notifications: {
+                        count: options.fetchMoreResult.notifications?.count,
+                        rows: [
+                            ...prev.notifications.rows,
+                            ...options.fetchMoreResult.notifications.rows,
+                        ],
+                    },
                     __typename: prev.__typename,
                 }
             },
@@ -106,11 +109,13 @@ const NotificationsContainer = () => {
 
     if (!data || error) return null
 
+    const canLoadMore = data.notifications.rows.length < data.notifications.count
+
     return (
         <Content>
             <Grid width={GridWidth.SMALL}>
-                <NotificationSection>
-                    {data.notifications
+                <NotificationSection loadMore={canLoadMore ? loadMore : undefined}>
+                    {data.notifications.rows
                         .reduce(
                             (acc, item) => {
                                 if (isToday(Number(item.createdAt))) acc[0].push(item)
@@ -120,9 +125,9 @@ const NotificationsContainer = () => {
                                 return acc
                             },
                             [[], [], []] as [
-                                NotificationsQuery['notifications'],
-                                NotificationsQuery['notifications'],
-                                NotificationsQuery['notifications']
+                                NotificationsQuery['notifications']['rows'],
+                                NotificationsQuery['notifications']['rows'],
+                                NotificationsQuery['notifications']['rows']
                             ]
                         )
                         .map(

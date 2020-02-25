@@ -460,6 +460,12 @@ export type Notification = {
   createdAt: Scalars['Int'],
 };
 
+export type NotificationsResult = {
+   __typename?: 'NotificationsResult',
+  rows: Array<Notifier>,
+  count: Scalars['Int'],
+};
+
 export enum NotificationStatus {
   Read = 'READ',
   Unread = 'UNREAD'
@@ -520,7 +526,7 @@ export type Query = {
   aquascape?: Maybe<Aquascape>,
   brands: Array<Brand>,
   comments: Array<Comment>,
-  notifications: Array<Notifier>,
+  notifications: NotificationsResult,
   unreadNotificationsCount: Scalars['Int'],
   userProfileSlugExists?: Maybe<Scalars['Boolean']>,
 };
@@ -907,39 +913,43 @@ export type NotificationsQueryVariables = {
 
 export type NotificationsQuery = (
   { __typename?: 'Query' }
-  & { notifications: Array<(
-    { __typename?: 'Notifier' }
-    & Pick<Notifier, 'id' | 'status' | 'createdAt'>
-    & { notification: (
-      { __typename?: 'Notification' }
-      & Pick<Notification, 'id' | 'type'>
-      & { like: Maybe<(
-        { __typename?: 'Like' }
-        & Pick<Like, 'id'>
-        & { aquascape: Maybe<(
-          { __typename?: 'Aquascape' }
-          & Pick<Aquascape, 'id' | 'title'>
+  & { notifications: (
+    { __typename?: 'NotificationsResult' }
+    & Pick<NotificationsResult, 'count'>
+    & { rows: Array<(
+      { __typename?: 'Notifier' }
+      & Pick<Notifier, 'id' | 'status' | 'createdAt'>
+      & { notification: (
+        { __typename?: 'Notification' }
+        & Pick<Notification, 'id' | 'type'>
+        & { like: Maybe<(
+          { __typename?: 'Like' }
+          & Pick<Like, 'id'>
+          & { aquascape: Maybe<(
+            { __typename?: 'Aquascape' }
+            & Pick<Aquascape, 'id' | 'title'>
+          )>, comment: Maybe<(
+            { __typename?: 'Comment' }
+            & Pick<Comment, 'id'>
+            & { aquascape: Maybe<(
+              { __typename?: 'Aquascape' }
+              & Pick<Aquascape, 'id' | 'title'>
+            )> }
+          )> }
         )>, comment: Maybe<(
           { __typename?: 'Comment' }
-          & Pick<Comment, 'id'>
+          & Pick<Comment, 'id' | 'content'>
           & { aquascape: Maybe<(
             { __typename?: 'Aquascape' }
             & Pick<Aquascape, 'id' | 'title'>
           )> }
+        )>, creator: Maybe<(
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'slug' | 'name' | 'profileImage'>
         )> }
-      )>, comment: Maybe<(
-        { __typename?: 'Comment' }
-        & Pick<Comment, 'id' | 'content'>
-        & { aquascape: Maybe<(
-          { __typename?: 'Aquascape' }
-          & Pick<Aquascape, 'id' | 'title'>
-        )> }
-      )>, creator: Maybe<(
-        { __typename?: 'User' }
-        & Pick<User, 'id' | 'slug' | 'name' | 'profileImage'>
-      )> }
-    ) }
-  )> }
+      ) }
+    )> }
+  ) }
 );
 
 export type AquascapeFieldsFragment = (
