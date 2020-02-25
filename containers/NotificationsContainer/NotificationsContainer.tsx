@@ -1,8 +1,9 @@
 import React, {useEffect, useContext} from 'react'
-import {useQuery, useMutation} from 'react-apollo'
+import {useQuery, useMutation, useApolloClient} from 'react-apollo'
 import Truncate from 'react-truncate'
 import {isToday, isYesterday} from 'date-fns'
 
+import {UNREAD_NOTIFICATIONS_COUNT} from 'containers/NavigationContainer/queries'
 import {AuthContext} from 'providers/AuthenticationProvider'
 import NotificationBlock from 'components/molecules/NotificationBlock'
 import Notification from 'components/atoms/Notification'
@@ -54,6 +55,7 @@ const renderAquascapeLink = (id?: number, title?: string | null) => {
 
 const NotificationsContainer = () => {
     const {user} = useContext(AuthContext)
+    const apolloClient = useApolloClient()
 
     const [readNotificationsMutation] = useMutation<undefined, MutationReadNotificationsArgs>(
         READ_NOTIFICATIONS
@@ -64,7 +66,13 @@ const NotificationsContainer = () => {
     })
 
     useEffect(() => {
-        if (user) readNotificationsMutation({variables: {notifierId: user.id}})
+        if (user)
+            readNotificationsMutation({variables: {notifierId: user.id}}).then(() => {
+                apolloClient.writeQuery({
+                    query: UNREAD_NOTIFICATIONS_COUNT,
+                    data: {unreadNotificationsCount: 0},
+                })
+            })
     }, [])
 
     if (!data || error) return null
