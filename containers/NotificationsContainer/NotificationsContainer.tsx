@@ -107,6 +107,12 @@ const NotificationsContainer = () => {
                                                 active={item.status === NotificationStatus.Unread}
                                                 creator={item.notification.creator}
                                                 createdAt={Number(item.createdAt)}
+                                                imageHref={
+                                                    item.notification.creator?.slug &&
+                                                    createDynamicPath(routes.profile, {
+                                                        slug: item.notification.creator.slug,
+                                                    })
+                                                }
                                                 icon={
                                                     notificationIconMapping[item.notification.type]
                                                 }

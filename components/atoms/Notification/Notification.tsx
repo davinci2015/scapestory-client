@@ -1,45 +1,66 @@
 import React from 'react'
 import classnames from 'classnames'
-import * as timeago from 'timeago.js'
+import {format} from 'timeago.js'
 
 import {spaces, colors, typography} from 'styles'
 import UserImage, {UserImageSize} from 'components/atoms/UserImage'
 import {User} from 'graphql/generated/types'
+import Link from 'next/link'
 
 const classes = {
     root: 'notification',
 }
 
+type CreatorType = Pick<User, 'id' | 'slug' | 'name' | 'profileImage'> | null
+
 interface Props {
     createdAt: number
-    creator?: Pick<User, 'id' | 'slug' | 'name' | 'profileImage'> | null
+    creator?: CreatorType
     icon: React.ReactNode
     active?: boolean
+    imageHref?: string
 }
 
 type NotificationType = React.FunctionComponent<Props> & {
     classes: typeof classes
 }
 
-const Notification: NotificationType = ({active, children, createdAt, creator, icon}) => (
+const CreatorImage = ({creator}: {creator?: CreatorType}) => (
+    <UserImage
+        image={creator?.profileImage}
+        placeholder={creator?.name.charAt(0)}
+        size={UserImageSize.s42}
+    />
+)
+
+const Notification: NotificationType = ({
+    active,
+    children,
+    createdAt,
+    creator,
+    icon,
+    imageHref,
+}) => (
     <>
         <div
             className={classnames('notification', {
                 'notification--active': active,
             })}
         >
-            <div className="creator-image">
-                <UserImage
-                    image={creator?.profileImage}
-                    placeholder={creator?.name.charAt(0)}
-                    size={UserImageSize.s42}
-                />
-            </div>
+            {imageHref ? (
+                <Link href={imageHref}>
+                    <a className="creator-image">
+                        <CreatorImage creator={creator} />
+                    </a>
+                </Link>
+            ) : (
+                <CreatorImage creator={creator} />
+            )}
             <div>
                 <div className="content">{children}</div>
                 <div className="bottom">
                     {icon}
-                    <span className="date">{timeago.format(createdAt)}</span>
+                    <span className="date">{format(createdAt)}</span>
                 </div>
             </div>
         </div>
@@ -57,6 +78,10 @@ const Notification: NotificationType = ({active, children, createdAt, creator, i
             .notification .content {
                 font-weight: ${typography.fontWeight.semibold};
                 color: ${colors.SHADE_DEEP};
+            }
+
+            .notification .creator-image {
+                text-decoration: none;
             }
 
             .notification :global(.${UserImage.classes.root}) {
