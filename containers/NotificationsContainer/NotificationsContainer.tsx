@@ -11,7 +11,7 @@ import {Content, Grid} from 'components/core'
 import {Icon, FormattedMessage} from 'components/atoms'
 import {GridWidth} from 'components/core/Grid'
 import {NotificationStatus, NotificationType} from 'graphql/generated/types'
-import {NotificationsQuery} from 'graphql/generated/queries'
+import {NotificationsQuery, NotificationsQueryVariables} from 'graphql/generated/queries'
 import {MutationReadNotificationsArgs} from 'graphql/generated/mutations'
 import {renderFormattedMessageLink} from 'utils/render'
 import UserFollowIcon from 'assets/icons/user-plus.svg'
@@ -34,6 +34,8 @@ const titleMapping = [
     () => <FormattedMessage id="notification.title.yesterday" defaultMessage="Yesterday" />,
     () => <FormattedMessage id="notification.title.older" defaultMessage="Older" />,
 ]
+
+const NOTIFICATIONS_PER_LOAD = 20
 
 const renderCreatorLink = (name?: string, slug?: string) => {
     if (!slug) return 'User'
@@ -62,9 +64,13 @@ const NotificationsContainer = () => {
         READ_NOTIFICATIONS
     )
 
-    const {data, error} = useQuery<NotificationsQuery>(NOTIFICATIONS, {
-        fetchPolicy: 'cache-and-network',
-    })
+    const {data, error, fetchMore} = useQuery<NotificationsQuery, NotificationsQueryVariables>(
+        NOTIFICATIONS,
+        {
+            fetchPolicy: 'cache-and-network',
+            variables: {pagination: {limit: NOTIFICATIONS_PER_LOAD}},
+        }
+    )
 
     useEffect(() => {
         if (user)
@@ -75,6 +81,28 @@ const NotificationsContainer = () => {
                 })
             })
     }, [])
+
+    const loadMore = () => {
+        fetchMore({
+            variables: {
+                pagination: {
+                    limit: NOTIFICATIONS_PER_LOAD,
+                    offset: data?.notifications.length || 0,
+                },
+            },
+            updateQuery: (prev, options) => {
+                if (!options.fetchMoreResult) return prev
+
+                return {
+                    notifications: [
+                        ...prev.notifications,
+                        ...options.fetchMoreResult.notifications,
+                    ],
+                    __typename: prev.__typename,
+                }
+            },
+        })
+    }
 
     if (!data || error) return null
 

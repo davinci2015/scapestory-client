@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const NOTIFICATIONS = gql`
-    query notifications {
-        notifications {
+    query notifications($pagination: Pagination!) {
+        notifications(pagination: $pagination) {
             id
             status
             createdAt

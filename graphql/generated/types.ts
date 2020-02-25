@@ -560,6 +560,11 @@ export type QueryCommentsArgs = {
 };
 
 
+export type QueryNotificationsArgs = {
+  pagination: Pagination
+};
+
+
 export type QueryUserProfileSlugExistsArgs = {
   slug: Scalars['String']
 };

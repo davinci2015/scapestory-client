@@ -560,6 +560,11 @@ export type QueryCommentsArgs = {
 };
 
 
+export type QueryNotificationsArgs = {
+  pagination: Pagination
+};
+
+
 export type QueryUserProfileSlugExistsArgs = {
   slug: Scalars['String']
 };
@@ -895,7 +900,9 @@ export type UnreadNotificationsCountQuery = (
   & Pick<Query, 'unreadNotificationsCount'>
 );
 
-export type NotificationsQueryVariables = {};
+export type NotificationsQueryVariables = {
+  pagination: Pagination
+};
 
 
 export type NotificationsQuery = (
