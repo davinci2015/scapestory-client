@@ -20,6 +20,7 @@ import {colors} from 'styles'
 import config from 'config'
 import {NOTIFICATIONS} from './queries'
 import {READ_NOTIFICATIONS} from './mutations'
+import NotificationSection from 'components/sections/Notification'
 
 const notificationIconMapping = {
     [NotificationType.Like]: <Icon d={Icon.HEART_OUTLINE} color={colors.SHADE_DEEP} />,
@@ -31,7 +32,7 @@ const notificationIconMapping = {
 const titleMapping = [
     () => <FormattedMessage id="notification.title.today" defaultMessage="Today" />,
     () => <FormattedMessage id="notification.title.yesterday" defaultMessage="Yesterday" />,
-    () => <FormattedMessage id="notification.title.other" defaultMessage="Other" />,
+    () => <FormattedMessage id="notification.title.older" defaultMessage="Older" />,
 ]
 
 const renderCreatorLink = (name?: string, slug?: string) => {
@@ -80,118 +81,123 @@ const NotificationsContainer = () => {
     return (
         <Content>
             <Grid width={GridWidth.SMALL}>
-                {data.notifications
-                    .reduce(
-                        (acc, item) => {
-                            if (isToday(Number(item.createdAt))) acc[0].push(item)
-                            else if (isYesterday(Number(item.createdAt))) acc[1].push(item)
-                            else acc[2].push(item)
+                <NotificationSection>
+                    {data.notifications
+                        .reduce(
+                            (acc, item) => {
+                                if (isToday(Number(item.createdAt))) acc[0].push(item)
+                                else if (isYesterday(Number(item.createdAt))) acc[1].push(item)
+                                else acc[2].push(item)
 
-                            return acc
-                        },
-                        [[], [], []] as [
-                            NotificationsQuery['notifications'],
-                            NotificationsQuery['notifications'],
-                            NotificationsQuery['notifications']
-                        ]
-                    )
-                    .map(
-                        (notifications, index: number) =>
-                            Boolean(notifications.length) && (
-                                <NotificationBlock key={index} title={titleMapping[index]()}>
-                                    {notifications.map(item => (
-                                        <Notification
-                                            key={item.id}
-                                            active={item.status === NotificationStatus.Unread}
-                                            creator={item.notification.creator}
-                                            createdAt={Number(item.createdAt)}
-                                            icon={notificationIconMapping[item.notification.type]}
-                                        >
-                                            {item.notification.type === NotificationType.Like &&
-                                                item.notification.like?.aquascape && (
+                                return acc
+                            },
+                            [[], [], []] as [
+                                NotificationsQuery['notifications'],
+                                NotificationsQuery['notifications'],
+                                NotificationsQuery['notifications']
+                            ]
+                        )
+                        .map(
+                            (notifications, index: number) =>
+                                Boolean(notifications.length) && (
+                                    <NotificationBlock key={index} title={titleMapping[index]()}>
+                                        {notifications.map(item => (
+                                            <Notification
+                                                key={item.id}
+                                                active={item.status === NotificationStatus.Unread}
+                                                creator={item.notification.creator}
+                                                createdAt={Number(item.createdAt)}
+                                                icon={
+                                                    notificationIconMapping[item.notification.type]
+                                                }
+                                            >
+                                                {item.notification.type === NotificationType.Like &&
+                                                    item.notification.like?.aquascape && (
+                                                        <FormattedMessage
+                                                            id="notification.like.aquascape"
+                                                            defaultMessage="{creator} liked your {aquascape}"
+                                                            values={{
+                                                                creator: renderCreatorLink(
+                                                                    item.notification.creator?.name,
+                                                                    item.notification.creator?.slug
+                                                                ),
+                                                                aquascape: renderAquascapeLink(
+                                                                    item.notification.like
+                                                                        ?.aquascape?.id,
+                                                                    item.notification.like
+                                                                        ?.aquascape?.title
+                                                                ),
+                                                            }}
+                                                        />
+                                                    )}
+
+                                                {item.notification.type === NotificationType.Like &&
+                                                    item.notification.like?.comment && (
+                                                        <FormattedMessage
+                                                            id="notification.like.comment"
+                                                            defaultMessage="{creator} liked your comment in {aquascape}"
+                                                            values={{
+                                                                creator: renderCreatorLink(
+                                                                    item.notification.creator?.name,
+                                                                    item.notification.creator?.slug
+                                                                ),
+                                                                aquascape: renderAquascapeLink(
+                                                                    item.notification.like
+                                                                        ?.aquascape?.id,
+                                                                    item.notification.like
+                                                                        ?.aquascape?.title
+                                                                ),
+                                                            }}
+                                                        />
+                                                    )}
+
+                                                {item.notification.type ===
+                                                    NotificationType.Follow && (
                                                     <FormattedMessage
-                                                        id="notification.like.aquascape"
-                                                        defaultMessage="{creator} liked your {aquascape}"
+                                                        id="notification.follow"
+                                                        defaultMessage="{creator} started following you!"
                                                         values={{
                                                             creator: renderCreatorLink(
                                                                 item.notification.creator?.name,
                                                                 item.notification.creator?.slug
-                                                            ),
-                                                            aquascape: renderAquascapeLink(
-                                                                item.notification.like?.aquascape
-                                                                    ?.id,
-                                                                item.notification.like?.aquascape
-                                                                    ?.title
                                                             ),
                                                         }}
                                                     />
                                                 )}
 
-                                            {item.notification.type === NotificationType.Like &&
-                                                item.notification.like?.comment && (
-                                                    <FormattedMessage
-                                                        id="notification.like.comment"
-                                                        defaultMessage="{creator} liked your comment in {aquascape}"
-                                                        values={{
-                                                            creator: renderCreatorLink(
-                                                                item.notification.creator?.name,
-                                                                item.notification.creator?.slug
-                                                            ),
-                                                            aquascape: renderAquascapeLink(
-                                                                item.notification.like?.aquascape
-                                                                    ?.id,
-                                                                item.notification.like?.aquascape
-                                                                    ?.title
-                                                            ),
-                                                        }}
-                                                    />
+                                                {item.notification.type ===
+                                                    NotificationType.Comment && (
+                                                    <>
+                                                        <FormattedMessage
+                                                            id="notification.comment"
+                                                            defaultMessage="{creator} commented on your {aquascape}"
+                                                            values={{
+                                                                creator: renderCreatorLink(
+                                                                    item.notification.creator?.name,
+                                                                    item.notification.creator?.slug
+                                                                ),
+                                                                aquascape: renderAquascapeLink(
+                                                                    item.notification.comment
+                                                                        ?.aquascape?.id,
+                                                                    item.notification.comment
+                                                                        ?.aquascape?.title
+                                                                ),
+                                                            }}
+                                                        />
+                                                        <br />
+                                                        &quot;
+                                                        <Truncate lines={1} trimWhitespace>
+                                                            {item.notification.comment?.content}
+                                                        </Truncate>
+                                                        &quot;
+                                                    </>
                                                 )}
-
-                                            {item.notification.type === NotificationType.Follow && (
-                                                <FormattedMessage
-                                                    id="notification.follow"
-                                                    defaultMessage="{creator} started following you!"
-                                                    values={{
-                                                        creator: renderCreatorLink(
-                                                            item.notification.creator?.name,
-                                                            item.notification.creator?.slug
-                                                        ),
-                                                    }}
-                                                />
-                                            )}
-
-                                            {item.notification.type ===
-                                                NotificationType.Comment && (
-                                                <>
-                                                    <FormattedMessage
-                                                        id="notification.comment"
-                                                        defaultMessage="{creator} commented on your {aquascape}"
-                                                        values={{
-                                                            creator: renderCreatorLink(
-                                                                item.notification.creator?.name,
-                                                                item.notification.creator?.slug
-                                                            ),
-                                                            aquascape: renderAquascapeLink(
-                                                                item.notification.comment?.aquascape
-                                                                    ?.id,
-                                                                item.notification.comment?.aquascape
-                                                                    ?.title
-                                                            ),
-                                                        }}
-                                                    />
-                                                    <br />
-                                                    &quot;
-                                                    <Truncate lines={1} trimWhitespace>
-                                                        {item.notification.comment?.content}
-                                                    </Truncate>
-                                                    &quot;
-                                                </>
-                                            )}
-                                        </Notification>
-                                    ))}
-                                </NotificationBlock>
-                            )
-                    )}
+                                            </Notification>
+                                        ))}
+                                    </NotificationBlock>
+                                )
+                        )}
+                </NotificationSection>
             </Grid>
         </Content>
     )
