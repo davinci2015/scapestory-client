@@ -192,6 +192,34 @@ const NotificationsContainer = () => {
                                                         &quot;
                                                     </>
                                                 )}
+
+                                                {item.notification.type ===
+                                                    NotificationType.Reply && (
+                                                    <>
+                                                        <FormattedMessage
+                                                            id="notification.reply"
+                                                            defaultMessage="{creator} replied to your comment on {aquascape}"
+                                                            values={{
+                                                                creator: renderCreatorLink(
+                                                                    item.notification.creator?.name,
+                                                                    item.notification.creator?.slug
+                                                                ),
+                                                                aquascape: renderAquascapeLink(
+                                                                    item.notification.comment
+                                                                        ?.aquascape?.id,
+                                                                    item.notification.comment
+                                                                        ?.aquascape?.title
+                                                                ),
+                                                            }}
+                                                        />
+                                                        <br />
+                                                        &quot;
+                                                        <Truncate lines={1} trimWhitespace>
+                                                            {item.notification.comment?.content}
+                                                        </Truncate>
+                                                        &quot;
+                                                    </>
+                                                )}
                                             </Notification>
                                         ))}
                                     </NotificationBlock>
