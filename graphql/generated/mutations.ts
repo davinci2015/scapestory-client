@@ -521,6 +521,7 @@ export type Query = {
   brands: Array<Brand>,
   comments: Array<Comment>,
   notifications: Array<Notifier>,
+  unreadNotificationsCount: Scalars['Int'],
   userProfileSlugExists?: Maybe<Scalars['Boolean']>,
 };
 

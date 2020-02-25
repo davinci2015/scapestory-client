@@ -521,6 +521,7 @@ export type Query = {
   brands: Array<Brand>,
   comments: Array<Comment>,
   notifications: Array<Notifier>,
+  unreadNotificationsCount: Scalars['Int'],
   userProfileSlugExists?: Maybe<Scalars['Boolean']>,
 };
 
@@ -884,6 +885,14 @@ export type AquascapeDetailsEditQuery = (
       & CommentFieldsFragment
     )> }
   )> }
+);
+
+export type UnreadNotificationsCountQueryVariables = {};
+
+
+export type UnreadNotificationsCountQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'unreadNotificationsCount'>
 );
 
 export type NotificationsQueryVariables = {};
