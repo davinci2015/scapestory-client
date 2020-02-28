@@ -190,7 +190,7 @@ const Navigation = ({
 
                 .right :global(.${UserImage.classes.root}) {
                     flex: 0 0 auto;
-                    margin-left: ${spaces.s18};
+                    margin-left: 0;
                     cursor: pointer;
                 }
 
@@ -206,7 +206,7 @@ const Navigation = ({
 
                 .right .bell-btn {
                     position: relative;
-                    margin: 0 ${spaces.s36};
+                    margin: 0 ${spaces.s24};
                 }
 
                 .right .bell-btn > span {
@@ -252,9 +252,12 @@ const Navigation = ({
 
                     .right :global(.${UserImage.classes.root}) {
                         flex: 0 0 auto;
-                        margin-left: 0;
                         margin-right: ${spaces.s36};
                         cursor: pointer;
+                    }
+
+                    .right .bell-btn {
+                        margin: 0 ${spaces.s36};
                     }
                 }
             `}</style>
