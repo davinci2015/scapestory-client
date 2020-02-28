@@ -183,9 +183,9 @@ const NotificationsContainer = () => {
                                                                     item.notification.creator?.slug
                                                                 ),
                                                                 aquascape: renderAquascapeLink(
-                                                                    item.notification.like
+                                                                    item.notification.like.comment
                                                                         ?.aquascape?.id,
-                                                                    item.notification.like
+                                                                    item.notification.like.comment
                                                                         ?.aquascape?.title
                                                                 ),
                                                             }}
