@@ -95,13 +95,13 @@ const NotificationsContainer = () => {
 
                 return {
                     notifications: {
-                        count: options.fetchMoreResult.notifications?.count,
+                        count: options.fetchMoreResult.notifications.count,
                         rows: [
                             ...prev.notifications.rows,
                             ...options.fetchMoreResult.notifications.rows,
                         ],
+                        __typename: prev.notifications.__typename,
                     },
-                    __typename: prev.__typename,
                 }
             },
         })
