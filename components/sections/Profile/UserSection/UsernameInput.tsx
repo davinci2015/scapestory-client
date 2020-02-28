@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from 'react'
-import {colors, typography} from 'styles'
+import {colors, typography, media} from 'styles'
 
 interface Props {
     username: string
@@ -7,7 +7,15 @@ interface Props {
     placeholder: string
 }
 
-const UsernameInput: React.FunctionComponent<Props> = ({onChange, placeholder, username}) => (
+const classes = {
+    root: 'username-input',
+}
+
+type UsernameInputType = React.FunctionComponent<Props> & {
+    classes: typeof classes
+}
+
+const UsernameInput: UsernameInputType = ({onChange, placeholder, username}) => (
     <>
         <input
             className="username-input"
@@ -23,7 +31,7 @@ const UsernameInput: React.FunctionComponent<Props> = ({onChange, placeholder, u
                 padding-top: 2px;
 
                 color: ${colors.WHITE};
-                font-size: ${typography.fontSize.fs28};
+                font-size: ${typography.fontSize.fs20};
                 font-weight: ${typography.fontWeight.extraBold};
                 font-family: ${typography.fontFamily.PRIMARY};
 
@@ -32,8 +40,16 @@ const UsernameInput: React.FunctionComponent<Props> = ({onChange, placeholder, u
                 outline: 0;
                 border-bottom: 2px solid ${colors.SHADE_EXTRA_LIGHT};
             }
+
+            @media ${media.up('medium')} {
+                .username-input {
+                    font-size: ${typography.fontSize.fs28};
+                }
+            }
         `}</style>
     </>
 )
+
+UsernameInput.classes = classes
 
 export default UsernameInput
