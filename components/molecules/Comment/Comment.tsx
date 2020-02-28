@@ -14,6 +14,7 @@ const classes = {
 }
 
 interface Props {
+    isMyComment?: boolean
     comment: CommentFieldsFragment
     isLiked: boolean
     likesCount: number
@@ -30,6 +31,7 @@ type CardInterface = React.FunctionComponent<Props> & {
 const Comment: CardInterface = ({
     comment,
     isLiked,
+    isMyComment,
     likesCount,
     onLike,
     onRemove,
@@ -63,17 +65,19 @@ const Comment: CardInterface = ({
                                 <div className="divider"></div>
                             </Hide>
                             <div>
-                                <span
-                                    onClick={onLikeClick}
-                                    className={classnames('action', {
-                                        'action--active': isLiked,
-                                    })}
-                                >
-                                    <FormattedMessage
-                                        id="comment.action.like"
-                                        defaultMessage="Like"
-                                    />
-                                </span>
+                                {!isMyComment && (
+                                    <span
+                                        onClick={onLikeClick}
+                                        className={classnames('action', {
+                                            'action--active': isLiked,
+                                        })}
+                                    >
+                                        <FormattedMessage
+                                            id="comment.action.like"
+                                            defaultMessage="Like"
+                                        />
+                                    </span>
+                                )}
                                 {!comment.parentCommentId && (
                                     <span onClick={onReply} className="action">
                                         <FormattedMessage
@@ -82,7 +86,7 @@ const Comment: CardInterface = ({
                                         />
                                     </span>
                                 )}
-                                {onRemove && (
+                                {onRemove && isMyComment && (
                                     <span className="action" onClick={onRemoveClick}>
                                         <FormattedMessage
                                             id="comment.action.remove"
