@@ -21,6 +21,7 @@ import config from 'config'
 import {NOTIFICATIONS} from './queries'
 import {READ_NOTIFICATIONS} from './mutations'
 import NotificationSection from 'components/sections/Notification'
+import NotificationPlaceholder from 'components/sections/Notification/NotificationPlaceholder'
 
 const notificationIconMapping = {
     [NotificationType.Like]: <Icon d={Icon.HEART_OUTLINE} color={colors.SHADE_DEEP} />,
@@ -115,6 +116,7 @@ const NotificationsContainer = () => {
         <Content>
             <Grid width={GridWidth.SMALL}>
                 <NotificationSection loadMore={canLoadMore ? loadMore : undefined}>
+                    {data.notifications.count === 0 && <NotificationPlaceholder />}
                     {data.notifications.rows
                         .reduce(
                             (acc, item) => {
