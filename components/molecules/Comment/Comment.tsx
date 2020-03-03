@@ -14,6 +14,7 @@ const classes = {
 }
 
 interface Props {
+    isMyComment?: boolean
     comment: CommentFieldsFragment
     isLiked: boolean
     likesCount: number
@@ -30,6 +31,7 @@ type CardInterface = React.FunctionComponent<Props> & {
 const Comment: CardInterface = ({
     comment,
     isLiked,
+    isMyComment,
     likesCount,
     onLike,
     onRemove,
@@ -63,17 +65,19 @@ const Comment: CardInterface = ({
                                 <div className="divider"></div>
                             </Hide>
                             <div>
-                                <span
-                                    onClick={onLikeClick}
-                                    className={classnames('action', {
-                                        'action--active': isLiked,
-                                    })}
-                                >
-                                    <FormattedMessage
-                                        id="comment.action.like"
-                                        defaultMessage="Like"
-                                    />
-                                </span>
+                                {!isMyComment && (
+                                    <span
+                                        onClick={onLikeClick}
+                                        className={classnames('action', {
+                                            'action--active': isLiked,
+                                        })}
+                                    >
+                                        <FormattedMessage
+                                            id="comment.action.like"
+                                            defaultMessage="Like"
+                                        />
+                                    </span>
+                                )}
                                 {!comment.parentCommentId && (
                                     <span onClick={onReply} className="action">
                                         <FormattedMessage
@@ -82,7 +86,7 @@ const Comment: CardInterface = ({
                                         />
                                     </span>
                                 )}
-                                {onRemove && (
+                                {onRemove && isMyComment && (
                                     <span className="action" onClick={onRemoveClick}>
                                         <FormattedMessage
                                             id="comment.action.remove"
@@ -94,7 +98,10 @@ const Comment: CardInterface = ({
                         </div>
                         <div className="info">
                             {!comment.parentCommentId && !!repliesCount && (
-                                <div className="info-block" role="presentation" onClick={onReply}>
+                                <button
+                                    className="info-block info-block--clickable"
+                                    onClick={onReply}
+                                >
                                     <span>{repliesCount}</span>
                                     <Icon
                                         d={Icon.REPLY}
@@ -102,17 +109,19 @@ const Comment: CardInterface = ({
                                         size={20}
                                         color={colors.SHADE_MIDDLE}
                                     />
-                                </div>
+                                </button>
                             )}
                             {!!likesCount && (
-                                <div
-                                    className="info-block"
+                                <button
+                                    className={classnames('info-block', {
+                                        'info-block--clickable': isMyComment,
+                                    })}
                                     role="presentation"
-                                    onClick={onLikeClick}
+                                    onClick={isMyComment ? onLikeClick : undefined}
                                 >
                                     <span>{likesCount}</span>
                                     <Icon d={Icon.HEART} size={20} color={colors.SHADE_MIDDLE} />
-                                </div>
+                                </button>
                             )}
                         </div>
                     </div>
@@ -204,7 +213,14 @@ const Comment: CardInterface = ({
                 }
 
                 .bottom .info-block {
+                    border: 0;
+                    outline: 0;
+                    background: transparent;
+                    padding: 0;
                     margin-right: ${spaces.s12};
+                }
+
+                .bottom .info-block--clickable {
                     cursor: pointer;
                 }
 

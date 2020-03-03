@@ -11,6 +11,7 @@ export default {
     aquascapeDetailsEdit: '/aquascape/edit/[title]/[id]',
     profile: '/profile/[slug]',
     editProfile: '/profile/edit/[slug]',
+    notifications: '/notifications',
 }
 
 export const getAquascapeDetailsSlug = (title: string) =>

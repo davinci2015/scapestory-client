@@ -10,8 +10,8 @@ import {spaces} from 'styles'
 import routes, {createDynamicPath} from 'routes'
 import {MutationRegisterArgs} from 'graphql/generated/queries'
 import {User} from 'graphql/generated/types'
-import {renderInnerLink} from '../RegistrationModal'
 import logger from 'services/logger'
+import {renderFormattedMessageLink} from 'utils/render'
 
 const inputKeys = {
     name: 'name',
@@ -210,8 +210,8 @@ const RegistrationForm: React.FunctionComponent<Props> = () => {
                         id="registration.terms_i_accept"
                         defaultMessage="I accept <terms>Terms & Conditions</terms> and <privacy>Privacy Policy</privacy>"
                         values={{
-                            terms: renderInnerLink(routes.termsAndConditions),
-                            privacy: renderInnerLink(routes.privacyPolicy),
+                            terms: renderFormattedMessageLink(routes.termsAndConditions),
+                            privacy: renderFormattedMessageLink(routes.privacyPolicy),
                         }}
                     />
                 </Checkbox>

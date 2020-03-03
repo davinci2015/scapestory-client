@@ -45,8 +45,9 @@ const CommentsBlock: React.FunctionComponent<Props> = ({
             isLiked={comment.likes.some(like => like.userId === userId)}
             comment={comment}
             onReply={toggleChildComments}
-            onRemove={comment.user.id === userId ? removeComment : undefined}
             onLike={toggleLike}
+            onRemove={removeComment}
+            isMyComment={comment.user.id === userId}
         />
     )
 

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {spaces, media, colors} from 'styles'
+import UsernameInput from './UsernameInput'
 
 interface Props {
     userImage: React.ReactNode
@@ -44,6 +45,10 @@ const UserSection: React.FunctionComponent<Props> = ({about, stats, userImage, u
                 margin-top: ${spaces.s20};
             }
 
+            .section :global(.${UsernameInput.classes.root}) {
+                color: ${colors.BLACK};
+            }
+
             .user-info__about {
                 margin: ${spaces.s60} 0;
             }
@@ -73,6 +78,10 @@ const UserSection: React.FunctionComponent<Props> = ({about, stats, userImage, u
 
                 .section .user-info {
                     margin-top: ${spaces.s36};
+                }
+
+                .section :global(.${UsernameInput.classes.root}) {
+                    color: ${colors.WHITE};
                 }
             }
         `}</style>

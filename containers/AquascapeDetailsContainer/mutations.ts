@@ -2,12 +2,14 @@ import gql from 'graphql-tag'
 
 export const ADD_COMMENT = gql`
     mutation AddComment(
+        $aquascapeId: Int!
         $entity: CommentEntityType!
         $entityId: Int!
         $content: String!
         $parentCommentId: Int
     ) {
         addComment(
+            aquascapeId: $aquascapeId
             entity: $entity
             entityId: $entityId
             content: $content

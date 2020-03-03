@@ -1,5 +1,6 @@
 import React from 'react'
 import {toast} from 'react-toastify'
+import Link from 'next/link'
 
 import {AquascapeCard} from 'components/molecules'
 import {Grid} from 'components/core'
@@ -43,3 +44,9 @@ export const showUploadImageToast = (count: number = 1) =>
             autoClose: false,
         }
     )
+
+export const renderFormattedMessageLink = (href: string) => (text: string) => (
+    <Link href={href}>
+        <a>{text}</a>
+    </Link>
+)

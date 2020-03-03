@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const LIKE = gql`
-    mutation like($entity: LikeEntityType!, $entityId: Int!) {
-        like(entity: $entity, entityId: $entityId) {
+    mutation like($aquascapeId: Int!, $entity: LikeEntityType!, $entityId: Int!) {
+        like(aquascapeId: $aquascapeId, entity: $entity, entityId: $entityId) {
             id
             aquascapeId
             aquascapeImageId

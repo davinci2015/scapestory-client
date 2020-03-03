@@ -10,6 +10,7 @@ const classes = {
 export enum UserImageSize {
     s24,
     s36,
+    s42,
     s90,
     s148,
 }
@@ -29,6 +30,7 @@ interface Props {
 const sizeMapping = {
     [UserImageSize.s24]: '24px',
     [UserImageSize.s36]: '36px',
+    [UserImageSize.s42]: '42px',
     [UserImageSize.s90]: '90px',
     [UserImageSize.s148]: '148px',
 }
@@ -36,6 +38,7 @@ const sizeMapping = {
 const borderSizeMapping = {
     [UserImageSize.s24]: '1px',
     [UserImageSize.s36]: '1px',
+    [UserImageSize.s42]: '2px',
     [UserImageSize.s90]: '3px',
     [UserImageSize.s148]: '3px',
 }
@@ -43,6 +46,7 @@ const borderSizeMapping = {
 const placeholderFontSizeMapping = {
     [UserImageSize.s24]: typography.fontSize.fs14,
     [UserImageSize.s36]: typography.fontSize.fs20,
+    [UserImageSize.s42]: typography.fontSize.fs28,
     [UserImageSize.s90]: typography.fontSize.fs38,
     [UserImageSize.s148]: typography.fontSize.fs51,
 }

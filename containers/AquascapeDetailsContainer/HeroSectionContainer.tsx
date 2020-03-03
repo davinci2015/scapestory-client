@@ -77,6 +77,7 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         const mutateLike = aquascape.isLikedByMe ? dislike : like
         mutateLike({
             variables: {
+                aquascapeId: aquascape.id,
                 entity: LikeEntityType.Aquascape,
                 entityId: aquascape.id,
             },
@@ -108,7 +109,7 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
             createDynamicPath(routes.aquascapeDetailsEdit, {
                 id: aquascape.id.toString(),
                 title: getAquascapeDetailsSlug(
-                    aquascape.title || config.EDIT_AQUASCAPE_URL_TITLE_PLACEHOLDER
+                    aquascape.title || config.AQUASCAPE_URL_TITLE_PLACEHOLDER
                 ),
             })
         )

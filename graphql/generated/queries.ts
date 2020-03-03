@@ -94,6 +94,7 @@ export type Co2 = {
 
 export type Comment = {
    __typename?: 'Comment',
+  aquascape?: Maybe<Aquascape>,
   id: Scalars['Int'],
   createdAt: Scalars['String'],
   content: Scalars['String'],
@@ -205,6 +206,8 @@ export type Like = {
   aquascapeImageId?: Maybe<Scalars['Int']>,
   aquascapeId?: Maybe<Scalars['Int']>,
   commentId?: Maybe<Scalars['Int']>,
+  aquascape?: Maybe<Aquascape>,
+  comment?: Maybe<Comment>,
 };
 
 export enum LikeEntityType {
@@ -252,6 +255,7 @@ export type Mutation = {
   removeAquascape: Scalars['Int'],
   addComment?: Maybe<Comment>,
   removeComment?: Maybe<Comment>,
+  readNotifications?: Maybe<Scalars['Int']>,
   followUser?: Maybe<User>,
   unfollowUser?: Maybe<User>,
   login?: Maybe<AuthPayload>,
@@ -344,6 +348,7 @@ export type MutationRemoveLivestockArgs = {
 
 
 export type MutationLikeArgs = {
+  aquascapeId: Scalars['Int'],
   entity: LikeEntityType,
   entityId: Scalars['Int']
 };
@@ -385,6 +390,7 @@ export type MutationRemoveAquascapeArgs = {
 
 
 export type MutationAddCommentArgs = {
+  aquascapeId: Scalars['Int'],
   entity: CommentEntityType,
   entityId: Scalars['Int'],
   content: Scalars['String'],
@@ -394,6 +400,11 @@ export type MutationAddCommentArgs = {
 
 export type MutationRemoveCommentArgs = {
   id: Scalars['Int']
+};
+
+
+export type MutationReadNotificationsArgs = {
+  notifierId: Scalars['Int']
 };
 
 
@@ -439,6 +450,42 @@ export type MutationVisitAquascapeArgs = {
   aquascapeId: Scalars['Int']
 };
 
+export type Notification = {
+   __typename?: 'Notification',
+  creator?: Maybe<User>,
+  like?: Maybe<Like>,
+  comment?: Maybe<Comment>,
+  id: Scalars['Int'],
+  type: NotificationType,
+  createdAt: Scalars['Int'],
+};
+
+export type NotificationsResult = {
+   __typename?: 'NotificationsResult',
+  rows: Array<Notifier>,
+  count: Scalars['Int'],
+};
+
+export enum NotificationStatus {
+  Read = 'READ',
+  Unread = 'UNREAD'
+}
+
+export enum NotificationType {
+  Like = 'LIKE',
+  Follow = 'FOLLOW',
+  Comment = 'COMMENT',
+  Reply = 'REPLY'
+}
+
+export type Notifier = {
+   __typename?: 'Notifier',
+  id: Scalars['Int'],
+  notification: Notification,
+  status: NotificationStatus,
+  createdAt: Scalars['String'],
+};
+
 export type Pagination = {
   limit?: Maybe<Scalars['Int']>,
   cursor?: Maybe<Scalars['String']>,
@@ -479,6 +526,8 @@ export type Query = {
   aquascape?: Maybe<Aquascape>,
   brands: Array<Brand>,
   comments: Array<Comment>,
+  notifications: NotificationsResult,
+  unreadNotificationsCount: Scalars['Int'],
   userProfileSlugExists?: Maybe<Scalars['Boolean']>,
 };
 
@@ -513,6 +562,11 @@ export type QueryAquascapeArgs = {
 export type QueryCommentsArgs = {
   entity: CommentEntityType,
   entityId: Scalars['Int'],
+  pagination: Pagination
+};
+
+
+export type QueryNotificationsArgs = {
   pagination: Pagination
 };
 
@@ -842,6 +896,60 @@ export type AquascapeDetailsEditQuery = (
       & CommentFieldsFragment
     )> }
   )> }
+);
+
+export type UnreadNotificationsCountQueryVariables = {};
+
+
+export type UnreadNotificationsCountQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'unreadNotificationsCount'>
+);
+
+export type NotificationsQueryVariables = {
+  pagination: Pagination
+};
+
+
+export type NotificationsQuery = (
+  { __typename?: 'Query' }
+  & { notifications: (
+    { __typename?: 'NotificationsResult' }
+    & Pick<NotificationsResult, 'count'>
+    & { rows: Array<(
+      { __typename?: 'Notifier' }
+      & Pick<Notifier, 'id' | 'status' | 'createdAt'>
+      & { notification: (
+        { __typename?: 'Notification' }
+        & Pick<Notification, 'id' | 'type'>
+        & { like: Maybe<(
+          { __typename?: 'Like' }
+          & Pick<Like, 'id'>
+          & { aquascape: Maybe<(
+            { __typename?: 'Aquascape' }
+            & Pick<Aquascape, 'id' | 'title'>
+          )>, comment: Maybe<(
+            { __typename?: 'Comment' }
+            & Pick<Comment, 'id'>
+            & { aquascape: Maybe<(
+              { __typename?: 'Aquascape' }
+              & Pick<Aquascape, 'id' | 'title'>
+            )> }
+          )> }
+        )>, comment: Maybe<(
+          { __typename?: 'Comment' }
+          & Pick<Comment, 'id' | 'content'>
+          & { aquascape: Maybe<(
+            { __typename?: 'Aquascape' }
+            & Pick<Aquascape, 'id' | 'title'>
+          )> }
+        )>, creator: Maybe<(
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'slug' | 'name' | 'profileImage'>
+        )> }
+      ) }
+    )> }
+  ) }
 );
 
 export type AquascapeFieldsFragment = (
