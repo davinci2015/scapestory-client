@@ -80,6 +80,7 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
 
         addComment({
             variables: {
+                aquascapeId,
                 entity: CommentEntityType.Aquascape,
                 entityId: aquascapeId,
                 content: comment.trim(),
@@ -93,6 +94,7 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
 
         addComment({
             variables: {
+                aquascapeId,
                 entity: CommentEntityType.Aquascape,
                 entityId: aquascapeId,
                 content: reply.trim(),
@@ -111,6 +113,7 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
 
             const alreadyLiked = comment.likes.some(like => like.userId === user.id)
             const variables = {
+                aquascapeId,
                 entity: LikeEntityType.Comment,
                 entityId: comment.id,
             }

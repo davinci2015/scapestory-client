@@ -2,21 +2,21 @@ import React from 'react'
 import Link from 'next/link'
 import classnames from 'classnames'
 
-import * as styles from 'styles'
 import useScrollPosition from 'hooks/useScrollPosition'
-import {Button, FormattedMessage, UserImage, Paragraph} from 'components/atoms'
+import {Button, FormattedMessage, UserImage, Paragraph, Icon} from 'components/atoms'
 
 import NavLink from './NavLink'
 import routes, {createDynamicPath} from 'routes'
 import {User_ProfileQuery} from 'graphql/generated/queries'
 import {UserImageSize} from 'components/atoms/UserImage/UserImage'
-import {media, spaces, breakpoints} from 'styles'
+import {media, spaces, breakpoints, typography, colors, zIndex} from 'styles'
 import {Hide} from 'components/core'
 import {pxToNumber} from 'utils/converter'
 import AddAquascapeButton from '../AddAquascapeButton'
 
 interface Props {
     user?: User_ProfileQuery['me']
+    unreadNotificationsCount: number
     isAuthenticated: boolean
     openLoginModal: VoidFunction
     openRegisterModal: VoidFunction
@@ -28,6 +28,7 @@ export const navigationHeight = {
     SLIM: '66px',
 }
 
+const maxNotificationsCount = 99
 const scrollOffset = 80
 
 const Navigation = ({
@@ -35,6 +36,7 @@ const Navigation = ({
     onCreateAquascape,
     openLoginModal,
     openRegisterModal,
+    unreadNotificationsCount,
     user,
 }: Props) => {
     const {position} = useScrollPosition()
@@ -70,18 +72,14 @@ const Navigation = ({
                         <>
                             <Hide upTo={pxToNumber(breakpoints.medium)}>
                                 <div className="text">
-                                    <Paragraph as="span" color={styles.colors.SHADE_DEEP}>
+                                    <Paragraph as="span" color={colors.SHADE_DEEP}>
                                         <FormattedMessage
                                             id="navigation.already_member"
                                             defaultMessage="Already a member?"
                                         />
                                     </Paragraph>
                                     <div className="signup" onClick={openLoginModal}>
-                                        <Paragraph
-                                            as="span"
-                                            color={styles.colors.PRIMARY}
-                                            weight="bold"
-                                        >
+                                        <Paragraph as="span" color={colors.PRIMARY} weight="bold">
                                             <FormattedMessage
                                                 id="navigation.login"
                                                 defaultMessage="Login"
@@ -111,18 +109,41 @@ const Navigation = ({
                     </Hide>
 
                     {isAuthenticated && user && (
-                        <NavLink
-                            as={createDynamicPath(routes.profile, {slug: user.slug})}
-                            href={routes.profile}
-                        >
-                            <div>
-                                <UserImage
-                                    size={UserImageSize.s36}
-                                    image={user.profileImage}
-                                    placeholder={user.name.charAt(0)}
-                                />
-                            </div>
-                        </NavLink>
+                        <>
+                            <Link href={routes.notifications}>
+                                <a className="bell-btn">
+                                    {unreadNotificationsCount > 0 && (
+                                        <span>
+                                            {unreadNotificationsCount > maxNotificationsCount
+                                                ? maxNotificationsCount
+                                                : unreadNotificationsCount}
+                                        </span>
+                                    )}
+                                    <Icon
+                                        d={Icon.BELL}
+                                        color={
+                                            unreadNotificationsCount > 0
+                                                ? colors.PRIMARY
+                                                : colors.SHADE_MIDDLE
+                                        }
+                                        size={30}
+                                        viewBox="0 0 34 34"
+                                    />
+                                </a>
+                            </Link>
+                            <NavLink
+                                as={createDynamicPath(routes.profile, {slug: user.slug})}
+                                href={routes.profile}
+                            >
+                                <div>
+                                    <UserImage
+                                        size={UserImageSize.s36}
+                                        image={user.profileImage}
+                                        placeholder={user.name.charAt(0)}
+                                    />
+                                </div>
+                            </NavLink>
+                        </>
                     )}
                 </div>
             </div>
@@ -135,8 +156,8 @@ const Navigation = ({
                     right: 0;
                     height: ${navigationHeight.DEFAULT};
 
-                    z-index: ${styles.zIndex.MEDIUM};
-                    background-color: ${styles.colors.WHITE};
+                    z-index: ${zIndex.MEDIUM};
+                    background-color: ${colors.WHITE};
                     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
                     transition: height 180ms ease-in-out;
                 }
@@ -169,23 +190,48 @@ const Navigation = ({
 
                 .right :global(.${UserImage.classes.root}) {
                     flex: 0 0 auto;
-                    margin-left: ${spaces.s18};
+                    margin-left: 0;
                     cursor: pointer;
                 }
 
                 .right .sign-up-btn {
                     flex: 0;
-                    margin-left: ${styles.spaces.s12};
-                    margin-right: ${styles.spaces.s12};
+                    margin-left: ${spaces.s12};
+                    margin-right: ${spaces.s12};
                 }
 
                 .right .text {
                     flex: 1 1 100%;
                 }
 
+                .right .bell-btn {
+                    position: relative;
+                    margin: 0 ${spaces.s24};
+                }
+
+                .right .bell-btn > span {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    position: absolute;
+                    right: -9px;
+                    top: -3px;
+                    width: 22px;
+                    height: 22px;
+
+                    font-size: ${typography.fontSize.fs11};
+                    font-weight: ${typography.fontWeight.bold};
+                    color: ${colors.WHITE};
+
+                    background-color: ${colors.SECONDARY};
+                    border-radius: 50%;
+                    border: 1px solid ${colors.WHITE};
+                }
+
                 .right .text .signup {
                     display: inline;
-                    margin-left: ${styles.spaces.s6};
+                    margin-left: ${spaces.s6};
                     cursor: pointer;
                 }
 
@@ -200,14 +246,18 @@ const Navigation = ({
                     }
 
                     .right .sign-up-btn {
-                        margin-right: ${styles.spaces.s24};
-                        margin-left: ${styles.spaces.s36};
+                        margin-right: ${spaces.s24};
+                        margin-left: ${spaces.s36};
                     }
 
                     .right :global(.${UserImage.classes.root}) {
                         flex: 0 0 auto;
-                        margin: 0 ${styles.spaces.s36};
+                        margin-right: ${spaces.s36};
                         cursor: pointer;
+                    }
+
+                    .right .bell-btn {
+                        margin: 0 ${spaces.s36};
                     }
                 }
             `}</style>

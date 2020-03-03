@@ -30,9 +30,7 @@ const HeroSection: React.FunctionComponent<Props> = ({aquascape}) => {
 
     const detailsLink = createDynamicPath(routes.aquascapeDetails, {
         id: aquascape.id.toString(),
-        title: getAquascapeDetailsSlug(
-            aquascape.title || config.EDIT_AQUASCAPE_URL_TITLE_PLACEHOLDER
-        ),
+        title: getAquascapeDetailsSlug(aquascape.title || config.AQUASCAPE_URL_TITLE_PLACEHOLDER),
     })
 
     return (
