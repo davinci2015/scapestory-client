@@ -13,6 +13,11 @@ export const fragments = {
                 name
             }
 
+            images {
+                id
+                url
+            }
+
             user {
                 id
                 name
