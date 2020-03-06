@@ -1,6 +1,7 @@
 import React from 'react'
 import {toast} from 'react-toastify'
 import Link from 'next/link'
+import LazyLoad from 'react-lazyload'
 
 import {AquascapeCard} from 'components/molecules'
 import {Grid} from 'components/core'
@@ -18,22 +19,24 @@ export const renderAquascapeCards = (
     }
 ) =>
     aquascapes.map(scape => (
-        <Grid.Item key={scape.id} {...itemProps}>
-            <AquascapeCard
-                id={scape.id}
-                user={scape.user}
-                title={scape.title}
-                viewsCount={scape.viewsCount}
-                likesCount={scape.likesCount}
-                image={
-                    scape.mainImageUrl
-                        ? scape.mainImageUrl
-                        : scape.images && scape.images.length
-                        ? scape.images[0].url
-                        : undefined
-                }
-            />
-        </Grid.Item>
+        <LazyLoad key={scape.id} height={400} once offset={100}>
+            <Grid.Item {...itemProps}>
+                <AquascapeCard
+                    id={scape.id}
+                    user={scape.user}
+                    title={scape.title}
+                    viewsCount={scape.viewsCount}
+                    likesCount={scape.likesCount}
+                    image={
+                        scape.mainImageUrl
+                            ? scape.mainImageUrl
+                            : scape.images && scape.images.length
+                            ? scape.images[0].url
+                            : undefined
+                    }
+                />
+            </Grid.Item>
+        </LazyLoad>
     ))
 
 export const showUploadImageToast = (count: number = 1) =>
