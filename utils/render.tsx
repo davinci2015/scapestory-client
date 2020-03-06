@@ -25,7 +25,13 @@ export const renderAquascapeCards = (
                 title={scape.title}
                 viewsCount={scape.viewsCount}
                 likesCount={scape.likesCount}
-                image={scape.mainImageUrl}
+                image={
+                    scape.mainImageUrl
+                        ? scape.mainImageUrl
+                        : scape.images && scape.images.length
+                        ? scape.images[0].url
+                        : undefined
+                }
             />
         </Grid.Item>
     ))

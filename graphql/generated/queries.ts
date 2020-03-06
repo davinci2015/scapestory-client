@@ -958,6 +958,9 @@ export type AquascapeFieldsFragment = (
   & { tags: Array<(
     { __typename?: 'Tag' }
     & Pick<Tag, 'name'>
+  )>, images: Array<(
+    { __typename?: 'AquascapeImage' }
+    & Pick<AquascapeImage, 'id' | 'url'>
   )>, user: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'profileImage' | 'slug'>
