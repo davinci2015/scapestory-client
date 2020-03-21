@@ -2,6 +2,7 @@ import React, {useContext} from 'react'
 import numeral from 'numeral'
 import Truncate from 'react-truncate'
 import classnames from 'classnames'
+import ImageGallery from 'react-image-gallery'
 
 import {Headline, IconText, Icon, Paragraph, FormattedMessage} from 'components/atoms'
 import {colors, spaces, borderRadius, media, breakpoints} from 'styles'
@@ -15,11 +16,13 @@ import {Transition} from 'react-transition-group'
 import {TransitionStatus} from 'react-transition-group/Transition'
 import Link from 'next/link'
 import {pxToNumber} from 'utils/converter'
+import {isMobile} from 'utils/general'
 
 interface Props {
     id: number
     user?: AquascapeFieldsFragment['user'] | null
-    image?: string | null
+    coverImage?: string | null
+    images: string[]
     title?: string | null
     viewsCount: number
     likesCount: number
@@ -29,7 +32,15 @@ const classes = {
     root: 'aquascape-card',
 }
 
-const AquascapeCard = ({id, image, likesCount = 0, title, user, viewsCount = 0}: Props) => {
+const AquascapeCard = ({
+    coverImage,
+    id,
+    images,
+    likesCount = 0,
+    title,
+    user,
+    viewsCount = 0,
+}: Props) => {
     const {user: loggedInUser} = useContext(AuthContext)
 
     const href =
@@ -49,11 +60,30 @@ const AquascapeCard = ({id, image, likesCount = 0, title, user, viewsCount = 0}:
                     <div className={classnames(classes.root, state)}>
                         <AquascapeDetailsLink href={href} as={as}>
                             <div className="card__header">
-                                <img
-                                    className="header-image"
-                                    src={image || config.AQUASCAPE_MAIN_IMAGE_PLACEHOLDER}
-                                    alt="Aquascape"
-                                />
+                                {images.length <= 1 || !isMobile() ? (
+                                    <img
+                                        className="header-image"
+                                        src={
+                                            coverImage ||
+                                            images[0] ||
+                                            config.AQUASCAPE_MAIN_IMAGE_PLACEHOLDER
+                                        }
+                                        alt="Aquascape"
+                                    />
+                                ) : (
+                                    <ImageGallery
+                                        showBullets
+                                        stopPropagation
+                                        showThumbnails={false}
+                                        showFullscreenButton={false}
+                                        showPlayButton={false}
+                                        showNav={false}
+                                        items={images.map(image => ({
+                                            thumbnail: image,
+                                            original: image,
+                                        }))}
+                                    />
+                                )}
                                 <div className="header-gradient"></div>
                                 <div className="icons">
                                     <IconText
@@ -162,6 +192,21 @@ const AquascapeCard = ({id, image, likesCount = 0, title, user, viewsCount = 0}:
                     border-top-right-radius: ${borderRadius.TERTIARY};
                 }
 
+                .card__header :global(.image-gallery),
+                .card__header :global(.image-gallery-image),
+                .card__header :global(.image-gallery-slide-wrapper),
+                .card__header :global(.image-gallery-slides),
+                .card__header :global(.image-gallery-swipe),
+                .card__header :global(.image-gallery-slide),
+                .card__header :global(.image-gallery-slide > div),
+                .card__header :global(.image-gallery-content) {
+                    height: 100%;
+                }
+
+                .card__header :global(.image-gallery-image) {
+                    object-fit: cover;
+                }
+
                 .header-image {
                     width: 100%;
                     height: 100%;
@@ -240,7 +285,7 @@ const AquascapeCard = ({id, image, likesCount = 0, title, user, viewsCount = 0}:
                     }
                 }
 
-                @media ${media.up('medium')} {
+                @media ${media.up('extraLarge')} {
                     .card__header {
                         height: 264px;
                     }
