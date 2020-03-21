@@ -182,7 +182,7 @@ const AquascapeCard = ({
                 .card__header {
                     display: block;
                     position: relative;
-                    height: 180px;
+                    height: 200px;
                     width: calc(100% + 2px);
                     margin-left: -1px;
 
@@ -200,7 +200,7 @@ const AquascapeCard = ({
                 }
 
                 .card__header :global(.image-gallery-bullet) {
-                    padding: ${spaces.s4};
+                    padding: 3px;
                 }
 
                 .card__header :global(.image-gallery),
@@ -286,7 +286,7 @@ const AquascapeCard = ({
 
                 @media ${media.up('extraSmall')} {
                     .card__header {
-                        height: 200px;
+                        height: 244px;
                     }
                 }
 
