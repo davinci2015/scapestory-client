@@ -1,13 +1,13 @@
 import React from 'react'
-import { toast } from 'react-toastify'
+import {toast} from 'react-toastify'
 import Link from 'next/link'
 import LazyLoad from 'react-lazyload'
 
-import { AquascapeCard } from 'components/molecules'
-import { Grid } from 'components/core'
-import { AquascapeFieldsFragment } from 'graphql/generated/queries'
-import { ItemProps } from 'components/core/Grid/Item'
-import { ToastMessage, FormattedMessage } from 'components/atoms'
+import {AquascapeCard} from 'components/molecules'
+import {Grid} from 'components/core'
+import {AquascapeFieldsFragment} from 'graphql/generated/queries'
+import {ItemProps} from 'components/core/Grid/Item'
+import {ToastMessage, FormattedMessage} from 'components/atoms'
 
 export const renderAquascapeCards = (
     aquascapes: AquascapeFieldsFragment[],
@@ -40,7 +40,7 @@ export const showUploadImageToast = (count: number = 1) =>
             <FormattedMessage
                 id="upload_image_loading"
                 defaultMessage="Uploading {count, plural, one {image} other {images}}, please wait..."
-                values={{ count }}
+                values={{count}}
             />
         </ToastMessage>,
         {
