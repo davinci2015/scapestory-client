@@ -74,6 +74,7 @@ const AquascapeCard = ({
                                     <ImageGallery
                                         showBullets
                                         stopPropagation
+                                        lazyLoad
                                         showThumbnails={false}
                                         showFullscreenButton={false}
                                         showPlayButton={false}
@@ -190,6 +191,16 @@ const AquascapeCard = ({
 
                     border-top-left-radius: ${borderRadius.TERTIARY};
                     border-top-right-radius: ${borderRadius.TERTIARY};
+                }
+
+                .card__header :global(.image-gallery-bullets) {
+                    bottom: ${spaces.s12};
+                    white-space: nowrap;
+                    overflow: hidden;
+                }
+
+                .card__header :global(.image-gallery-bullet) {
+                    padding: ${spaces.s4};
                 }
 
                 .card__header :global(.image-gallery),
