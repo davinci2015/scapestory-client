@@ -103,6 +103,7 @@ class MyDocument extends Document {
                         rel="stylesheet"
                     />
                     <link href="/static/toastify.css" rel="stylesheet" />
+                    <link href="/static/image-gallery.css" rel="stylesheet" />
                     {flush()}
                 </Head>
                 <body>

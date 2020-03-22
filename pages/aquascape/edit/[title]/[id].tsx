@@ -12,7 +12,6 @@ const AquascapeDetails = () => (
     <>
         <Head>
             <title>{config.APP_NAME}</title>
-            <link href="/static/image-gallery.css" rel="stylesheet" />
         </Head>
         <ModalProvider>
             <NavigationContainer />
