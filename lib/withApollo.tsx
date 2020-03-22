@@ -10,7 +10,7 @@ import appConstants from 'appConstants'
 import logger from 'services/logger'
 import {toast} from 'react-toastify'
 import {FormattedMessage, Paragraph} from 'components/atoms'
-import {errorMaper} from 'utils/mappers'
+import {errorMapper} from 'utils/mappers'
 import {colors} from 'styles'
 
 export default withApollo(({headers, initialState}) => {
@@ -32,7 +32,7 @@ export default withApollo(({headers, initialState}) => {
                 // Don't show error toast when user queries "me"
                 if (path?.includes('me')) return
 
-                const intlMessage = errorMaper[message] || errorMaper.BAD_REQUEST
+                const intlMessage = errorMapper[message] || errorMapper.BAD_REQUEST
                 if (intlMessage) {
                     toast.error(
                         <Paragraph color={colors.WHITE}>

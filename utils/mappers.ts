@@ -17,7 +17,15 @@ export const groupEquipmentByBrand = (equipment: EquipmentInterface[]) => {
     )
 }
 
-export const errorMaper: {[key: string]: MessageDescriptor} = {
+export const errorMapper: {[key: string]: MessageDescriptor} = {
+    NON_EXISTING_USER: {
+        id: 'error.non_existing_user',
+        defaultMessage: "User with provided email doesn't exist.",
+    },
+    EMAIL_NOT_CONFIRMED: {
+        id: 'error.email_not_confirmed',
+        defaultMessage: 'Please confirm your email before logging in.',
+    },
     INVALID_CREDENTIALS: {
         id: 'error.invalid_credentials',
         defaultMessage: 'Invalid credentials provided.',
