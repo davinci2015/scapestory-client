@@ -74,6 +74,8 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
     )
 
     const onSubmit = () => {
+        if (!isAuthenticated) return openModal('register')
+
         if (!comment || comment.trim() === '') return
 
         updateComment(null)
@@ -89,7 +91,10 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
     }
 
     const onReply = (commentId: number) => {
+        if (!isAuthenticated) return openModal('register')
+
         const reply = replies[commentId]
+
         if (!reply || reply.trim() === '') return
 
         addComment({
