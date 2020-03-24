@@ -3,8 +3,9 @@ import {useRouter} from 'next/router'
 import {useQuery} from 'react-apollo'
 import {FormattedMessage} from 'react-intl'
 import {Element} from 'react-scroll'
+import {toast} from 'react-toastify'
 
-import {Divider, Icon} from 'components/atoms'
+import {Divider, Icon, ToastMessage} from 'components/atoms'
 import {Grid, Content, Hide} from 'components/core'
 import {SubNavigation} from 'components/molecules'
 import {AuthContext} from 'providers/AuthenticationProvider'
@@ -34,6 +35,8 @@ const AquascapeDetailsEditContainer: React.FunctionComponent = () => {
     const {isAuthenticated, user} = useContext(AuthContext)
     const aquascapeId = Number(router.query.id)
 
+    const isFreshlyCreated = Boolean(router.query.created)
+
     useEffect(() => {
         if (!isAuthenticated) {
             router.push(routes.index)
@@ -48,12 +51,47 @@ const AquascapeDetailsEditContainer: React.FunctionComponent = () => {
     >(AQUASCAPE_DETAILS_EDIT, {variables: {id: aquascapeId}})
 
     useEffect(() => {
+        if (isFreshlyCreated) {
+            toast.success(
+                <ToastMessage>
+                    <FormattedMessage
+                        id="aquascape.created_aquascape"
+                        defaultMessage="Aquarium created! 🥳{br}On this page you can add images and edit details."
+                        values={{br: <br />}}
+                    />
+                </ToastMessage>,
+                {autoClose: 5000, hideProgressBar: true}
+            )
+        }
+    }, [])
+
+    useEffect(() => {
         if (
             user &&
             aquascapeResult?.aquascape?.user &&
             aquascapeResult.aquascape.user.id !== user.id
         ) {
             router.push(routes.index)
+        }
+    }, [aquascapeResult])
+
+    useEffect(() => {
+        if (
+            !isFreshlyCreated &&
+            aquascapeResult?.aquascape &&
+            !aquascapeResult.aquascape.mainImageUrl &&
+            !aquascapeResult.aquascape.images.length
+        ) {
+            toast(
+                <ToastMessage>
+                    <FormattedMessage
+                        id="aquascape.empty_aquascape"
+                        defaultMessage="Seems like your aquarium is empty.{br} Why don't you add some images? 🌱"
+                        values={{br: <br />}}
+                    />
+                </ToastMessage>,
+                {autoClose: 5000, hideProgressBar: true}
+            )
         }
     }, [aquascapeResult])
 

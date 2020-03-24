@@ -12,7 +12,7 @@ const AddAquascapeButton: React.FunctionComponent<Props> = ({onClick}) => (
         onClick={onClick}
         leftIcon={<Icon d={Icon.ADD_FULL} viewBox="0 0 22 22" color={colors.WHITE} />}
     >
-        <FormattedMessage id="navigation_add_your_aquascape" defaultMessage="Add your aquarium" />
+        <FormattedMessage id="navigation_add_your_aquarium" defaultMessage="Add your aquarium" />
     </Button>
 )
 

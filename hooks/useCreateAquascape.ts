@@ -27,12 +27,12 @@ const useCreateAquascape = () => {
                 const id = result.data?.createAquascape.id
                 if (!id) return
 
-                router.push(
-                    createDynamicPath(routes.aquascapeDetailsEdit, {
-                        id: id.toString(),
-                        title: config.AQUASCAPE_URL_TITLE_PLACEHOLDER,
-                    })
-                )
+                const path = createDynamicPath(routes.aquascapeDetailsEdit, {
+                    id: id.toString(),
+                    title: config.AQUASCAPE_URL_TITLE_PLACEHOLDER,
+                })
+
+                router.push(`${path}?created=true`)
             })
             .catch(err => logger.error(err))
     }
