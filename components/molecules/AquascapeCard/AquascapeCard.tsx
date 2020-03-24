@@ -109,7 +109,7 @@ const AquascapeCard = ({
                                         {title || (
                                             <FormattedMessage
                                                 id="aquascape_card.placeholder_title"
-                                                defaultMessage="{name}'s aquascape"
+                                                defaultMessage="{name}'s aquarium"
                                                 values={{name: user?.name}}
                                             />
                                         )}
