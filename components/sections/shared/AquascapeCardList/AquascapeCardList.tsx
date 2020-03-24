@@ -31,7 +31,7 @@ const AquascapeCardList: AquascapeCardListType = ({children, loadMore, title}) =
                         text={
                             <FormattedMessage
                                 id="card_list.load_more"
-                                defaultMessage="Load more aquascapes"
+                                defaultMessage="Load more aquariums"
                             />
                         }
                     />

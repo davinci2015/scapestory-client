@@ -68,8 +68,8 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({user}) => {
                     <UserStats.Item
                         title={
                             <FormattedMessage
-                                id="user_profile.no_aquascapes"
-                                defaultMessage="Aquascapes"
+                                id="user_profile.no_aquariums"
+                                defaultMessage="Aquariums"
                             />
                         }
                         value={user.aquascapes.count}

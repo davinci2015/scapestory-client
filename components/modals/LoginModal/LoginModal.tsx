@@ -33,7 +33,7 @@ const LoginModal = () => {
             subtitle={
                 <FormattedMessage
                     id="login_subtitle"
-                    defaultMessage="Login and continue exploring aquascapes."
+                    defaultMessage="Login and continue exploring aquariums."
                 />
             }
             footer={
