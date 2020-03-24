@@ -19,8 +19,8 @@ const UserAquascapesSection: React.FunctionComponent<Props> = ({aquascapes, user
                 title={
                     <Headline as="h2" variant="h3">
                         <FormattedMessage
-                            id="aquascape.user_aquascapes.title"
-                            defaultMessage="{username}'s aquascapes"
+                            id="aquascape.user_aquariums.title"
+                            defaultMessage="{username}'s aquariums"
                             values={{username}}
                         />
                     </Headline>

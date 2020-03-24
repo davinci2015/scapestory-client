@@ -104,16 +104,16 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                     title={
                                         <Headline variant="h4">
                                             <FormattedMessage
-                                                id="aquascape.hero_section.remove_aquascape_title"
-                                                defaultMessage="Are you sure that you want to delete your aquascape?"
+                                                id="aquascape.hero_section.remove_aquarium_title"
+                                                defaultMessage="Are you sure that you want to delete your aquarium?"
                                             />
                                         </Headline>
                                     }
                                     description={
                                         <Paragraph color={colors.SHADE_DEEP}>
                                             <FormattedMessage
-                                                id="aquascape.hero_section.remove_aquascape_description"
-                                                defaultMessage="If you delete the aquascape all uploaded content for the aquascape will be deleted also."
+                                                id="aquascape.hero_section.remove_aquarium_description"
+                                                defaultMessage="If you delete the aquarium all uploaded content for this aquarium will be deleted also."
                                             />
                                         </Paragraph>
                                     }
@@ -127,8 +127,8 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                             onClick={open}
                                         >
                                             <FormattedMessage
-                                                id="aquascape.hero_section.delete_aquascape"
-                                                defaultMessage="Delete aquascape"
+                                                id="aquascape.hero_section.delete_aquarium"
+                                                defaultMessage="Remove this aquarium"
                                             />
                                         </Button>
                                     )}
