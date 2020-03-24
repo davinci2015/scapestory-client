@@ -1,7 +1,6 @@
 import React from 'react'
 
-import {colors, spaces} from 'styles'
-import Paragraph from '../Paragraph'
+import {spaces} from 'styles'
 import Loader from '../Loader'
 
 interface Props {
@@ -12,7 +11,7 @@ const ToastMessage: React.FunctionComponent<Props> = ({children, showLoader}) =>
     <>
         <div className="message">
             {showLoader && <Loader />}
-            <Paragraph color={colors.WHITE}>{children}</Paragraph>
+            {children}
         </div>
         <style jsx>{`
             .message {
