@@ -91,12 +91,17 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
     const hasEquipment =
         [lights, filters, substrates, additives].some(equipment => !!equipment.length) || co2
 
+    const fbImage =
+        aquascapeResult.aquascape.mainImageUrl ||
+        (aquascapeResult.aquascape.images.length && aquascapeResult.aquascape.images[0].url) ||
+        ''
+
     return (
         <>
             <OpenGraphMeta
                 title={aquascapeResult.aquascape.title || config.AQUASCAPE_TITLE_PLACEHOLDER}
-                image={aquascapeResult.aquascape.mainImageUrl || ''}
                 description={`Slice of nature created by ${aquascapeResult.aquascape.user?.name}`}
+                image={fbImage}
             />
 
             <Content>
