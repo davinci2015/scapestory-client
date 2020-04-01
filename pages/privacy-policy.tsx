@@ -72,6 +72,49 @@ const PrivacyPolicy = () => {
                                 providers. Your Personal Information may be accessible to law
                                 enforcement or other authorities pursuant to a lawful request.
                                 <br /> <br />
+                                Scapestory may use your personal information in the following ways:
+                                <ul>
+                                    <li>
+                                        To create your account and identify you as a user of the
+                                        website
+                                    </li>
+                                    <li>To operate and maintain the website</li>
+                                    <li>
+                                        To send you promotional information, such as newsletters;
+                                        Each e-mail newsletter will provide information on how to
+                                        opt-out of future mailings by unsubscribing
+                                    </li>
+                                    <li>
+                                        To send you administrative communications, such as
+                                        administrative e-mails, confirmation e-mails, technical
+                                        notices, updates on policies, or security alerts
+                                    </li>
+                                    <li>To provide you with user support</li>
+                                    <li>
+                                        To protect, investigate, and deter against unauthorized or
+                                        illegal activity
+                                    </li>
+                                    <li>
+                                        To share content on official Scapestory{' '}
+                                        <a
+                                            href="https://www.facebook.com/aquascapestory"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Facebook
+                                        </a>{' '}
+                                        and{' '}
+                                        <a
+                                            href="https://www.instagram.com/scapestory/"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Instagram
+                                        </a>{' '}
+                                        page.
+                                    </li>
+                                </ul>
+                                <br /> <br />
                                 The app does use third party services that may collect information
                                 used to identify you.
                                 <br />
