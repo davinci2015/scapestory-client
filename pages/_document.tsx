@@ -9,7 +9,12 @@ class MyDocument extends Document {
                 <Head>
                     <meta
                         name="description"
-                        content="Share your aquarium and inspire others all around the globe to create a piece of nature in their home"
+                        content="Add everything about your aquarium in one place. Get inspired for your next aquarium and connect with other aqua lovers."
+                    />
+
+                    <meta
+                        name="keywords"
+                        content="aquarium, aquascape, aquascaper, fishkeeping, aqua, aquascaping, tank, planted tank, planted aquarium, freshwater aquarium"
                     />
 
                     <meta charSet="utf-8" />
