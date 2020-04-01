@@ -5,7 +5,7 @@ import RecentContainer from './RecentContainer'
 import TrendingContainer from './TrendingContainer'
 import FeaturedContainer from './FeaturedContainer'
 import ExploreContainer from './ExploreContainer'
-import AddAquascapeContainer from './AddAquascapeContainer'
+import AddAquascapeContainer from '../AddAquascapeContainer'
 
 const HomeContainer = () => (
     <>

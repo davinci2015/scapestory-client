@@ -24,6 +24,7 @@ import {
 import cookie from 'services/cookie'
 import {AquascapeDetailsQuery, AquascapeDetailsQueryVariables} from 'graphql/generated/queries'
 import HeroSectionContainer from 'containers/AquascapeDetailsContainer/HeroSectionContainer'
+import AddAquascapeContainer from 'containers/AddAquascapeContainer/AddAquascapeContainer'
 import FloraList from 'components/sections/AquascapeDetails/FloraSection/FloraList'
 import {colors, breakpoints} from 'styles'
 import {
@@ -362,6 +363,7 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
                         )}
                 </Grid>
             </Content>
+            <AddAquascapeContainer bottom="70px" />
         </>
     )
 }

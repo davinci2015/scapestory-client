@@ -7,9 +7,10 @@ import {AddAquascapeButton} from 'components/molecules'
 
 interface Props {
     onCreateAquascape: VoidFunction
+    bottom?: string
 }
 
-const FixedButton = ({onCreateAquascape}: Props) => (
+const FixedButton = ({bottom = spaces.s12, onCreateAquascape}: Props) => (
     <>
         <Hide after={pxToNumber(breakpoints.small)}>
             <div className="fixed-button">
@@ -20,7 +21,7 @@ const FixedButton = ({onCreateAquascape}: Props) => (
         <style jsx>{`
             .fixed-button {
                 position: fixed;
-                bottom: ${spaces.s12};
+                bottom: ${bottom};
                 left: 50%;
 
                 z-index: ${zIndex.LOW};
