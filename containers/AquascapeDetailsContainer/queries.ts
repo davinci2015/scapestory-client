@@ -14,7 +14,16 @@ export const AQUASCAPE_DETAILS = gql`
             title
             mainImageUrl
             viewsCount
-            likesCount
+            likes {
+                rows {
+                    id
+                    user {
+                        id
+                        profileImage
+                    }
+                }
+                count
+            }
             isLikedByMe
 
             plants {

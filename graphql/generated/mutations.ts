@@ -22,6 +22,7 @@ export type Additive = Equipment & {
 export type Aquascape = {
    __typename?: 'Aquascape',
   likesCount: Scalars['Int'],
+  likes: Likes,
   isLikedByMe: Scalars['Boolean'],
   id: Scalars['Int'],
   createdAt: Scalars['String'],
@@ -47,6 +48,11 @@ export type Aquascape = {
   additives: Array<Additive>,
   comments: Array<Comment>,
   viewsCount: Scalars['Int'],
+};
+
+
+export type AquascapeLikesArgs = {
+  limit?: Maybe<Scalars['Int']>
 };
 
 export type AquascapeImage = {
@@ -201,6 +207,7 @@ export type Light = Equipment & {
 
 export type Like = {
    __typename?: 'Like',
+  user: User,
   id: Scalars['Int'],
   userId: Scalars['Int'],
   aquascapeImageId?: Maybe<Scalars['Int']>,
@@ -215,6 +222,12 @@ export enum LikeEntityType {
   Image = 'IMAGE',
   Comment = 'COMMENT'
 }
+
+export type Likes = {
+   __typename?: 'Likes',
+  rows: Array<Like>,
+  count: Scalars['Int'],
+};
 
 export type Livestock = {
    __typename?: 'Livestock',

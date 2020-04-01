@@ -1,13 +1,13 @@
-import React, {SyntheticEvent} from 'react'
+import React, {SyntheticEvent, useMemo} from 'react'
 
 import {
     FormattedMessage,
     Paragraph,
     Icon,
-    Tag,
     IconText,
     Button,
     IconButton,
+    ImageStack,
 } from 'components/atoms'
 import {colors, spaces, zIndex, media, breakpoints} from 'styles'
 import {Hero} from 'components/sections/shared'
@@ -16,6 +16,7 @@ import {AquascapeDetailsQuery} from 'graphql/generated/queries'
 import {ProfileLink, Hide} from 'components/core'
 import {UserWidgetSize, UserWidgetVariant} from 'components/molecules/UserWidget/UserWidget'
 import {pxToNumber} from 'utils/converter'
+import {ImageStackSize} from 'components/atoms/ImageStack/ImageStack'
 
 interface Props {
     mineAquascape: boolean
@@ -30,6 +31,8 @@ const HeartIcon = ({count}: {count: number}) => (
     <IconText icon={Icon.HEART} text={count} color={colors.WHITE} />
 )
 
+const LIKES_STACK_COUNT = 4
+
 const HeroSection: React.FunctionComponent<Props> = ({
     aquascape,
     mineAquascape,
@@ -39,6 +42,16 @@ const HeroSection: React.FunctionComponent<Props> = ({
     toggleLike,
 }) => {
     if (!aquascape || !aquascape.user) return null
+
+    const stackImages = useMemo(
+        () => aquascape.likes.rows.slice(0, LIKES_STACK_COUNT).map(like => like.user.profileImage),
+        [aquascape]
+    )
+
+    const stackPlaceholder =
+        aquascape.likes.count > LIKES_STACK_COUNT
+            ? `+${aquascape.likes.count - LIKES_STACK_COUNT}`
+            : undefined
 
     return (
         <>
@@ -99,7 +112,10 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                 />
                             </ProfileLink>
                         </Hero.TopLeft>
-                        <Hero.TopRight>
+                        <Hero.TopRight className="top-right">
+                            <Hide upTo={pxToNumber(breakpoints.medium)}>
+                                <ImageStack images={stackImages} placeholder={stackPlaceholder} />
+                            </Hide>
                             <Hero.ActionButtons>
                                 {!mineAquascape && (
                                     <Button
@@ -161,18 +177,22 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                     color={colors.WHITE}
                                 />
                                 {mineAquascape ? (
-                                    <HeartIcon count={aquascape.likesCount} />
+                                    <HeartIcon count={aquascape.likes.count} />
                                 ) : (
                                     <IconButton onClick={toggleLike}>
-                                        <HeartIcon count={aquascape.likesCount} />
+                                        <HeartIcon count={aquascape.likes.count} />
                                     </IconButton>
                                 )}
                             </div>
                         </Hero.BottomLeft>
                         <Hero.BottomRight>
-                            {aquascape.tags.map((tag, index) => (
-                                <Tag key={index} text={tag.name} variant="primary" size="large" />
-                            ))}
+                            <Hide after={pxToNumber(breakpoints.medium)}>
+                                <ImageStack
+                                    size={ImageStackSize.s24}
+                                    images={stackImages}
+                                    placeholder={stackPlaceholder}
+                                />
+                            </Hide>
                         </Hero.BottomRight>
                     </Hero.BottomSection>
                 }
@@ -201,6 +221,14 @@ const HeroSection: React.FunctionComponent<Props> = ({
                     .top-section {
                         flex-direction: row;
                         justify-content: space-between;
+                    }
+                }
+
+                @media ${media.up('medium')} {
+                    :global(.top-right) {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
                     }
                 }
             `}</style>

@@ -28,7 +28,8 @@ const ActionButtons: ActionButtons = ({children}) => (
 
             @media ${media.up('medium')} {
                 .action-buttons {
-                    margin: -${spaces.s8} -${spaces.s8} 0 0;
+                    margin-top: 0;
+                    margin-left: ${spaces.s8};
                 }
             }
         `}</style>

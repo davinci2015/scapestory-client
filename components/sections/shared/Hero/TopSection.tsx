@@ -1,9 +1,14 @@
 import React from 'react'
+import classnames from 'classnames'
 
 import {zIndex} from 'styles'
 
-const TopSection: React.FunctionComponent = ({children}) => (
-    <div className="section">
+interface Props {
+    className?: string
+}
+
+const TopSection: React.FunctionComponent<Props> = ({children, className}) => (
+    <div className={classnames('section', className)}>
         {children}
         <style jsx>{`
             .section {
@@ -18,8 +23,12 @@ const TopSection: React.FunctionComponent = ({children}) => (
     </div>
 )
 
-const TopLeft: React.FunctionComponent = ({children}) => <div>{children}</div>
+const TopLeft: React.FunctionComponent<Props> = ({children, className}) => (
+    <div className={className}>{children}</div>
+)
 
-const TopRight: React.FunctionComponent = ({children}) => <div>{children}</div>
+const TopRight: React.FunctionComponent<Props> = ({children, className}) => (
+    <div className={className}>{children}</div>
+)
 
 export {TopSection, TopLeft, TopRight}
