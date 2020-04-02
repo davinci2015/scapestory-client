@@ -8,10 +8,11 @@ import {
     Button,
     IconButton,
     ImageStack,
+    Headline,
 } from 'components/atoms'
 import {colors, spaces, zIndex, media, breakpoints} from 'styles'
 import {Hero} from 'components/sections/shared'
-import {UserWidget} from 'components/molecules'
+import {UserWidget, UserListModal} from 'components/molecules'
 import {AquascapeDetailsQuery} from 'graphql/generated/queries'
 import {ProfileLink, Hide} from 'components/core'
 import {UserWidgetSize, UserWidgetVariant} from 'components/molecules/UserWidget/UserWidget'
@@ -19,6 +20,7 @@ import {pxToNumber} from 'utils/converter'
 import {ImageStackSize} from 'components/atoms/ImageStack/ImageStack'
 
 interface Props {
+    isFollowedByMe?: boolean
     mineAquascape: boolean
     aquascape: AquascapeDetailsQuery['aquascape']
     toggleLike: VoidFunction
@@ -35,6 +37,7 @@ const LIKES_STACK_COUNT = 4
 
 const HeroSection: React.FunctionComponent<Props> = ({
     aquascape,
+    isFollowedByMe,
     mineAquascape,
     onEdit,
     onShare,
@@ -92,7 +95,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                                             color={colors.WHITE}
                                                             weight="semibold"
                                                         >
-                                                            {aquascape.user?.isFollowedByMe ? (
+                                                            {isFollowedByMe ? (
                                                                 <FormattedMessage
                                                                     id="aquascape.hero_section.unfollow"
                                                                     defaultMessage="Unfollow"
@@ -195,6 +198,20 @@ const HeroSection: React.FunctionComponent<Props> = ({
                             </Hide>
                         </Hero.BottomRight>
                     </Hero.BottomSection>
+                }
+            />
+
+            <UserListModal
+                isOpen={false}
+                users={aquascape.likes.rows.map(like => like.user)}
+                onClose={() => null}
+                title={
+                    <Headline variant="h4">
+                        <FormattedMessage
+                            id="aquascape.hero_section.likes"
+                            defaultMessage="Likes"
+                        />
+                    </Headline>
                 }
             />
 

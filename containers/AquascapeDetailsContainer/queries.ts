@@ -19,6 +19,7 @@ export const AQUASCAPE_DETAILS = gql`
                     id
                     user {
                         id
+                        name
                         profileImage
                     }
                 }
@@ -99,7 +100,6 @@ export const AQUASCAPE_DETAILS = gql`
                 name
                 profileImage
                 slug
-                isFollowedByMe
                 aquascapes(pagination: {limit: 8}, random: true) {
                     rows {
                         ...AquascapeFields

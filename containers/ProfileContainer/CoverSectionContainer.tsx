@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useMemo} from 'react'
 import {useMutation} from 'react-apollo'
 
 import {UserBySlugQuery} from 'graphql/generated/queries'
@@ -38,11 +38,11 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) =
     if (!user) return null
 
     const [follow] = useMutation<FollowUserMutation, FollowUserMutationVariables>(FOLLOW, {
-        update: updateProfileCache(ProfileActions.FOLLOW, {slug: user.slug}),
+        update: updateProfileCache(ProfileActions.FOLLOW),
     })
 
     const [unfollow] = useMutation<UnfollowUserMutation, UnfollowUserMutationVariables>(UNFOLLOW, {
-        update: updateProfileCache(ProfileActions.UNFOLLOW, {slug: user.slug}),
+        update: updateProfileCache(ProfileActions.UNFOLLOW),
     })
 
     const onLogout = () => {
@@ -51,12 +51,18 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) =
         router.push(routes.index)
     }
 
+    const isFollowedByMe = useMemo(() => {
+        if (loggedInUser) {
+            return loggedInUser.follows.following.rows.some(user => user.followedUserId === user.id)
+        }
+    }, [user, loggedInUser])
+
     const toggleFollow = () => {
         if (!isAuthenticated) {
             return openModal('register')
         }
 
-        const mutateFollow = user.isFollowedByMe ? unfollow : follow
+        const mutateFollow = isFollowedByMe ? unfollow : follow
         mutateFollow({variables: {userId: user.id}})
     }
 
@@ -73,7 +79,7 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) =
                         </Hide>
                     )}
                     {!isMyProfile &&
-                        (user.isFollowedByMe ? (
+                        (isFollowedByMe ? (
                             <UnfollowButton toggleFollow={toggleFollow} />
                         ) : (
                             <FollowButton toggleFollow={toggleFollow} />

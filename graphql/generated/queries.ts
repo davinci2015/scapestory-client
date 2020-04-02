@@ -160,10 +160,22 @@ export type Follow = {
   createdAt: Scalars['String'],
 };
 
-export type Follows = {
-   __typename?: 'Follows',
-  following?: Maybe<Array<Maybe<Follow>>>,
-  followers?: Maybe<Array<Maybe<Follow>>>,
+export type Followers = {
+   __typename?: 'Followers',
+  rows: Array<Follow>,
+  count: Scalars['Int'],
+};
+
+export type Following = {
+   __typename?: 'Following',
+  rows: Array<Follow>,
+  count: Scalars['Int'],
+};
+
+export type FollowResult = {
+   __typename?: 'FollowResult',
+  followers: Followers,
+  following: Following,
 };
 
 export type Hardscape = {
@@ -269,7 +281,7 @@ export type Mutation = {
   addComment?: Maybe<Comment>,
   removeComment?: Maybe<Comment>,
   readNotifications?: Maybe<Scalars['Int']>,
-  followUser?: Maybe<User>,
+  followUser?: Maybe<Follow>,
   unfollowUser?: Maybe<User>,
   login?: Maybe<AuthPayload>,
   register?: Maybe<User>,
@@ -634,9 +646,7 @@ export type User = {
   createdAt: Scalars['String'],
   updatedAt: Scalars['String'],
   aquascapes: AquascapesResult,
-  followersCount: Scalars['Int'],
-  followingCount: Scalars['Int'],
-  isFollowedByMe: Scalars['Boolean'],
+  follows: FollowResult,
 };
 
 
@@ -682,7 +692,7 @@ export type AquascapeDetailsQuery = (
     )> }
   ), aquascape: Maybe<(
     { __typename?: 'Aquascape' }
-    & Pick<Aquascape, 'id' | 'title' | 'mainImageUrl' | 'viewsCount' | 'likesCount' | 'isLikedByMe'>
+    & Pick<Aquascape, 'id' | 'title' | 'mainImageUrl' | 'viewsCount' | 'isLikedByMe'>
     & { likes: (
       { __typename?: 'Likes' }
       & Pick<Likes, 'count'>
@@ -691,7 +701,7 @@ export type AquascapeDetailsQuery = (
         & Pick<Like, 'id'>
         & { user: (
           { __typename?: 'User' }
-          & Pick<User, 'id' | 'profileImage'>
+          & Pick<User, 'id' | 'name' | 'profileImage'>
         ) }
       )> }
     ), plants: Array<(
@@ -742,7 +752,7 @@ export type AquascapeDetailsQuery = (
       & Pick<AquascapeImage, 'id' | 'title' | 'url' | 'createdAt'>
     )>, user: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'id' | 'name' | 'profileImage' | 'slug' | 'isFollowedByMe'>
+      & Pick<User, 'id' | 'name' | 'profileImage' | 'slug'>
       & { aquascapes: (
         { __typename?: 'AquascapesResult' }
         & { rows: Array<(
@@ -1011,7 +1021,24 @@ export type User_ProfileQuery = (
   & { me: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'slug' | 'name' | 'country' | 'profileImage'>
-    & { aquascapes: (
+    & { follows: (
+      { __typename?: 'FollowResult' }
+      & { followers: (
+        { __typename?: 'Followers' }
+        & Pick<Followers, 'count'>
+        & { rows: Array<(
+          { __typename?: 'Follow' }
+          & Pick<Follow, 'id' | 'followerUserId'>
+        )> }
+      ), following: (
+        { __typename?: 'Following' }
+        & Pick<Following, 'count'>
+        & { rows: Array<(
+          { __typename?: 'Follow' }
+          & Pick<Follow, 'id' | 'followedUserId'>
+        )> }
+      ) }
+    ), aquascapes: (
       { __typename?: 'AquascapesResult' }
       & Pick<AquascapesResult, 'count'>
     ) }
@@ -1070,8 +1097,25 @@ export type UserBySlugQuery = (
   { __typename?: 'Query' }
   & { user: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'slug' | 'name' | 'about' | 'profileImage' | 'profileImagePublicId' | 'coverImage' | 'coverImagePublicId' | 'facebookUrl' | 'youtubeUrl' | 'instagramUrl' | 'twitterUrl' | 'followersCount' | 'followingCount' | 'isFollowedByMe'>
-    & { aquascapes: (
+    & Pick<User, 'id' | 'slug' | 'name' | 'about' | 'profileImage' | 'profileImagePublicId' | 'coverImage' | 'coverImagePublicId' | 'facebookUrl' | 'youtubeUrl' | 'instagramUrl' | 'twitterUrl'>
+    & { follows: (
+      { __typename?: 'FollowResult' }
+      & { followers: (
+        { __typename?: 'Followers' }
+        & Pick<Followers, 'count'>
+        & { rows: Array<(
+          { __typename?: 'Follow' }
+          & Pick<Follow, 'id' | 'followerUserId'>
+        )> }
+      ), following: (
+        { __typename?: 'Following' }
+        & Pick<Following, 'count'>
+        & { rows: Array<(
+          { __typename?: 'Follow' }
+          & Pick<Follow, 'id' | 'followedUserId'>
+        )> }
+      ) }
+    ), aquascapes: (
       { __typename?: 'AquascapesResult' }
       & Pick<AquascapesResult, 'count'>
       & { rows: Array<(

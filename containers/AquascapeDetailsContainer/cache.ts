@@ -5,7 +5,6 @@ import {Comment} from 'graphql/generated/types'
 
 export enum AquascapeDetailsActions {
     AQUASCAPE_LIKE,
-    AQUASCAPE_USER_FOLLOW,
     AQUASCAPE_LIKE_COMMENT,
     AQUASCAPE_DISLIKE_COMMENT,
     AQUASCAPE_ADD_COMMENT,
@@ -43,23 +42,6 @@ export const updateAquascapeDetailsCache = (action: AquascapeDetailsActions, pay
                         likesCount: payload.isLiked
                             ? data.aquascape.likesCount + 1
                             : data.aquascape.likesCount - 1,
-                    },
-                },
-            })
-
-        case AquascapeDetailsActions.AQUASCAPE_USER_FOLLOW:
-            query = gql`query { aquascape(id: ${payload.aquascapeId}) { id user { id isFollowedByMe } }}`
-            data = cache.readQuery<any>({query})
-
-            return cache.writeQuery({
-                query,
-                data: {
-                    aquascape: {
-                        ...data.aquascape,
-                        user: {
-                            ...data.aquascape.user,
-                            isFollowedByMe: payload.isFollowed,
-                        },
                     },
                 },
             })

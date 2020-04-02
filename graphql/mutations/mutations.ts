@@ -28,6 +28,7 @@ export const FOLLOW = gql`
     mutation followUser($userId: Int!) {
         followUser(userId: $userId) {
             id
+            followedUserId
         }
     }
 `

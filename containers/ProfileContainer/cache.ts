@@ -1,6 +1,8 @@
+import {Follow} from './../../graphql/generated/mutations'
 import {DataProxy} from 'apollo-cache'
 import {FetchResult} from 'apollo-link'
 import gql from 'graphql-tag'
+import {USER_PROFILE} from 'graphql/queries'
 
 export enum ProfileActions {
     FOLLOW,
@@ -10,11 +12,11 @@ export enum ProfileActions {
 }
 
 interface Payload {
-    slug: string
+    slug?: string
     [key: string]: any
 }
 
-export const updateProfileCache = (action: ProfileActions, payload: Payload) => (
+export const updateProfileCache = (action: ProfileActions, payload: Payload = {}) => (
     cache: DataProxy,
     mutationResult: FetchResult<any>
 ) => {
@@ -26,31 +28,51 @@ export const updateProfileCache = (action: ProfileActions, payload: Payload) => 
 
     switch (action) {
         case ProfileActions.FOLLOW:
-            query = gql`query { userBySlug(slug: "${payload.slug}") { id isFollowedByMe followersCount}}`
+            query = USER_PROFILE
             data = cache.readQuery<any>({query})
+
+            console.log(data)
+            console.log(mutationData)
 
             return cache.writeQuery({
                 query,
                 data: {
-                    userBySlug: {
-                        ...data.userBySlug,
-                        isFollowedByMe: true,
-                        followersCount: data.userBySlug.followersCount + 1,
+                    me: {
+                        ...data.me,
+                        follows: {
+                            ...data.me.follows,
+                            following: {
+                                count: data.me.follows.following.count + 1,
+                                rows: [...data.me.follows.following.rows, mutationData.followUser],
+                                __typename: 'Following',
+                            },
+                            __typename: 'FollowResult',
+                        },
                     },
                 },
             })
 
         case ProfileActions.UNFOLLOW:
-            query = gql`query { userBySlug(slug: "${payload.slug}") { id isFollowedByMe followersCount }}`
+            query = USER_PROFILE
             data = cache.readQuery<any>({query})
 
             return cache.writeQuery({
                 query,
                 data: {
-                    userBySlug: {
-                        ...data.userBySlug,
-                        isFollowedByMe: false,
-                        followersCount: data.userBySlug.followersCount - 1,
+                    me: {
+                        ...data.me,
+                        follows: {
+                            ...data.me.follows,
+                            following: {
+                                count: data.me.follows.following.count - 1,
+                                rows: data.me.follows.following.rows.filter(
+                                    (following: Follow) =>
+                                        following.followedUserId !== mutationData.unfollowUser.id
+                                ),
+                                __typename: 'Following',
+                            },
+                            __typename: 'FollowResult',
+                        },
                     },
                 },
             })
