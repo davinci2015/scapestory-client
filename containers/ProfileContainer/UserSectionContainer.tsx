@@ -54,7 +54,7 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({user}) => {
                                 defaultMessage="Followers"
                             />
                         }
-                        value={user.followersCount}
+                        value={user.follows.followers.count}
                     />
                     <UserStats.Item
                         title={
@@ -63,7 +63,7 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({user}) => {
                                 defaultMessage="Following"
                             />
                         }
-                        value={user.followingCount}
+                        value={user.follows.following.count}
                     />
                     <UserStats.Item
                         title={

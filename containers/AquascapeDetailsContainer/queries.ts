@@ -14,9 +14,19 @@ export const AQUASCAPE_DETAILS = gql`
             title
             mainImageUrl
             viewsCount
-            likesCount
-            isLikedByMe
-
+            likes {
+                rows {
+                    id
+                    user {
+                        id
+                        name
+                        profileImage
+                        slug
+                        createdAt
+                    }
+                }
+                count
+            }
             plants {
                 id
                 name
@@ -90,7 +100,6 @@ export const AQUASCAPE_DETAILS = gql`
                 name
                 profileImage
                 slug
-                isFollowedByMe
                 aquascapes(pagination: {limit: 8}, random: true) {
                     rows {
                         ...AquascapeFields

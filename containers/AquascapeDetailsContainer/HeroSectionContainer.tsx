@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useMemo} from 'react'
 import {useRouter} from 'next/router'
 import {useMutation} from 'react-apollo'
 
@@ -25,6 +25,8 @@ import {
 import routes, {createDynamicPath, getAquascapeDetailsSlug} from 'routes'
 import config from 'config'
 import {shareOnFacebook} from 'utils/general'
+import {updateProfileCache, ProfileActions} from 'containers/ProfileContainer/cache'
+import {isFollowedByCurrentUser} from 'utils/user'
 
 interface Props {
     aquascape: AquascapeDetailsQuery['aquascape']
@@ -37,32 +39,34 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
 
     if (!aquascape) return null
 
+    const isLikedByCurrentUser = useMemo(
+        () => aquascape.likes.rows.some(like => like.user.id === user?.id),
+        [aquascape, user]
+    )
+
+    const isFollowed = useMemo(
+        () => !!user && !!aquascape?.user && isFollowedByCurrentUser(user, aquascape.user.id),
+        [user, aquascape]
+    )
+
     const [like] = useMutation<LikeMutation, LikeMutationVariables>(LIKE, {
         update: updateAquascapeDetailsCache(AquascapeDetailsActions.AQUASCAPE_LIKE, {
             aquascapeId: aquascape.id,
-            isLiked: true,
         }),
     })
 
     const [dislike] = useMutation<DislikeMutation, DislikeMutationVariables>(DISLIKE, {
-        update: updateAquascapeDetailsCache(AquascapeDetailsActions.AQUASCAPE_LIKE, {
+        update: updateAquascapeDetailsCache(AquascapeDetailsActions.AQUASCAPE_DISLIKE, {
             aquascapeId: aquascape.id,
-            isLiked: false,
         }),
     })
 
     const [follow] = useMutation<FollowUserMutation, FollowUserMutationVariables>(FOLLOW, {
-        update: updateAquascapeDetailsCache(AquascapeDetailsActions.AQUASCAPE_USER_FOLLOW, {
-            aquascapeId: aquascape.id,
-            isFollowed: true,
-        }),
+        update: updateProfileCache(ProfileActions.FOLLOW),
     })
 
     const [unfollow] = useMutation<UnfollowUserMutation, UnfollowUserMutationVariables>(UNFOLLOW, {
-        update: updateAquascapeDetailsCache(AquascapeDetailsActions.AQUASCAPE_USER_FOLLOW, {
-            aquascapeId: aquascape.id,
-            isFollowed: false,
-        }),
+        update: updateProfileCache(ProfileActions.UNFOLLOW),
     })
 
     const toggleLike = () => {
@@ -74,7 +78,8 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
             return openModal('register')
         }
 
-        const mutateLike = aquascape.isLikedByMe ? dislike : like
+        const mutateLike = isLikedByCurrentUser ? dislike : like
+
         mutateLike({
             variables: {
                 aquascapeId: aquascape.id,
@@ -84,17 +89,13 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         })
     }
 
-    const toggleFollow = () => {
-        if (!aquascape || !aquascape.user) {
-            return
-        }
-
-        if (!isAuthenticated) {
+    const toggleFollow = (userId: number) => {
+        if (!isAuthenticated || !user) {
             return openModal('register')
         }
 
-        const mutateFollow = aquascape.user.isFollowedByMe ? unfollow : follow
-        mutateFollow({variables: {userId: aquascape.user.id}})
+        const mutateFollow = isFollowedByCurrentUser(user, userId) ? unfollow : follow
+        mutateFollow({variables: {userId}})
     }
 
     const onShare = () => {
@@ -115,15 +116,15 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         )
     }
 
-    const mineAquascape = aquascape.user && user ? aquascape.user.id === user.id : false
-
     return (
         <HeroSection
+            currentUser={user}
+            isLikedByCurrentUser={isLikedByCurrentUser}
             onShare={onShare}
             onEdit={redirectToEdit}
-            mineAquascape={mineAquascape}
             aquascape={aquascape}
             toggleFollow={toggleFollow}
+            isFollowedByCurrentUser={isFollowed}
             toggleLike={toggleLike}
         />
     )

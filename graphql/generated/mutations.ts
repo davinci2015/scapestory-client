@@ -22,7 +22,7 @@ export type Additive = Equipment & {
 export type Aquascape = {
    __typename?: 'Aquascape',
   likesCount: Scalars['Int'],
-  isLikedByMe: Scalars['Boolean'],
+  likes: Likes,
   id: Scalars['Int'],
   createdAt: Scalars['String'],
   updatedAt: Scalars['String'],
@@ -47,6 +47,11 @@ export type Aquascape = {
   additives: Array<Additive>,
   comments: Array<Comment>,
   viewsCount: Scalars['Int'],
+};
+
+
+export type AquascapeLikesArgs = {
+  limit?: Maybe<Scalars['Int']>
 };
 
 export type AquascapeImage = {
@@ -154,10 +159,22 @@ export type Follow = {
   createdAt: Scalars['String'],
 };
 
-export type Follows = {
-   __typename?: 'Follows',
-  following?: Maybe<Array<Maybe<Follow>>>,
-  followers?: Maybe<Array<Maybe<Follow>>>,
+export type Followers = {
+   __typename?: 'Followers',
+  rows: Array<Follow>,
+  count: Scalars['Int'],
+};
+
+export type Following = {
+   __typename?: 'Following',
+  rows: Array<Follow>,
+  count: Scalars['Int'],
+};
+
+export type FollowResult = {
+   __typename?: 'FollowResult',
+  followers: Followers,
+  following: Following,
 };
 
 export type Hardscape = {
@@ -201,6 +218,7 @@ export type Light = Equipment & {
 
 export type Like = {
    __typename?: 'Like',
+  user: User,
   id: Scalars['Int'],
   userId: Scalars['Int'],
   aquascapeImageId?: Maybe<Scalars['Int']>,
@@ -215,6 +233,12 @@ export enum LikeEntityType {
   Image = 'IMAGE',
   Comment = 'COMMENT'
 }
+
+export type Likes = {
+   __typename?: 'Likes',
+  rows: Array<Like>,
+  count: Scalars['Int'],
+};
 
 export type Livestock = {
    __typename?: 'Livestock',
@@ -256,8 +280,8 @@ export type Mutation = {
   addComment?: Maybe<Comment>,
   removeComment?: Maybe<Comment>,
   readNotifications?: Maybe<Scalars['Int']>,
-  followUser?: Maybe<User>,
-  unfollowUser?: Maybe<User>,
+  followUser?: Maybe<Follow>,
+  unfollowUser?: Maybe<Follow>,
   login?: Maybe<AuthPayload>,
   register?: Maybe<User>,
   fbRegister?: Maybe<AuthPayload>,
@@ -509,7 +533,7 @@ export type Plant = {
 
 export type Query = {
    __typename?: 'Query',
-  me?: Maybe<User>,
+  me: User,
   user?: Maybe<User>,
   userBySlug?: Maybe<User>,
   users: Array<Maybe<User>>,
@@ -621,9 +645,7 @@ export type User = {
   createdAt: Scalars['String'],
   updatedAt: Scalars['String'],
   aquascapes: AquascapesResult,
-  followersCount: Scalars['Int'],
-  followingCount: Scalars['Int'],
-  isFollowedByMe: Scalars['Boolean'],
+  follows: FollowResult,
 };
 
 
@@ -869,7 +891,11 @@ export type LikeMutation = (
   { __typename?: 'Mutation' }
   & { like: Maybe<(
     { __typename?: 'Like' }
-    & Pick<Like, 'id' | 'aquascapeId' | 'aquascapeImageId' | 'userId' | 'commentId'>
+    & Pick<Like, 'id' | 'aquascapeId' | 'aquascapeImageId' | 'commentId' | 'userId'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'profileImage' | 'name' | 'createdAt'>
+    ) }
   )> }
 );
 
@@ -895,8 +921,8 @@ export type FollowUserMutationVariables = {
 export type FollowUserMutation = (
   { __typename?: 'Mutation' }
   & { followUser: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'id'>
+    { __typename?: 'Follow' }
+    & Pick<Follow, 'id' | 'followedUserId' | 'followerUserId'>
   )> }
 );
 
@@ -908,8 +934,8 @@ export type UnfollowUserMutationVariables = {
 export type UnfollowUserMutation = (
   { __typename?: 'Mutation' }
   & { unfollowUser: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'id'>
+    { __typename?: 'Follow' }
+    & Pick<Follow, 'id' | 'followedUserId' | 'followerUserId'>
   )> }
 );
 

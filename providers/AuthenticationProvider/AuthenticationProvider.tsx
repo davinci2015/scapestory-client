@@ -13,7 +13,7 @@ interface AuthContextInterface {
 
 export const AuthContext = React.createContext<AuthContextInterface>({
     isAuthenticated: false,
-    user: null,
+    user: undefined,
     refreshAuthentication: () => new Error('setAuthenticated is not implemented'),
 })
 
@@ -27,7 +27,9 @@ const AuthenticationProvider: React.FunctionComponent<Props> = ({children}) => {
         errorPolicy: 'ignore',
     })
 
-    if (error) logger.error(error)
+    if (error) {
+        logger.error(error)
+    }
 
     const user = data?.me
 

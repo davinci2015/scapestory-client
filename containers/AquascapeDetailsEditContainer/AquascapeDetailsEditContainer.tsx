@@ -12,7 +12,6 @@ import {AuthContext} from 'providers/AuthenticationProvider'
 import {AquascapeDetailsQuery, AquascapeDetailsQueryVariables} from 'graphql/generated/queries'
 import routes from 'routes'
 
-import {AQUASCAPE_DETAILS_EDIT} from './queries'
 import HeroSectionEditContainer from 'containers/AquascapeDetailsEditContainer/HeroSectionEditContainer'
 import FloraSectionEditContainer from 'containers/AquascapeDetailsEditContainer/FloraSectionEditContainer'
 import PhotoSectionEditContainer from 'containers/AquascapeDetailsEditContainer/PhotoSectionEditContainer'
@@ -22,6 +21,7 @@ import {OtherAquascapesSection} from 'components/sections/AquascapeDetails'
 import {pxToNumber} from 'utils/converter'
 import {breakpoints} from 'styles'
 import SettingsIcon from 'assets/icons/settings.svg'
+import {AQUASCAPE_DETAILS} from 'containers/AquascapeDetailsContainer/queries'
 
 const sections = {
     PHOTO_POSTS: 'PHOTO_POSTS',
@@ -48,7 +48,7 @@ const AquascapeDetailsEditContainer: React.FunctionComponent = () => {
     const {data: aquascapeResult, error} = useQuery<
         AquascapeDetailsQuery,
         AquascapeDetailsQueryVariables
-    >(AQUASCAPE_DETAILS_EDIT, {variables: {id: aquascapeId}})
+    >(AQUASCAPE_DETAILS, {variables: {id: aquascapeId}})
 
     useEffect(() => {
         if (isFreshlyCreated) {

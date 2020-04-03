@@ -1,17 +1,35 @@
 import React from 'react'
-import {Paragraph} from 'components/atoms'
-import {colors} from 'styles'
+import {colors, typography} from 'styles'
+import UserImage, {UserImageSize, UserImageVariant} from 'components/atoms/UserImage'
 
 const classes = {
     root: 'image-stack',
 }
 
-interface Props {
-    images: string[]
-    text: React.ReactNode
+const IMAGE_PLACEHOLDER = '/static/placeholders/user.png'
+
+export enum ImageStackSize {
+    s24,
+    s36,
 }
 
-const ImageStack = ({images, text}: Props) => (
+interface Props {
+    images: Array<string | undefined | null>
+    placeholder?: string
+    size?: ImageStackSize
+}
+
+const sizeMapping = {
+    [ImageStackSize.s24]: '24px',
+    [ImageStackSize.s36]: '36px',
+}
+
+const imageSizeMapping = {
+    [ImageStackSize.s24]: UserImageSize.s24,
+    [ImageStackSize.s36]: UserImageSize.s36,
+}
+
+const ImageStack = ({images, placeholder, size = ImageStackSize.s36}: Props) => (
     <div className={classes.root}>
         <div className="images">
             {images.map((image, index) => (
@@ -19,19 +37,18 @@ const ImageStack = ({images, text}: Props) => (
                     key={index}
                     className="image"
                     style={{
-                        backgroundImage: `url("${image}")`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
+                        zIndex: images.length - index,
                     }}
-                ></div>
+                >
+                    <UserImage
+                        size={imageSizeMapping[size]}
+                        variant={UserImageVariant.BORDER}
+                        image={image || IMAGE_PLACEHOLDER}
+                    />
+                </div>
             ))}
+            {placeholder && <div className="placeholder">{placeholder}</div>}
         </div>
-        <div className="text">
-            <Paragraph color={colors.SHADE_DEEP} type="body">
-                {text}
-            </Paragraph>
-        </div>
-
         <style jsx>{`
             .${classes.root} {
                 display: flex;
@@ -44,16 +61,28 @@ const ImageStack = ({images, text}: Props) => (
             }
 
             .image {
-                width: 30px;
-                height: 30px;
                 margin: 0;
-                margin-left: -15px;
-                border: 1px solid ${colors.WHITE};
-                border-radius: 50%;
+                margin-left: -${size === ImageStackSize.s24 ? 10 : 14}px;
             }
 
-            .text {
-                margin-left: 15px;
+            .placeholder {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                margin-left: -${size === ImageStackSize.s24 ? 4 : 8}px;
+                width: ${sizeMapping[size]};
+                height: ${sizeMapping[size]};
+
+                border-radius: 50%;
+                border: 1px solid ${colors.WHITE};
+                background: ${colors.DARK_GRAY};
+
+                color: ${colors.WHITE};
+                font-weight: ${typography.fontWeight.bold};
+                font-size: ${size === ImageStackSize.s24
+                    ? typography.fontSize.fs11
+                    : typography.fontSize.fs13};
             }
         `}</style>
     </div>

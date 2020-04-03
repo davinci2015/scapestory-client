@@ -6,8 +6,14 @@ export const LIKE = gql`
             id
             aquascapeId
             aquascapeImageId
-            userId
             commentId
+            userId
+            user {
+                id
+                profileImage
+                name
+                createdAt
+            }
         }
     }
 `
@@ -28,6 +34,8 @@ export const FOLLOW = gql`
     mutation followUser($userId: Int!) {
         followUser(userId: $userId) {
             id
+            followedUserId
+            followerUserId
         }
     }
 `
@@ -36,6 +44,8 @@ export const UNFOLLOW = gql`
     mutation unfollowUser($userId: Int!) {
         unfollowUser(userId: $userId) {
             id
+            followedUserId
+            followerUserId
         }
     }
 `

@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React from 'react'
 import Modal from 'components/molecules/Modal'
 import {Button} from 'components/atoms'
 import {spaces} from 'styles'
+import useModal from 'hooks/useModal'
 
 interface RenderProps {
     open: VoidFunction
@@ -20,11 +21,7 @@ const ConfirmationModal: React.FunctionComponent<Props> = ({
     render,
     title,
 }) => {
-    const [isOpen, setOpen] = useState(false)
-
-    const open = () => setOpen(true)
-
-    const close = () => setOpen(false)
+    const {close, isOpen, open} = useModal()
 
     return (
         <>

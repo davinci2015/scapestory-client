@@ -54,6 +54,22 @@ export const USER_PROFILE = gql`
             name
             country
             profileImage
+            follows {
+                followers {
+                    count
+                    rows {
+                        id
+                        followerUserId
+                    }
+                }
+                following {
+                    count
+                    rows {
+                        id
+                        followedUserId
+                    }
+                }
+            }
             aquascapes(pagination: {limit: 0}) {
                 count
             }
@@ -109,9 +125,22 @@ export const USER_BY_SLUG = gql`
             instagramUrl
             twitterUrl
 
-            followersCount
-            followingCount
-            isFollowedByMe
+            follows {
+                followers {
+                    count
+                    rows {
+                        id
+                        followerUserId
+                    }
+                }
+                following {
+                    count
+                    rows {
+                        id
+                        followedUserId
+                    }
+                }
+            }
 
             aquascapes(pagination: $pagination) {
                 count
