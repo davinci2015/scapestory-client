@@ -13,7 +13,7 @@ interface AuthContextInterface {
 
 export const AuthContext = React.createContext<AuthContextInterface>({
     isAuthenticated: false,
-    user: null,
+    user: undefined,
     refreshAuthentication: () => new Error('setAuthenticated is not implemented'),
 })
 

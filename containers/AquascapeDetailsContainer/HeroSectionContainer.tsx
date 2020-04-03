@@ -38,25 +38,20 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
 
     if (!aquascape) return null
 
-    const isFollowedByMe = useMemo(() => {
-        if (user) {
-            return user.follows.following.rows.some(
-                user => user.followedUserId === aquascape.user?.id
-            )
-        }
-    }, [user, aquascape])
+    const isLikedByMe = useMemo(
+        () => aquascape.likes.rows.some(like => like.user.id === user?.id),
+        [aquascape, user]
+    )
 
     const [like] = useMutation<LikeMutation, LikeMutationVariables>(LIKE, {
         update: updateAquascapeDetailsCache(AquascapeDetailsActions.AQUASCAPE_LIKE, {
             aquascapeId: aquascape.id,
-            isLiked: true,
         }),
     })
 
     const [dislike] = useMutation<DislikeMutation, DislikeMutationVariables>(DISLIKE, {
-        update: updateAquascapeDetailsCache(AquascapeDetailsActions.AQUASCAPE_LIKE, {
+        update: updateAquascapeDetailsCache(AquascapeDetailsActions.AQUASCAPE_DISLIKE, {
             aquascapeId: aquascape.id,
-            isLiked: false,
         }),
     })
 
@@ -77,7 +72,7 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
             return openModal('register')
         }
 
-        const mutateLike = aquascape.isLikedByMe ? dislike : like
+        const mutateLike = isLikedByMe ? dislike : like
         mutateLike({
             variables: {
                 aquascapeId: aquascape.id,
@@ -87,17 +82,17 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         })
     }
 
-    const toggleFollow = () => {
-        if (!aquascape || !aquascape.user) {
-            return
-        }
-
-        if (!isAuthenticated) {
+    const toggleFollow = (userId: number) => {
+        if (!isAuthenticated || !user) {
             return openModal('register')
         }
 
+        const isFollowedByMe = user.follows.following.rows.some(
+            user => user.followedUserId === userId
+        )
+
         const mutateFollow = isFollowedByMe ? unfollow : follow
-        mutateFollow({variables: {userId: aquascape.user.id}})
+        mutateFollow({variables: {userId}})
     }
 
     const onShare = () => {
@@ -118,14 +113,12 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         )
     }
 
-    const mineAquascape = aquascape.user && user ? aquascape.user.id === user.id : false
-
     return (
         <HeroSection
-            isFollowedByMe={isFollowedByMe}
+            currentUser={user}
+            isLikedByMe={isLikedByMe}
             onShare={onShare}
             onEdit={redirectToEdit}
-            mineAquascape={mineAquascape}
             aquascape={aquascape}
             toggleFollow={toggleFollow}
             toggleLike={toggleLike}

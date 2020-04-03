@@ -6,8 +6,13 @@ export const LIKE = gql`
             id
             aquascapeId
             aquascapeImageId
-            userId
             commentId
+            user {
+                id
+                profileImage
+                name
+                createdAt
+            }
         }
     }
 `

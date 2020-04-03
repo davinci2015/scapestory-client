@@ -15,7 +15,6 @@ export const AQUASCAPE_DETAILS_EDIT = gql`
             mainImageUrl
             viewsCount
             likesCount
-            isLikedByMe
 
             plants {
                 id

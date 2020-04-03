@@ -13,18 +13,20 @@ import {
 import {colors, spaces, zIndex, media, breakpoints} from 'styles'
 import {Hero} from 'components/sections/shared'
 import {UserWidget, UserListModal} from 'components/molecules'
-import {AquascapeDetailsQuery} from 'graphql/generated/queries'
+import {AquascapeDetailsQuery, User_ProfileQuery} from 'graphql/generated/queries'
 import {ProfileLink, Hide} from 'components/core'
 import {UserWidgetSize, UserWidgetVariant} from 'components/molecules/UserWidget/UserWidget'
 import {pxToNumber} from 'utils/converter'
 import {ImageStackSize} from 'components/atoms/ImageStack/ImageStack'
+import useModal from 'hooks/useModal'
+import {isFollowedByMe} from 'utils/user'
 
 interface Props {
-    isFollowedByMe?: boolean
-    mineAquascape: boolean
+    currentUser?: User_ProfileQuery['me']
+    isLikedByMe?: boolean
     aquascape: AquascapeDetailsQuery['aquascape']
     toggleLike: VoidFunction
-    toggleFollow: VoidFunction
+    toggleFollow: (userId: number) => void
     onEdit: VoidFunction
     onShare: VoidFunction
 }
@@ -37,14 +39,19 @@ const LIKES_STACK_COUNT = 4
 
 const HeroSection: React.FunctionComponent<Props> = ({
     aquascape,
-    isFollowedByMe,
-    mineAquascape,
+    currentUser,
+    isLikedByMe,
     onEdit,
     onShare,
     toggleFollow,
     toggleLike,
 }) => {
+    const {close, isOpen, open} = useModal()
+
     if (!aquascape || !aquascape.user) return null
+
+    const isCurrentUserAquascapeOwner =
+        aquascape.user && currentUser ? aquascape.user.id === currentUser.id : false
 
     const stackImages = useMemo(
         () => aquascape.likes.rows.slice(0, LIKES_STACK_COUNT).map(like => like.user.profileImage),
@@ -80,13 +87,14 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                             >
                                                 {aquascape.user.name}
                                             </Paragraph>
-                                            {!mineAquascape && (
+                                            {!isCurrentUserAquascapeOwner && (
                                                 <Hide upTo={pxToNumber(breakpoints.medium)}>
                                                     <div
                                                         className="follow"
                                                         onClick={(event: SyntheticEvent) => {
                                                             event.preventDefault()
-                                                            toggleFollow()
+                                                            aquascape?.user &&
+                                                                toggleFollow(aquascape.user.id)
                                                         }}
                                                         role="presentation"
                                                     >
@@ -95,7 +103,11 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                                             color={colors.WHITE}
                                                             weight="semibold"
                                                         >
-                                                            {isFollowedByMe ? (
+                                                            {currentUser &&
+                                                            isFollowedByMe(
+                                                                currentUser,
+                                                                aquascape.user.id
+                                                            ) ? (
                                                                 <FormattedMessage
                                                                     id="aquascape.hero_section.unfollow"
                                                                     defaultMessage="Unfollow"
@@ -117,19 +129,20 @@ const HeroSection: React.FunctionComponent<Props> = ({
                         </Hero.TopLeft>
                         <Hero.TopRight className="top-right">
                             <Hide upTo={pxToNumber(breakpoints.medium)}>
-                                <ImageStack images={stackImages} placeholder={stackPlaceholder} />
+                                <a className="image-stack" onClick={open}>
+                                    <ImageStack
+                                        images={stackImages}
+                                        placeholder={stackPlaceholder}
+                                    />
+                                </a>
                             </Hide>
                             <Hero.ActionButtons>
-                                {!mineAquascape && (
+                                {!isCurrentUserAquascapeOwner && (
                                     <Button
                                         onClick={toggleLike}
                                         leftIcon={
                                             <Icon
-                                                d={
-                                                    aquascape.isLikedByMe
-                                                        ? Icon.HEART
-                                                        : Icon.HEART_OUTLINE
-                                                }
+                                                d={isLikedByMe ? Icon.HEART : Icon.HEART_OUTLINE}
                                                 color={colors.WHITE}
                                             />
                                         }
@@ -153,7 +166,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                         defaultMessage="Share"
                                     />
                                 </Button>
-                                {mineAquascape && (
+                                {isCurrentUserAquascapeOwner && (
                                     <Button
                                         leftIcon={<Icon d={Icon.EDIT} color={colors.WHITE} />}
                                         dimensions="extraSmall"
@@ -179,7 +192,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                     text={aquascape.viewsCount}
                                     color={colors.WHITE}
                                 />
-                                {mineAquascape ? (
+                                {isCurrentUserAquascapeOwner ? (
                                     <HeartIcon count={aquascape.likes.count} />
                                 ) : (
                                     <IconButton onClick={toggleLike}>
@@ -190,11 +203,13 @@ const HeroSection: React.FunctionComponent<Props> = ({
                         </Hero.BottomLeft>
                         <Hero.BottomRight>
                             <Hide after={pxToNumber(breakpoints.medium)}>
-                                <ImageStack
-                                    size={ImageStackSize.s24}
-                                    images={stackImages}
-                                    placeholder={stackPlaceholder}
-                                />
+                                <a className="image-stack" onClick={open}>
+                                    <ImageStack
+                                        size={ImageStackSize.s24}
+                                        images={stackImages}
+                                        placeholder={stackPlaceholder}
+                                    />
+                                </a>
                             </Hide>
                         </Hero.BottomRight>
                     </Hero.BottomSection>
@@ -202,14 +217,16 @@ const HeroSection: React.FunctionComponent<Props> = ({
             />
 
             <UserListModal
-                isOpen={false}
+                isOpen={isOpen}
+                currentUser={currentUser}
                 users={aquascape.likes.rows.map(like => like.user)}
-                onClose={() => null}
+                onClose={close}
+                toggleFollow={toggleFollow}
                 title={
                     <Headline variant="h4">
                         <FormattedMessage
-                            id="aquascape.hero_section.likes"
-                            defaultMessage="Likes"
+                            id="aquascape.hero_section.liked_by"
+                            defaultMessage="Liked by"
                         />
                     </Headline>
                 }
@@ -232,6 +249,10 @@ const HeroSection: React.FunctionComponent<Props> = ({
                     display: flex;
                     flex-direction: column;
                     z-index: ${zIndex.DEFAULT};
+                }
+
+                .image-stack {
+                    cursor: pointer;
                 }
 
                 @media ${media.up('medium')} {

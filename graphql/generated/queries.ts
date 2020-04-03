@@ -23,7 +23,6 @@ export type Aquascape = {
    __typename?: 'Aquascape',
   likesCount: Scalars['Int'],
   likes: Likes,
-  isLikedByMe: Scalars['Boolean'],
   id: Scalars['Int'],
   createdAt: Scalars['String'],
   updatedAt: Scalars['String'],
@@ -534,7 +533,7 @@ export type Plant = {
 
 export type Query = {
    __typename?: 'Query',
-  me?: Maybe<User>,
+  me: User,
   user?: Maybe<User>,
   userBySlug?: Maybe<User>,
   users: Array<Maybe<User>>,
@@ -692,7 +691,7 @@ export type AquascapeDetailsQuery = (
     )> }
   ), aquascape: Maybe<(
     { __typename?: 'Aquascape' }
-    & Pick<Aquascape, 'id' | 'title' | 'mainImageUrl' | 'viewsCount' | 'isLikedByMe'>
+    & Pick<Aquascape, 'id' | 'title' | 'mainImageUrl' | 'viewsCount'>
     & { likes: (
       { __typename?: 'Likes' }
       & Pick<Likes, 'count'>
@@ -701,7 +700,7 @@ export type AquascapeDetailsQuery = (
         & Pick<Like, 'id'>
         & { user: (
           { __typename?: 'User' }
-          & Pick<User, 'id' | 'name' | 'profileImage'>
+          & Pick<User, 'id' | 'name' | 'profileImage' | 'createdAt'>
         ) }
       )> }
     ), plants: Array<(
@@ -875,7 +874,7 @@ export type AquascapeDetailsEditQuery = (
     )> }
   ), aquascape: Maybe<(
     { __typename?: 'Aquascape' }
-    & Pick<Aquascape, 'id' | 'title' | 'mainImageUrl' | 'viewsCount' | 'likesCount' | 'isLikedByMe'>
+    & Pick<Aquascape, 'id' | 'title' | 'mainImageUrl' | 'viewsCount' | 'likesCount'>
     & { plants: Array<(
       { __typename?: 'Plant' }
       & Pick<Plant, 'id' | 'name'>
@@ -1018,7 +1017,7 @@ export type User_ProfileQueryVariables = {};
 
 export type User_ProfileQuery = (
   { __typename?: 'Query' }
-  & { me: Maybe<(
+  & { me: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'slug' | 'name' | 'country' | 'profileImage'>
     & { follows: (
@@ -1042,7 +1041,7 @@ export type User_ProfileQuery = (
       { __typename?: 'AquascapesResult' }
       & Pick<AquascapesResult, 'count'>
     ) }
-  )> }
+  ) }
 );
 
 export type AquascapesQueryVariables = {

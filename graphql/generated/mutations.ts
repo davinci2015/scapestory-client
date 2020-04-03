@@ -23,7 +23,6 @@ export type Aquascape = {
    __typename?: 'Aquascape',
   likesCount: Scalars['Int'],
   likes: Likes,
-  isLikedByMe: Scalars['Boolean'],
   id: Scalars['Int'],
   createdAt: Scalars['String'],
   updatedAt: Scalars['String'],
@@ -534,7 +533,7 @@ export type Plant = {
 
 export type Query = {
    __typename?: 'Query',
-  me?: Maybe<User>,
+  me: User,
   user?: Maybe<User>,
   userBySlug?: Maybe<User>,
   users: Array<Maybe<User>>,
@@ -892,7 +891,11 @@ export type LikeMutation = (
   { __typename?: 'Mutation' }
   & { like: Maybe<(
     { __typename?: 'Like' }
-    & Pick<Like, 'id' | 'aquascapeId' | 'aquascapeImageId' | 'userId' | 'commentId'>
+    & Pick<Like, 'id' | 'aquascapeId' | 'aquascapeImageId' | 'commentId'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'profileImage' | 'name' | 'createdAt'>
+    ) }
   )> }
 );
 

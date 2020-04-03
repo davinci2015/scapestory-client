@@ -21,12 +21,11 @@ export const AQUASCAPE_DETAILS = gql`
                         id
                         name
                         profileImage
+                        createdAt
                     }
                 }
                 count
             }
-            isLikedByMe
-
             plants {
                 id
                 name
