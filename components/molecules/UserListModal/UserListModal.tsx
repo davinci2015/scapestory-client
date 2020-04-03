@@ -6,6 +6,7 @@ import {UserImage, Paragraph, FormattedMessage} from 'components/atoms'
 import {UserImageSize} from 'components/atoms/UserImage'
 import {formatDate, dateFormats} from 'utils/date'
 import {isFollowedByMe} from 'utils/user'
+import {ProfileLink} from 'components/core'
 
 interface Props {
     currentUser?: User_ProfileQuery['me']
@@ -13,7 +14,7 @@ interface Props {
     isOpen: boolean
     onClose: VoidFunction
     toggleFollow: (userId: number) => void
-    users: Pick<User, 'id' | 'name' | 'profileImage' | 'createdAt'>[]
+    users: Pick<User, 'id' | 'name' | 'profileImage' | 'createdAt' | 'slug'>[]
 }
 
 const UserListModal: React.FunctionComponent<Props> = ({
@@ -34,13 +35,19 @@ const UserListModal: React.FunctionComponent<Props> = ({
                         {users.map(user => (
                             <li className="list-item" key={user.id}>
                                 <div className="user-info">
-                                    <UserImage
-                                        size={UserImageSize.s42}
-                                        image={user.profileImage}
-                                        placeholder={user.name.charAt(0)}
-                                    />
+                                    <ProfileLink slug={user.slug}>
+                                        <UserImage
+                                            size={UserImageSize.s42}
+                                            image={user.profileImage}
+                                            placeholder={user.name.charAt(0)}
+                                        />
+                                    </ProfileLink>
                                     <div>
-                                        <Paragraph weight="bold">{user.name}</Paragraph>
+                                        <div className="user-name">
+                                            <ProfileLink slug={user.slug}>
+                                                <Paragraph weight="bold">{user.name}</Paragraph>
+                                            </ProfileLink>
+                                        </div>
                                         <Paragraph type="s2" color={colors.DARK_GRAY}>
                                             Member since{' '}
                                             {formatDate(
@@ -139,6 +146,14 @@ const UserListModal: React.FunctionComponent<Props> = ({
             .user-info {
                 display: flex;
                 align-items: center;
+            }
+
+            .user-name :global(.${Paragraph.classes.root}) {
+                transition: color 100ms ease-in-out;
+            }
+
+            .user-name :global(.${Paragraph.classes.root}):hover {
+                color: ${colors.DARK_GRAY};
             }
 
             .follow {

@@ -21,6 +21,7 @@ export const AQUASCAPE_DETAILS = gql`
                         id
                         name
                         profileImage
+                        slug
                         createdAt
                     }
                 }

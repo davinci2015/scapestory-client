@@ -700,7 +700,7 @@ export type AquascapeDetailsQuery = (
         & Pick<Like, 'id'>
         & { user: (
           { __typename?: 'User' }
-          & Pick<User, 'id' | 'name' | 'profileImage' | 'createdAt'>
+          & Pick<User, 'id' | 'name' | 'profileImage' | 'slug' | 'createdAt'>
         ) }
       )> }
     ), plants: Array<(
