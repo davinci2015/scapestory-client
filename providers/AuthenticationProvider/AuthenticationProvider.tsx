@@ -27,7 +27,9 @@ const AuthenticationProvider: React.FunctionComponent<Props> = ({children}) => {
         errorPolicy: 'ignore',
     })
 
-    if (error) logger.error(error)
+    if (error) {
+        logger.error(error)
+    }
 
     const user = data?.me
 

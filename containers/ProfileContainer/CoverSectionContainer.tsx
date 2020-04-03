@@ -1,5 +1,5 @@
 import React, {useContext, useMemo} from 'react'
-import {useMutation} from 'react-apollo'
+import {useMutation, useApolloClient} from 'react-apollo'
 
 import {UserBySlugQuery} from 'graphql/generated/queries'
 import {updateProfileCache, ProfileActions} from 'containers/ProfileContainer/cache'
@@ -24,6 +24,7 @@ import {
     UnfollowUserMutationVariables,
 } from 'graphql/generated/mutations'
 import {isFollowedByCurrentUser} from 'utils/user'
+import logger from 'services/logger'
 
 interface Props {
     user: UserBySlugQuery['user']
@@ -35,6 +36,7 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) =
     const {openModal} = useContext(ModalContext)
     const onCreateAquascape = useCreateAquascape()
     const router = useRouter()
+    const apolloClient = useApolloClient()
 
     if (!user) return null
 
@@ -53,8 +55,13 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) =
 
     const onLogout = () => {
         cookie.removeAuthToken()
-        refreshAuthentication()
-        router.push(routes.index)
+        apolloClient
+            .resetStore()
+            .then(() => {
+                refreshAuthentication()
+                router.push(routes.index)
+            })
+            .catch(logger.error)
     }
 
     const toggleFollow = () => {
