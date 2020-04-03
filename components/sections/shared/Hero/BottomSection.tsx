@@ -1,10 +1,15 @@
 import React from 'react'
+import classnames from 'classnames'
 
 import {spaces} from 'styles'
 import {Tag, IconText} from 'components/atoms'
 
-const BottomSection: React.FunctionComponent = ({children}) => (
-    <div className="section">
+interface Props {
+    className?: string
+}
+
+const BottomSection: React.FunctionComponent<Props> = ({children, className}) => (
+    <div className={classnames('section', className)}>
         {children}
         <style jsx>{`
             .section {
@@ -26,8 +31,12 @@ const BottomSection: React.FunctionComponent = ({children}) => (
     </div>
 )
 
-const BottomLeft: React.FunctionComponent = ({children}) => <div>{children}</div>
+const BottomLeft: React.FunctionComponent<Props> = ({children, className}) => (
+    <div className={className}>{children}</div>
+)
 
-const BottomRight: React.FunctionComponent = ({children}) => <div>{children}</div>
+const BottomRight: React.FunctionComponent<Props> = ({children, className}) => (
+    <div className={className}>{children}</div>
+)
 
 export {BottomSection, BottomLeft, BottomRight}

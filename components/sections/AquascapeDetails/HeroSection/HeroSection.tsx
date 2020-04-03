@@ -17,7 +17,6 @@ import {AquascapeDetailsQuery, User_ProfileQuery} from 'graphql/generated/querie
 import {ProfileLink, Hide} from 'components/core'
 import {UserWidgetSize, UserWidgetVariant} from 'components/molecules/UserWidget/UserWidget'
 import {pxToNumber} from 'utils/converter'
-import {ImageStackSize} from 'components/atoms/ImageStack/ImageStack'
 import useModal from 'hooks/useModal'
 
 interface Props {
@@ -35,7 +34,7 @@ const HeartIcon = ({count}: {count: number}) => (
     <IconText icon={Icon.HEART} text={count} color={colors.WHITE} />
 )
 
-const LIKES_STACK_COUNT = 4
+const LIKES_STACK_COUNT = 3
 
 const HeroSection: React.FunctionComponent<Props> = ({
     aquascape,
@@ -186,7 +185,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                 }
                 bottomSection={
                     <Hero.BottomSection>
-                        <Hero.BottomLeft>
+                        <Hero.BottomLeft className="bottom-left">
                             <div className="icons">
                                 <IconText
                                     icon={Icon.EYE_SHOW_FULL}
@@ -206,7 +205,6 @@ const HeroSection: React.FunctionComponent<Props> = ({
                             <Hide after={pxToNumber(breakpoints.medium)}>
                                 <a className="image-stack" onClick={open}>
                                     <ImageStack
-                                        size={ImageStackSize.s24}
                                         images={stackImages}
                                         placeholder={stackPlaceholder}
                                     />
@@ -236,6 +234,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
             <style jsx>{`
                 .icons {
                     margin-left: -${spaces.s12};
+                    margin-bottom: -${spaces.s4};
                 }
 
                 .follow {
@@ -256,10 +255,19 @@ const HeroSection: React.FunctionComponent<Props> = ({
                     cursor: pointer;
                 }
 
+                :global(.bottom-left) {
+                    display: flex;
+                    align-items: center;
+                }
+
                 @media ${media.up('medium')} {
                     .top-section {
                         flex-direction: row;
                         justify-content: space-between;
+                    }
+
+                    .icons {
+                        margin-bottom: 0;
                     }
                 }
 
