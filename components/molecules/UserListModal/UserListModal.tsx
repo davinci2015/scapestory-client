@@ -13,7 +13,7 @@ interface Props {
     title: React.ReactNode
     isOpen: boolean
     onClose: VoidFunction
-    toggleFollow: (userId: number) => void
+    toggleFollow: (userId?: number) => void
     users: Pick<User, 'id' | 'name' | 'profileImage' | 'createdAt' | 'slug'>[]
 }
 
@@ -81,7 +81,13 @@ const UserListModal: React.FunctionComponent<Props> = ({
                                     )}
 
                                 {!currentUser && ( // toggleFollow will open registration modal
-                                    <a className="follow" onClick={() => toggleFollow(0)}>
+                                    <a
+                                        className="follow"
+                                        onClick={() => {
+                                            toggleFollow()
+                                            onClose()
+                                        }}
+                                    >
                                         <FormattedMessage
                                             id="user_list.follow"
                                             defaultMessage="Follow"

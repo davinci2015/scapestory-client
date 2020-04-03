@@ -25,7 +25,7 @@ interface Props {
     isFollowedByCurrentUser: boolean
     aquascape: AquascapeDetailsQuery['aquascape']
     toggleLike: VoidFunction
-    toggleFollow: (userId: number) => void
+    toggleFollow: (userId?: number) => void
     onEdit: VoidFunction
     onShare: VoidFunction
 }

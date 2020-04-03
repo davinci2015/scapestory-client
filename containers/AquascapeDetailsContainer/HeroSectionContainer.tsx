@@ -89,10 +89,9 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         })
     }
 
-    const toggleFollow = (userId: number) => {
-        if (!isAuthenticated || !user) {
-            return openModal('register')
-        }
+    const toggleFollow = (userId?: number) => {
+        if (!isAuthenticated || !user) return openModal('register')
+        if (!userId) return null
 
         const mutateFollow = isFollowedByCurrentUser(user, userId) ? unfollow : follow
         mutateFollow({variables: {userId}})
