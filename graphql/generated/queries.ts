@@ -281,7 +281,7 @@ export type Mutation = {
   removeComment?: Maybe<Comment>,
   readNotifications?: Maybe<Scalars['Int']>,
   followUser?: Maybe<Follow>,
-  unfollowUser?: Maybe<User>,
+  unfollowUser?: Maybe<Follow>,
   login?: Maybe<AuthPayload>,
   register?: Maybe<User>,
   fbRegister?: Maybe<AuthPayload>,
@@ -856,78 +856,6 @@ export type PlantsQuery = (
   & { plants: Array<(
     { __typename?: 'Plant' }
     & Pick<Plant, 'id' | 'name'>
-  )> }
-);
-
-export type AquascapeDetailsEditQueryVariables = {
-  id: Scalars['Int']
-};
-
-
-export type AquascapeDetailsEditQuery = (
-  { __typename?: 'Query' }
-  & { aquascapes: (
-    { __typename?: 'AquascapesResult' }
-    & { rows: Array<(
-      { __typename?: 'Aquascape' }
-      & AquascapeFieldsFragment
-    )> }
-  ), aquascape: Maybe<(
-    { __typename?: 'Aquascape' }
-    & Pick<Aquascape, 'id' | 'title' | 'mainImageUrl' | 'viewsCount' | 'likesCount'>
-    & { plants: Array<(
-      { __typename?: 'Plant' }
-      & Pick<Plant, 'id' | 'name'>
-    )>, livestock: Array<(
-      { __typename?: 'Livestock' }
-      & Pick<Livestock, 'id' | 'name'>
-    )>, hardscape: Array<(
-      { __typename?: 'Hardscape' }
-      & Pick<Hardscape, 'id' | 'name'>
-    )>, lights: Array<(
-      { __typename?: 'Light' }
-      & Pick<Light, 'id' | 'model'>
-      & { brand: Maybe<(
-        { __typename?: 'Brand' }
-        & Pick<Brand, 'id' | 'name'>
-      )> }
-    )>, filters: Array<(
-      { __typename?: 'Filter' }
-      & Pick<Filter, 'id' | 'model'>
-      & { brand: Maybe<(
-        { __typename?: 'Brand' }
-        & Pick<Brand, 'id' | 'name'>
-      )> }
-    )>, co2: Maybe<(
-      { __typename?: 'CO2' }
-      & Pick<Co2, 'id' | 'type' | 'bps'>
-    )>, substrates: Array<(
-      { __typename?: 'Substrate' }
-      & Pick<Substrate, 'id' | 'model'>
-      & { brand: Maybe<(
-        { __typename?: 'Brand' }
-        & Pick<Brand, 'id' | 'name'>
-      )> }
-    )>, additives: Array<(
-      { __typename?: 'Additive' }
-      & Pick<Additive, 'id' | 'model'>
-      & { brand: Maybe<(
-        { __typename?: 'Brand' }
-        & Pick<Brand, 'id' | 'name'>
-      )> }
-    )>, tags: Array<(
-      { __typename?: 'Tag' }
-      & Pick<Tag, 'name'>
-    )>, images: Array<(
-      { __typename?: 'AquascapeImage' }
-      & Pick<AquascapeImage, 'id' | 'title' | 'url' | 'createdAt'>
-    )>, user: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'name' | 'profileImage' | 'slug'>
-    )>, comments: Array<(
-      { __typename?: 'Comment' }
-      & CommentFieldsFragment
-    )> }
   )> }
 );
 

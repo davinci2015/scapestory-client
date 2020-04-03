@@ -281,7 +281,7 @@ export type Mutation = {
   removeComment?: Maybe<Comment>,
   readNotifications?: Maybe<Scalars['Int']>,
   followUser?: Maybe<Follow>,
-  unfollowUser?: Maybe<User>,
+  unfollowUser?: Maybe<Follow>,
   login?: Maybe<AuthPayload>,
   register?: Maybe<User>,
   fbRegister?: Maybe<AuthPayload>,

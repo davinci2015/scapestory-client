@@ -281,7 +281,7 @@ export type Mutation = {
   removeComment?: Maybe<Comment>,
   readNotifications?: Maybe<Scalars['Int']>,
   followUser?: Maybe<Follow>,
-  unfollowUser?: Maybe<User>,
+  unfollowUser?: Maybe<Follow>,
   login?: Maybe<AuthPayload>,
   register?: Maybe<User>,
   fbRegister?: Maybe<AuthPayload>,
@@ -891,7 +891,7 @@ export type LikeMutation = (
   { __typename?: 'Mutation' }
   & { like: Maybe<(
     { __typename?: 'Like' }
-    & Pick<Like, 'id' | 'aquascapeId' | 'aquascapeImageId' | 'commentId'>
+    & Pick<Like, 'id' | 'aquascapeId' | 'aquascapeImageId' | 'commentId' | 'userId'>
     & { user: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'profileImage' | 'name' | 'createdAt'>
@@ -934,8 +934,8 @@ export type UnfollowUserMutationVariables = {
 export type UnfollowUserMutation = (
   { __typename?: 'Mutation' }
   & { unfollowUser: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'id'>
+    { __typename?: 'Follow' }
+    & Pick<Follow, 'id' | 'followedUserId' | 'followerUserId'>
   )> }
 );
 

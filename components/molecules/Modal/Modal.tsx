@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Modal from 'react-modal'
 
 import {zIndex} from 'styles'
@@ -14,42 +14,50 @@ type ModalType = React.FunctionComponent<Props> & {
     Content: typeof Content
 }
 
-if (process.browser && document.getElementById('#__next')) {
-    Modal.setAppElement('#__next')
+const setAppElement = () => {
+    if (process.browser) {
+        Modal.setAppElement('#__next')
+    }
 }
 
-const CustomModal: ModalType = ({children, isOpen, ...rest}) => (
-    <>
-        <Modal className="modal" overlayClassName="modal-overlay" isOpen={isOpen} {...rest}>
-            {children}
-        </Modal>
+setAppElement()
 
-        <style jsx>{`
-            :global(.modal) {
-                position: absolute;
-                height: 100%;
-                width: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+const CustomModal: ModalType = ({children, isOpen, ...rest}) => {
+    useEffect(() => setAppElement(), [])
 
-                outline: none;
-                z-index: ${zIndex.HIGH};
-            }
+    return (
+        <>
+            <Modal className="modal" overlayClassName="modal-overlay" isOpen={isOpen} {...rest}>
+                {children}
+            </Modal>
 
-            :global(.modal-overlay) {
-                -webkit-overflow-scrolling: touch;
-                position: fixed;
-                top: 0px;
-                left: 0px;
-                right: 0px;
-                bottom: 0px;
-                background-color: rgba(0, 0, 0, 0.7);
-                z-index: ${zIndex.HIGH};
-            }
-        `}</style>
-    </>
-)
+            <style jsx>{`
+                :global(.modal) {
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    outline: none;
+                    z-index: ${zIndex.HIGH};
+                }
+
+                :global(.modal-overlay) {
+                    -webkit-overflow-scrolling: touch;
+                    position: fixed;
+                    top: 0px;
+                    left: 0px;
+                    right: 0px;
+                    bottom: 0px;
+                    background-color: rgba(0, 0, 0, 0.7);
+                    z-index: ${zIndex.HIGH};
+                }
+            `}</style>
+        </>
+    )
+}
 
 CustomModal.CloseButton = CloseButton
 CustomModal.Content = Content
