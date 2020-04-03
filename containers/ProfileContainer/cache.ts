@@ -1,8 +1,9 @@
-import {Follow} from './../../graphql/generated/mutations'
 import {DataProxy} from 'apollo-cache'
 import {FetchResult} from 'apollo-link'
 import gql from 'graphql-tag'
-import {USER_PROFILE} from 'graphql/queries'
+
+import {Follow} from 'graphql/generated/mutations'
+import {USER_PROFILE, USER_BY_SLUG} from 'graphql/queries'
 
 export enum ProfileActions {
     FOLLOW,
@@ -31,7 +32,7 @@ export const updateProfileCache = (action: ProfileActions, payload: Payload = {}
             query = USER_PROFILE
             data = cache.readQuery<any>({query})
 
-            return cache.writeQuery({
+            cache.writeQuery({
                 query,
                 data: {
                     me: {
@@ -49,11 +50,42 @@ export const updateProfileCache = (action: ProfileActions, payload: Payload = {}
                 },
             })
 
+            if (payload.slug) {
+                query = USER_BY_SLUG
+                data = cache.readQuery<any>({
+                    query,
+                    variables: {slug: payload.slug, pagination: {cursor: null}},
+                })
+
+                cache.writeQuery({
+                    query,
+                    data: {
+                        user: {
+                            ...data.user,
+                            follows: {
+                                ...data.user.follows,
+                                followers: {
+                                    count: data.user.follows.followers.count + 1,
+                                    rows: [
+                                        ...data.user.follows.followers.rows,
+                                        mutationData.followUser,
+                                    ],
+                                    __typename: 'Followers',
+                                },
+                                __typename: 'FollowResult',
+                            },
+                        },
+                    },
+                })
+            }
+
+            return
+
         case ProfileActions.UNFOLLOW:
             query = USER_PROFILE
             data = cache.readQuery<any>({query})
 
-            return cache.writeQuery({
+            cache.writeQuery({
                 query,
                 data: {
                     me: {
@@ -63,8 +95,7 @@ export const updateProfileCache = (action: ProfileActions, payload: Payload = {}
                             following: {
                                 count: data.me.follows.following.count - 1,
                                 rows: data.me.follows.following.rows.filter(
-                                    (following: Follow) =>
-                                        following.followedUserId !== mutationData.unfollowUser.id
+                                    (follow: Follow) => follow.id !== mutationData.unfollowUser.id
                                 ),
                                 __typename: 'Following',
                             },
@@ -73,6 +104,37 @@ export const updateProfileCache = (action: ProfileActions, payload: Payload = {}
                     },
                 },
             })
+
+            if (payload.slug) {
+                query = USER_BY_SLUG
+                data = cache.readQuery<any>({
+                    query,
+                    variables: {slug: payload.slug, pagination: {cursor: null}},
+                })
+
+                cache.writeQuery({
+                    query,
+                    data: {
+                        user: {
+                            ...data.user,
+                            follows: {
+                                ...data.user.follows,
+                                followers: {
+                                    count: data.user.follows.followers.count - 1,
+                                    rows: data.user.follows.followers.rows.filter(
+                                        (follow: Follow) =>
+                                            follow.id !== mutationData.unfollowUser.id
+                                    ),
+                                    __typename: 'Followers',
+                                },
+                                __typename: 'FollowResult',
+                            },
+                        },
+                    },
+                })
+            }
+
+            return
 
         case ProfileActions.UPLOAD_COVER_IMAGE:
             query = gql`query { userBySlug(slug: "${payload.slug}") { id coverImage coverImagePublicId }}`

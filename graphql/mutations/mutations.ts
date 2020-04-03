@@ -34,6 +34,7 @@ export const FOLLOW = gql`
         followUser(userId: $userId) {
             id
             followedUserId
+            followerUserId
         }
     }
 `
@@ -42,6 +43,8 @@ export const UNFOLLOW = gql`
     mutation unfollowUser($userId: Int!) {
         unfollowUser(userId: $userId) {
             id
+            followedUserId
+            followerUserId
         }
     }
 `

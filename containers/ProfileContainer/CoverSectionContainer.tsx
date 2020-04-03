@@ -44,11 +44,11 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) =
     )
 
     const [follow] = useMutation<FollowUserMutation, FollowUserMutationVariables>(FOLLOW, {
-        update: updateProfileCache(ProfileActions.FOLLOW),
+        update: updateProfileCache(ProfileActions.FOLLOW, {slug: user.slug}),
     })
 
     const [unfollow] = useMutation<UnfollowUserMutation, UnfollowUserMutationVariables>(UNFOLLOW, {
-        update: updateProfileCache(ProfileActions.UNFOLLOW),
+        update: updateProfileCache(ProfileActions.UNFOLLOW, {slug: user.slug}),
     })
 
     const onLogout = () => {

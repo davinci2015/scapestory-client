@@ -922,7 +922,7 @@ export type FollowUserMutation = (
   { __typename?: 'Mutation' }
   & { followUser: Maybe<(
     { __typename?: 'Follow' }
-    & Pick<Follow, 'id' | 'followedUserId'>
+    & Pick<Follow, 'id' | 'followedUserId' | 'followerUserId'>
   )> }
 );
 
