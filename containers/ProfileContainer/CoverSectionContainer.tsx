@@ -23,6 +23,7 @@ import {
     UnfollowUserMutation,
     UnfollowUserMutationVariables,
 } from 'graphql/generated/mutations'
+import {isFollowedByCurrentUser} from 'utils/user'
 
 interface Props {
     user: UserBySlugQuery['user']
@@ -30,12 +31,17 @@ interface Props {
 }
 
 const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) => {
-    const {isAuthenticated, refreshAuthentication, user: loggedInUser} = useContext(AuthContext)
+    const {isAuthenticated, refreshAuthentication, user: currentUser} = useContext(AuthContext)
     const {openModal} = useContext(ModalContext)
     const onCreateAquascape = useCreateAquascape()
     const router = useRouter()
 
     if (!user) return null
+
+    const isFollowed = useMemo(
+        () => !!currentUser && isFollowedByCurrentUser(currentUser, user.id),
+        [currentUser, user]
+    )
 
     const [follow] = useMutation<FollowUserMutation, FollowUserMutationVariables>(FOLLOW, {
         update: updateProfileCache(ProfileActions.FOLLOW),
@@ -51,41 +57,35 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) =
         router.push(routes.index)
     }
 
-    const isFollowedByMe = useMemo(() => {
-        if (loggedInUser) {
-            return loggedInUser.follows.following.rows.some(user => user.followedUserId === user.id)
-        }
-    }, [user, loggedInUser])
-
     const toggleFollow = () => {
-        if (!isAuthenticated) {
+        if (!isAuthenticated || !currentUser) {
             return openModal('register')
         }
 
-        const mutateFollow = isFollowedByMe ? unfollow : follow
+        const mutateFollow = isFollowed ? unfollow : follow
         mutateFollow({variables: {userId: user.id}})
     }
 
-    const isMyProfile = loggedInUser?.id === user.id
+    const isProfileFromCurrentUser = currentUser?.id === user.id
 
     return (
         <CoverSection
             coverImage={user.coverImage}
             actionButtons={
                 <>
-                    {isMyProfile && (
+                    {isProfileFromCurrentUser && (
                         <Hide after={pxToNumber(breakpoints.small)}>
                             <AddAquascapeButton onClick={onCreateAquascape} />
                         </Hide>
                     )}
-                    {!isMyProfile &&
-                        (isFollowedByMe ? (
+                    {!isProfileFromCurrentUser &&
+                        (isFollowed ? (
                             <UnfollowButton toggleFollow={toggleFollow} />
                         ) : (
                             <FollowButton toggleFollow={toggleFollow} />
                         ))}
 
-                    {isMyProfile && (
+                    {isProfileFromCurrentUser && (
                         <>
                             <Button
                                 leftIcon={<Icon d={Icon.EDIT} color={colors.WHITE} />}

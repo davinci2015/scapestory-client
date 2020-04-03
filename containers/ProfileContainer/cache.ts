@@ -31,9 +31,6 @@ export const updateProfileCache = (action: ProfileActions, payload: Payload = {}
             query = USER_PROFILE
             data = cache.readQuery<any>({query})
 
-            console.log(data)
-            console.log(mutationData)
-
             return cache.writeQuery({
                 query,
                 data: {

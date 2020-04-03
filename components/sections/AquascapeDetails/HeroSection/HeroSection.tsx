@@ -19,11 +19,11 @@ import {UserWidgetSize, UserWidgetVariant} from 'components/molecules/UserWidget
 import {pxToNumber} from 'utils/converter'
 import {ImageStackSize} from 'components/atoms/ImageStack/ImageStack'
 import useModal from 'hooks/useModal'
-import {isFollowedByMe} from 'utils/user'
 
 interface Props {
     currentUser?: User_ProfileQuery['me']
-    isLikedByMe?: boolean
+    isLikedByCurrentUser?: boolean
+    isFollowedByCurrentUser: boolean
     aquascape: AquascapeDetailsQuery['aquascape']
     toggleLike: VoidFunction
     toggleFollow: (userId: number) => void
@@ -40,7 +40,8 @@ const LIKES_STACK_COUNT = 4
 const HeroSection: React.FunctionComponent<Props> = ({
     aquascape,
     currentUser,
-    isLikedByMe,
+    isFollowedByCurrentUser,
+    isLikedByCurrentUser,
     onEdit,
     onShare,
     toggleFollow,
@@ -103,11 +104,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                                             color={colors.WHITE}
                                                             weight="semibold"
                                                         >
-                                                            {currentUser &&
-                                                            isFollowedByMe(
-                                                                currentUser,
-                                                                aquascape.user.id
-                                                            ) ? (
+                                                            {isFollowedByCurrentUser ? (
                                                                 <FormattedMessage
                                                                     id="aquascape.hero_section.unfollow"
                                                                     defaultMessage="Unfollow"
@@ -142,7 +139,11 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                         onClick={toggleLike}
                                         leftIcon={
                                             <Icon
-                                                d={isLikedByMe ? Icon.HEART : Icon.HEART_OUTLINE}
+                                                d={
+                                                    isLikedByCurrentUser
+                                                        ? Icon.HEART
+                                                        : Icon.HEART_OUTLINE
+                                                }
                                                 color={colors.WHITE}
                                             />
                                         }

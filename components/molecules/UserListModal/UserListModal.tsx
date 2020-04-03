@@ -5,7 +5,7 @@ import {User, User_ProfileQuery} from 'graphql/generated/queries'
 import {UserImage, Paragraph, FormattedMessage} from 'components/atoms'
 import {UserImageSize} from 'components/atoms/UserImage'
 import {formatDate, dateFormats} from 'utils/date'
-import {isFollowedByMe} from 'utils/user'
+import {isFollowedByCurrentUser} from 'utils/user'
 import {ProfileLink} from 'components/core'
 
 interface Props {
@@ -60,7 +60,7 @@ const UserListModal: React.FunctionComponent<Props> = ({
 
                                 {currentUser &&
                                     currentUser.id !== user.id &&
-                                    isFollowedByMe(currentUser, user.id) && (
+                                    isFollowedByCurrentUser(currentUser, user.id) && (
                                         <a className="follow" onClick={() => toggleFollow(user.id)}>
                                             <FormattedMessage
                                                 id="user_list.unfollow"
@@ -71,7 +71,7 @@ const UserListModal: React.FunctionComponent<Props> = ({
 
                                 {currentUser &&
                                     currentUser.id !== user.id &&
-                                    !isFollowedByMe(currentUser, user.id) && (
+                                    !isFollowedByCurrentUser(currentUser, user.id) && (
                                         <a className="follow" onClick={() => toggleFollow(user.id)}>
                                             <FormattedMessage
                                                 id="user_list.follow"
