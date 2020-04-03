@@ -78,12 +78,13 @@ export const updateAquascapeDetailsCache = (action: AquascapeDetailsActions, pay
             })
 
         case AquascapeDetailsActions.AQUASCAPE_LIKE_COMMENT:
-            query = gql`query { aquascape(id: ${payload.aquascapeId}) { id comments { id likes { id userId } } }}`
-            data = cache.readQuery<any>({query})
+            query = AQUASCAPE_DETAILS
+            data = cache.readQuery<any>({query, variables: {id: payload.aquascapeId}})
 
             return cache.writeQuery({
                 query,
                 data: {
+                    ...data,
                     aquascape: {
                         ...data.aquascape,
                         comments: data.aquascape.comments.map((comment: Comment) =>
@@ -99,12 +100,13 @@ export const updateAquascapeDetailsCache = (action: AquascapeDetailsActions, pay
             })
 
         case AquascapeDetailsActions.AQUASCAPE_DISLIKE_COMMENT:
-            query = gql`query { aquascape(id: ${payload.aquascapeId}) { id comments { id likes { id userId } } }}`
-            data = cache.readQuery<any>({query})
+            query = AQUASCAPE_DETAILS
+            data = cache.readQuery<any>({query, variables: {id: payload.aquascapeId}})
 
             return cache.writeQuery({
                 query,
                 data: {
+                    ...data,
                     aquascape: {
                         ...data.aquascape,
                         comments: data.aquascape.comments.map((comment: Comment) =>
