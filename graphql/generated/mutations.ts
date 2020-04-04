@@ -923,6 +923,13 @@ export type FollowUserMutation = (
   & { followUser: Maybe<(
     { __typename?: 'Follow' }
     & Pick<Follow, 'id' | 'followedUserId' | 'followerUserId'>
+    & { follower: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'slug' | 'name' | 'profileImage' | 'createdAt'>
+    ), followed: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'slug' | 'name' | 'profileImage' | 'createdAt'>
+    ) }
   )> }
 );
 
@@ -936,6 +943,13 @@ export type UnfollowUserMutation = (
   & { unfollowUser: Maybe<(
     { __typename?: 'Follow' }
     & Pick<Follow, 'id' | 'followedUserId' | 'followerUserId'>
+    & { follower: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'slug' | 'name' | 'profileImage' | 'createdAt'>
+    ), followed: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'slug' | 'name' | 'profileImage' | 'createdAt'>
+    ) }
   )> }
 );
 

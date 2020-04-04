@@ -1033,6 +1033,10 @@ export type UserBySlugQuery = (
         & { rows: Array<(
           { __typename?: 'Follow' }
           & Pick<Follow, 'id' | 'followerUserId'>
+          & { follower: (
+            { __typename?: 'User' }
+            & Pick<User, 'id' | 'slug' | 'name' | 'profileImage' | 'createdAt'>
+          ) }
         )> }
       ), following: (
         { __typename?: 'Following' }
@@ -1040,6 +1044,10 @@ export type UserBySlugQuery = (
         & { rows: Array<(
           { __typename?: 'Follow' }
           & Pick<Follow, 'id' | 'followedUserId'>
+          & { followed: (
+            { __typename?: 'User' }
+            & Pick<User, 'id' | 'slug' | 'name' | 'profileImage' | 'createdAt'>
+          ) }
         )> }
       ) }
     ), aquascapes: (

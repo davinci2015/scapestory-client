@@ -27,6 +27,7 @@ import config from 'config'
 import {shareOnFacebook} from 'utils/general'
 import {updateProfileCache, ProfileActions} from 'containers/ProfileContainer/cache'
 import {isFollowedByCurrentUser} from 'utils/user'
+import useAuthGuard from 'hooks/useAuthGuard'
 
 interface Props {
     aquascape: AquascapeDetailsQuery['aquascape']
@@ -36,6 +37,7 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
     const router = useRouter()
     const {isAuthenticated, user} = useContext(AuthContext)
     const {openModal} = useContext(ModalContext)
+    const authGuard = useAuthGuard()
 
     if (!aquascape) return null
 
@@ -89,11 +91,10 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         })
     }
 
-    const toggleFollow = (userId?: number) => {
-        if (!isAuthenticated || !user) return openModal('register')
-        if (!userId) return null
+    const toggleFollow = (userId: number) => {
+        const isFollowed = user && isFollowedByCurrentUser(user, userId)
+        const mutateFollow = isFollowed ? unfollow : follow
 
-        const mutateFollow = isFollowedByCurrentUser(user, userId) ? unfollow : follow
         mutateFollow({variables: {userId}})
     }
 
@@ -115,14 +116,20 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         )
     }
 
+    const authGuardedToggleFollow = authGuard(toggleFollow)
+
+    const isCurrentUserAquascapeOwner =
+        aquascape.user && user ? aquascape.user.id === user.id : false
+
     return (
         <HeroSection
             currentUser={user}
             isLikedByCurrentUser={isLikedByCurrentUser}
+            isCurrentUserAquascapeOwner={isCurrentUserAquascapeOwner}
             onShare={onShare}
             onEdit={redirectToEdit}
             aquascape={aquascape}
-            toggleFollow={toggleFollow}
+            toggleFollow={authGuardedToggleFollow}
             isFollowedByCurrentUser={isFollowed}
             toggleLike={toggleLike}
         />

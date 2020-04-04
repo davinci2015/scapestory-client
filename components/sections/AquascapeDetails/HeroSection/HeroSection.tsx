@@ -1,4 +1,4 @@
-import React, {SyntheticEvent, useMemo} from 'react'
+import React, {SyntheticEvent, useMemo, useContext, useCallback} from 'react'
 
 import {
     FormattedMessage,
@@ -19,14 +19,16 @@ import {UserWidgetSize, UserWidgetVariant} from 'components/molecules/UserWidget
 import {pxToNumber} from 'utils/converter'
 import useModal from 'hooks/useModal'
 import {getImageCharPlaceholder} from 'utils/user'
+import {ModalContext} from 'providers/ModalProvider'
 
 interface Props {
     currentUser?: User_ProfileQuery['me']
     isLikedByCurrentUser?: boolean
     isFollowedByCurrentUser: boolean
+    isCurrentUserAquascapeOwner: boolean
     aquascape: AquascapeDetailsQuery['aquascape']
     toggleLike: VoidFunction
-    toggleFollow: (userId?: number) => void
+    toggleFollow: (userId: number) => void
     onEdit: VoidFunction
     onShare: VoidFunction
 }
@@ -40,6 +42,7 @@ const LIKES_STACK_COUNT = 3
 const HeroSection: React.FunctionComponent<Props> = ({
     aquascape,
     currentUser,
+    isCurrentUserAquascapeOwner,
     isFollowedByCurrentUser,
     isLikedByCurrentUser,
     onEdit,
@@ -48,11 +51,19 @@ const HeroSection: React.FunctionComponent<Props> = ({
     toggleLike,
 }) => {
     const {close, isOpen, open} = useModal()
+    const {openModal} = useContext(ModalContext)
 
     if (!aquascape || !aquascape.user) return null
 
-    const isCurrentUserAquascapeOwner =
-        aquascape.user && currentUser ? aquascape.user.id === currentUser.id : false
+    const onFollowClick = (event: SyntheticEvent) => {
+        event.preventDefault()
+        aquascape.user && toggleFollow(aquascape.user.id)
+    }
+
+    const openRegisterModal = useCallback(() => {
+        openModal('register')
+        close()
+    }, [])
 
     const stackImages = useMemo(
         () =>
@@ -96,11 +107,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                                                 <Hide upTo={pxToNumber(breakpoints.medium)}>
                                                     <div
                                                         className="follow"
-                                                        onClick={(event: SyntheticEvent) => {
-                                                            event.preventDefault()
-                                                            aquascape?.user &&
-                                                                toggleFollow(aquascape.user.id)
-                                                        }}
+                                                        onClick={onFollowClick}
                                                         role="presentation"
                                                     >
                                                         <Paragraph
@@ -221,6 +228,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
             />
 
             <UserListModal
+                openRegisterModal={openRegisterModal}
                 isOpen={isOpen}
                 currentUser={currentUser}
                 users={aquascape.likes.rows.map(like => like.user)}

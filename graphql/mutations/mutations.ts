@@ -36,6 +36,20 @@ export const FOLLOW = gql`
             id
             followedUserId
             followerUserId
+            follower {
+                id
+                slug
+                name
+                profileImage
+                createdAt
+            }
+            followed {
+                id
+                slug
+                name
+                profileImage
+                createdAt
+            }
         }
     }
 `
@@ -46,6 +60,20 @@ export const UNFOLLOW = gql`
             id
             followedUserId
             followerUserId
+            follower {
+                id
+                slug
+                name
+                profileImage
+                createdAt
+            }
+            followed {
+                id
+                slug
+                name
+                profileImage
+                createdAt
+            }
         }
     }
 `
