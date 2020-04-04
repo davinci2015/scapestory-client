@@ -13,6 +13,7 @@ import {media, spaces, breakpoints, typography, colors, zIndex} from 'styles'
 import {Hide} from 'components/core'
 import {pxToNumber} from 'utils/converter'
 import AddAquascapeButton from '../AddAquascapeButton'
+import {getImageCharPlaceholder} from 'utils/user'
 
 interface Props {
     user?: User_ProfileQuery['me']
@@ -139,7 +140,7 @@ const Navigation = ({
                                     <UserImage
                                         size={UserImageSize.s36}
                                         image={user.profileImage}
-                                        placeholder={user.name.charAt(0)}
+                                        placeholder={getImageCharPlaceholder(user.name)}
                                     />
                                 </div>
                             </NavLink>

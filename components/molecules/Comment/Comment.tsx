@@ -8,6 +8,7 @@ import {CommentFieldsFragment} from 'graphql/generated/queries'
 import {ProfileLink, Hide} from 'components/core'
 import {UserImageSize} from 'components/atoms/UserImage/UserImage'
 import {pxToNumber} from 'utils/converter'
+import {getImageCharPlaceholder} from 'utils/user'
 
 const classes = {
     root: 'comment',
@@ -48,7 +49,7 @@ const Comment: CardInterface = ({
                     <UserImage
                         size={UserImageSize.s36}
                         image={comment.user.profileImage}
-                        placeholder={comment.user.name.charAt(0)}
+                        placeholder={getImageCharPlaceholder(comment.user.name)}
                     />
                 </ProfileLink>
                 <div className="wrapper">

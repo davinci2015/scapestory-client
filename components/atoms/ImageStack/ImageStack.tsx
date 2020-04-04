@@ -6,15 +6,18 @@ const classes = {
     root: 'image-stack',
 }
 
-const IMAGE_PLACEHOLDER = '/static/placeholders/user.png'
-
 export enum ImageStackSize {
     s24,
     s36,
 }
 
+interface Image {
+    url?: string | null
+    placeholder?: string
+}
+
 interface Props {
-    images: Array<string | undefined | null>
+    images: Image[]
     placeholder?: string
     size?: ImageStackSize
 }
@@ -43,7 +46,8 @@ const ImageStack = ({images, placeholder, size = ImageStackSize.s36}: Props) => 
                     <UserImage
                         size={imageSizeMapping[size]}
                         variant={UserImageVariant.BORDER}
-                        image={image || IMAGE_PLACEHOLDER}
+                        image={image.url}
+                        placeholder={image.placeholder}
                     />
                 </div>
             ))}

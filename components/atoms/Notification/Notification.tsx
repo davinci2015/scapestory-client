@@ -6,6 +6,7 @@ import {spaces, colors, typography} from 'styles'
 import UserImage, {UserImageSize} from 'components/atoms/UserImage'
 import {User} from 'graphql/generated/types'
 import Link from 'next/link'
+import {getImageCharPlaceholder} from 'utils/user'
 
 const classes = {
     root: 'notification',
@@ -28,7 +29,7 @@ type NotificationType = React.FunctionComponent<Props> & {
 const CreatorImage = ({creator}: {creator?: CreatorType}) => (
     <UserImage
         image={creator?.profileImage}
-        placeholder={creator?.name.charAt(0)}
+        placeholder={getImageCharPlaceholder(creator?.name)}
         size={UserImageSize.s42}
     />
 )

@@ -18,6 +18,7 @@ import {ProfileLink, Hide} from 'components/core'
 import {UserWidgetSize, UserWidgetVariant} from 'components/molecules/UserWidget/UserWidget'
 import {pxToNumber} from 'utils/converter'
 import useModal from 'hooks/useModal'
+import {getImageCharPlaceholder} from 'utils/user'
 
 interface Props {
     currentUser?: User_ProfileQuery['me']
@@ -54,7 +55,11 @@ const HeroSection: React.FunctionComponent<Props> = ({
         aquascape.user && currentUser ? aquascape.user.id === currentUser.id : false
 
     const stackImages = useMemo(
-        () => aquascape.likes.rows.slice(0, LIKES_STACK_COUNT).map(like => like.user.profileImage),
+        () =>
+            aquascape.likes.rows.slice(0, LIKES_STACK_COUNT).map(like => ({
+                url: like.user.profileImage,
+                placeholder: getImageCharPlaceholder(like.user.name),
+            })),
         [aquascape]
     )
 
@@ -74,7 +79,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                         <Hero.TopLeft>
                             <ProfileLink slug={aquascape.user.slug}>
                                 <UserWidget
-                                    placeholder={aquascape.user.name.charAt(0)}
+                                    placeholder={getImageCharPlaceholder(aquascape.user.name)}
                                     size={UserWidgetSize.s36}
                                     variant={UserWidgetVariant.BORDER}
                                     image={aquascape.user.profileImage}

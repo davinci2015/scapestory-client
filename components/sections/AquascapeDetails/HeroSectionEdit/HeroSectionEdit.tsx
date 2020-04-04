@@ -8,6 +8,7 @@ import {AquascapeDetailsQuery} from 'graphql/generated/queries'
 import {ProfileLink, ImageUpload} from 'components/core'
 import {UserWidgetSize, UserWidgetVariant} from 'components/molecules/UserWidget/UserWidget'
 import ActionButtons from 'components/sections/shared/Hero/ActionButtons'
+import {getImageCharPlaceholder} from 'utils/user'
 
 interface Props {
     aquascape: AquascapeDetailsQuery['aquascape']
@@ -39,7 +40,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                         <Hero.TopLeft>
                             <ProfileLink slug={aquascape.user.slug}>
                                 <UserWidget
-                                    placeholder={aquascape.user.name.charAt(0)}
+                                    placeholder={getImageCharPlaceholder(aquascape.user.name)}
                                     size={UserWidgetSize.s36}
                                     variant={UserWidgetVariant.BORDER}
                                     image={aquascape.user.profileImage}
