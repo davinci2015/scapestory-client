@@ -9,14 +9,14 @@ interface Props {
 }
 
 const AddAquascapeContainer = ({bottom}: Props) => {
-    const onCreateAquascape = useCreateAquascape()
+    const {createAquascape, loading} = useCreateAquascape()
     const {user} = useContext(AuthContext)
 
     const shouldDisplayButton = !user || !user.aquascapes.count
 
     if (!shouldDisplayButton) return null
 
-    return <FixedButton onCreateAquascape={onCreateAquascape} bottom={bottom} />
+    return <FixedButton onCreateAquascape={createAquascape} bottom={bottom} loading={loading} />
 }
 
 export default AddAquascapeContainer

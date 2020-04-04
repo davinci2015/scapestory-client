@@ -22,6 +22,7 @@ interface Props {
     openLoginModal: VoidFunction
     openRegisterModal: VoidFunction
     onCreateAquascape: VoidFunction
+    loading: boolean
 }
 
 export const navigationHeight = {
@@ -38,6 +39,7 @@ const Navigation = ({
     openLoginModal,
     openRegisterModal,
     unreadNotificationsCount,
+    loading,
     user,
 }: Props) => {
     const {position} = useScrollPosition()
@@ -106,7 +108,7 @@ const Navigation = ({
                     )}
 
                     <Hide upTo={pxToNumber(breakpoints.small)}>
-                        <AddAquascapeButton onClick={onCreateAquascape} />
+                        <AddAquascapeButton loading={loading} onClick={onCreateAquascape} />
                     </Hide>
 
                     {isAuthenticated && user && (

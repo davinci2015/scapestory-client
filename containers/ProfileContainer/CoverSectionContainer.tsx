@@ -31,7 +31,7 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({
     user,
 }) => {
     const {refreshAuthentication} = useContext(AuthContext)
-    const onCreateAquascape = useCreateAquascape()
+    const {createAquascape, loading} = useCreateAquascape()
     const router = useRouter()
     const apolloClient = useApolloClient()
 
@@ -66,7 +66,7 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({
                 <>
                     {isProfileFromCurrentUser && (
                         <Hide after={pxToNumber(breakpoints.small)}>
-                            <AddAquascapeButton onClick={onCreateAquascape} />
+                            <AddAquascapeButton loading={loading} onClick={createAquascape} />
                         </Hide>
                     )}
                     {!isProfileFromCurrentUser &&

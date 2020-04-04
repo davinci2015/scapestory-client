@@ -11,7 +11,7 @@ import {UnreadNotificationsCountQuery} from 'graphql/generated/queries'
 const NavigationContainer = () => {
     const {openModal} = useContext(ModalContext)
     const {isAuthenticated, user} = useContext(AuthContext)
-    const onCreateAquascape = useCreateAquascape()
+    const {createAquascape, loading} = useCreateAquascape()
 
     const openLoginModal = useCallback(() => openModal('login'), [])
     const openRegisterModal = useCallback(() => openModal('register'), [])
@@ -29,7 +29,8 @@ const NavigationContainer = () => {
             isAuthenticated={isAuthenticated}
             openLoginModal={openLoginModal}
             openRegisterModal={openRegisterModal}
-            onCreateAquascape={onCreateAquascape}
+            onCreateAquascape={createAquascape}
+            loading={loading}
             unreadNotificationsCount={data ? data.unreadNotificationsCount : 0}
         />
     )

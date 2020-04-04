@@ -1,27 +1,22 @@
-import {useContext} from 'react'
+import {useState} from 'react'
 import {useRouter} from 'next/router'
 import {useMutation} from 'react-apollo'
 
-import {ModalContext} from 'providers/ModalProvider'
-import {AuthContext} from 'providers/AuthenticationProvider'
 import {CreateAquascapeMutation} from 'graphql/generated/mutations'
 import {CREATE_AQUASCAPE} from 'graphql/mutations'
 import routes, {createDynamicPath} from 'routes'
 import config from 'config'
 import logger from 'services/logger'
+import useAuthGuard from 'hooks/useAuthGuard'
 
 const useCreateAquascape = () => {
     const router = useRouter()
-    const {openModal} = useContext(ModalContext)
-    const {isAuthenticated} = useContext(AuthContext)
+    const [loading, setLoading] = useState(false)
     const [createAquascapeMutation] = useMutation<CreateAquascapeMutation>(CREATE_AQUASCAPE)
+    const authGuard = useAuthGuard()
 
-    const onCreateAquascape = () => {
-        if (!isAuthenticated) {
-            openModal('register')
-            return
-        }
-
+    const createAquascape = () => {
+        setLoading(true)
         createAquascapeMutation()
             .then(result => {
                 const id = result.data?.createAquascape.id
@@ -32,12 +27,13 @@ const useCreateAquascape = () => {
                     title: config.AQUASCAPE_URL_TITLE_PLACEHOLDER,
                 })
 
-                router.push(`${path}?created=true`)
+                return router.push(`${path}?created=true`)
             })
             .catch(err => logger.error(err))
+            .finally(() => setTimeout(() => setLoading(false), 1500)) // Wait for a redirect a little bit
     }
 
-    return onCreateAquascape
+    return {createAquascape: authGuard(createAquascape), loading}
 }
 
 export default useCreateAquascape
