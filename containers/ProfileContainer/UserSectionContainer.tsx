@@ -10,6 +10,7 @@ import SocialLink, {SocialNetwork} from 'components/sections/Profile/UserAbout/S
 import {breakpoints} from 'styles'
 import {Hide} from 'components/core'
 import {pxToNumber} from 'utils/converter'
+import {getImageCharPlaceholder} from 'utils/user'
 
 interface Props {
     user: UserBySlugQuery['user']
@@ -32,7 +33,7 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({user}) => {
                             image={user.profileImage}
                             size={UserImageSize.s148}
                             variant={UserImageVariant.BORDER}
-                            placeholder={user.name.charAt(0)}
+                            placeholder={getImageCharPlaceholder(user.name)}
                         />
                     </Hide>
                     <Hide after={pxToNumber(breakpoints.medium)}>
@@ -40,7 +41,7 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({user}) => {
                             image={user.profileImage}
                             size={UserImageSize.s90}
                             variant={UserImageVariant.BORDER}
-                            placeholder={user.name.charAt(0)}
+                            placeholder={getImageCharPlaceholder(user.name)}
                         />
                     </Hide>
                 </>

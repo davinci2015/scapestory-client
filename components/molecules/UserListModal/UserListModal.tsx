@@ -5,7 +5,7 @@ import {User, User_ProfileQuery} from 'graphql/generated/queries'
 import {UserImage, Paragraph, FormattedMessage} from 'components/atoms'
 import {UserImageSize} from 'components/atoms/UserImage'
 import {formatDate, dateFormats} from 'utils/date'
-import {isFollowedByCurrentUser} from 'utils/user'
+import {isFollowedByCurrentUser, getImageCharPlaceholder} from 'utils/user'
 import {ProfileLink} from 'components/core'
 
 interface Props {
@@ -39,7 +39,7 @@ const UserListModal: React.FunctionComponent<Props> = ({
                                         <UserImage
                                             size={UserImageSize.s42}
                                             image={user.profileImage}
-                                            placeholder={user.name.charAt(0)}
+                                            placeholder={getImageCharPlaceholder(user.name)}
                                         />
                                     </ProfileLink>
                                     <div>

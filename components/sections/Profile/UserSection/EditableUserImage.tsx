@@ -5,6 +5,7 @@ import {UserImageSize, UserImageVariant} from 'components/atoms/UserImage/UserIm
 import {colors, spaces, breakpoints, media} from 'styles'
 import {ImageUpload, Hide} from 'components/core'
 import {pxToNumber} from 'utils/converter'
+import {getImageCharPlaceholder} from 'utils/user'
 
 interface Props {
     username?: string
@@ -63,7 +64,7 @@ const EditableUserImage: React.FunctionComponent<Props> = ({image, onChange, use
                         image={image}
                         size={UserImageSize.s148}
                         variant={UserImageVariant.BORDER}
-                        placeholder={username?.charAt(0)}
+                        placeholder={getImageCharPlaceholder(username || '')}
                     >
                         <EditButton openFinder={openFinder} />
                     </UserImage>
@@ -73,7 +74,7 @@ const EditableUserImage: React.FunctionComponent<Props> = ({image, onChange, use
                         image={image}
                         size={UserImageSize.s90}
                         variant={UserImageVariant.BORDER}
-                        placeholder={username?.charAt(0)}
+                        placeholder={getImageCharPlaceholder(username || '')}
                     >
                         <EditButton openFinder={openFinder} />
                     </UserImage>
