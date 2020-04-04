@@ -23,6 +23,7 @@ import {FOLLOW, UNFOLLOW} from 'graphql/mutations'
 import {AuthContext} from 'providers/AuthenticationProvider'
 import {isFollowedByCurrentUser} from 'utils/user'
 import useAuthGuard from 'hooks/useAuthGuard'
+import {analyticsEvents} from 'utils/analytics'
 
 const ProfileContainer = () => {
     const router = useRouter()
@@ -64,7 +65,7 @@ const ProfileContainer = () => {
 
     const onEdit = () => router.push(createDynamicPath(routes.editProfile, {slug}))
 
-    const authGuardedToggleFollow = authGuard(toggleFollow)
+    const authGuardedToggleFollow = authGuard(toggleFollow, analyticsEvents.anonymousUser.follow)
 
     return (
         <Content>

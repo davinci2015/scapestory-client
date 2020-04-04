@@ -14,6 +14,7 @@ import useModal from 'hooks/useModal'
 import {UserListModal} from 'components/molecules'
 import {getImageCharPlaceholder} from 'utils/user'
 import {ModalContext} from 'providers/ModalProvider'
+import {attachTrackEvent, analyticsEvents} from 'utils/analytics'
 
 interface Props {
     currentUser?: User_ProfileQuery['me']
@@ -35,8 +36,13 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({
     const [modalContent, setModalContent] = useState(ModalContent.FOLLOWERS)
     const {openModal} = useContext(ModalContext)
 
-    const openFollowModal = (modal: ModalContent) => () => {
-        setModalContent(modal)
+    const openFollowerModal = () => {
+        setModalContent(ModalContent.FOLLOWERS)
+        open()
+    }
+
+    const openFollowingModal = () => {
+        setModalContent(ModalContent.FOLLOWING)
         open()
     }
 
@@ -54,6 +60,18 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({
     const following = useMemo(() => user.follows.following.rows.map(follow => follow.followed), [
         user,
     ])
+
+    const openRegisterModalTracked = attachTrackEvent(openRegisterModal)(
+        analyticsEvents.anonymousUser.follow
+    )
+
+    const openFollowerModalTracked = attachTrackEvent(openFollowerModal)(
+        analyticsEvents.follow.followerUserListOpened
+    )
+
+    const openFollowingModalTracked = attachTrackEvent(openFollowingModal)(
+        analyticsEvents.follow.followingUserListOpened
+    )
 
     return (
         <>
@@ -86,11 +104,7 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({
                 stats={
                     <UserStats>
                         <UserStats.Item
-                            onClick={
-                                followers.length
-                                    ? openFollowModal(ModalContent.FOLLOWERS)
-                                    : undefined
-                            }
+                            onClick={followers.length ? openFollowerModalTracked : undefined}
                             title={
                                 <FormattedMessage
                                     id="user_profile.followers"
@@ -100,11 +114,7 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({
                             value={user.follows.followers.count}
                         />
                         <UserStats.Item
-                            onClick={
-                                following.length
-                                    ? openFollowModal(ModalContent.FOLLOWING)
-                                    : undefined
-                            }
+                            onClick={following.length ? openFollowingModalTracked : undefined}
                             title={
                                 <FormattedMessage
                                     id="user_profile.followers"
@@ -169,8 +179,8 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({
             />
 
             <UserListModal
-                openRegisterModal={openRegisterModal}
                 isOpen={isOpen}
+                openRegisterModal={openRegisterModalTracked}
                 currentUser={currentUser}
                 users={modalContent === ModalContent.FOLLOWERS ? followers : following}
                 onClose={closeFollowModal}

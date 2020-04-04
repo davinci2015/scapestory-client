@@ -1,5 +1,11 @@
 import log from 'loglevel'
 
+import {isProduction} from 'utils/general'
+
+if (!isProduction()) {
+    log.setLevel(log.levels.TRACE)
+}
+
 export default {
     warn: (message: any) => log.warn(message),
     info: (message: any) => log.info(message),
