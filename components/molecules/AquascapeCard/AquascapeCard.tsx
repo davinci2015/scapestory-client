@@ -17,6 +17,7 @@ import {TransitionStatus} from 'react-transition-group/Transition'
 import Link from 'next/link'
 import {pxToNumber} from 'utils/converter'
 import {isMobile} from 'utils/general'
+import {getImageCharPlaceholder} from 'utils/user'
 
 interface Props {
     id: number
@@ -119,7 +120,7 @@ const AquascapeCard = ({
                             <div className="card__footer">
                                 <ProfileLink slug={user?.slug || ''}>
                                     <UserWidget
-                                        placeholder={user?.name.charAt(0)}
+                                        placeholder={getImageCharPlaceholder(user?.name)}
                                         image={user?.profileImage}
                                         text={
                                             <Paragraph type="t1" color={colors.SHADE_DEEP}>

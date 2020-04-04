@@ -9,6 +9,7 @@ import {AquascapeDetailsLink} from 'components/core'
 import {useRouter} from 'next/router'
 import routes, {createDynamicPath, getAquascapeDetailsSlug} from 'routes'
 import {UserWidgetSize, UserWidgetVariant} from 'components/molecules/UserWidget/UserWidget'
+import {getImageCharPlaceholder} from 'utils/user'
 import config from 'config'
 
 interface Props {
@@ -62,7 +63,9 @@ const HeroSection: React.FunctionComponent<Props> = ({aquascape}) => {
                                 <div className="bottom-left">
                                     {aquascape.user && (
                                         <UserWidget
-                                            placeholder={aquascape.user.name.charAt(0)}
+                                            placeholder={getImageCharPlaceholder(
+                                                aquascape.user.name
+                                            )}
                                             onClick={redirectToProfile}
                                             size={UserWidgetSize.s36}
                                             variant={UserWidgetVariant.BORDER}

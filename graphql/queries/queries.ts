@@ -131,6 +131,13 @@ export const USER_BY_SLUG = gql`
                     rows {
                         id
                         followerUserId
+                        follower {
+                            id
+                            slug
+                            name
+                            profileImage
+                            createdAt
+                        }
                     }
                 }
                 following {
@@ -138,6 +145,13 @@ export const USER_BY_SLUG = gql`
                     rows {
                         id
                         followedUserId
+                        followed {
+                            id
+                            slug
+                            name
+                            profileImage
+                            createdAt
+                        }
                     }
                 }
             }

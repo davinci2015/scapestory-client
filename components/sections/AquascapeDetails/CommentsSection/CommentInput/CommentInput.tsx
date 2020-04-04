@@ -5,6 +5,7 @@ import {spaces, typography, breakpoints, media} from 'styles'
 import {UserImageSize} from 'components/atoms/UserImage/UserImage'
 import {Hide} from 'components/core'
 import {pxToNumber} from 'utils/converter'
+import {getImageCharPlaceholder} from 'utils/user'
 
 interface Props {
     userImage?: string | null
@@ -31,7 +32,7 @@ const CommentInput: React.FunctionComponent<Props> = ({
                 <UserImage
                     size={UserImageSize.s36}
                     image={userImage}
-                    placeholder={username?.charAt(0)}
+                    placeholder={getImageCharPlaceholder(username || '')}
                 />
             </Hide>
             <Textarea
