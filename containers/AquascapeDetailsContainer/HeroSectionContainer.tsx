@@ -4,7 +4,6 @@ import {useMutation} from 'react-apollo'
 
 import {LikeEntityType} from 'graphql/generated/types'
 import {LIKE, DISLIKE, FOLLOW, UNFOLLOW} from 'graphql/mutations'
-import {ModalContext} from 'providers/ModalProvider'
 import {AuthContext} from 'providers/AuthenticationProvider'
 import {
     updateAquascapeDetailsCache,
@@ -35,8 +34,7 @@ interface Props {
 
 const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
     const router = useRouter()
-    const {isAuthenticated, user} = useContext(AuthContext)
-    const {openModal} = useContext(ModalContext)
+    const {user} = useContext(AuthContext)
     const authGuard = useAuthGuard()
 
     if (!aquascape) return null
@@ -72,13 +70,7 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
     })
 
     const toggleLike = () => {
-        if (!aquascape) {
-            return
-        }
-
-        if (!isAuthenticated) {
-            return openModal('register')
-        }
+        if (!aquascape) return
 
         const mutateLike = isLikedByCurrentUser ? dislike : like
 
@@ -116,8 +108,6 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         )
     }
 
-    const authGuardedToggleFollow = authGuard(toggleFollow)
-
     const isCurrentUserAquascapeOwner =
         aquascape.user && user ? aquascape.user.id === user.id : false
 
@@ -129,9 +119,9 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
             onShare={onShare}
             onEdit={redirectToEdit}
             aquascape={aquascape}
-            toggleFollow={authGuardedToggleFollow}
             isFollowedByCurrentUser={isFollowed}
-            toggleLike={toggleLike}
+            toggleFollow={authGuard(toggleFollow)}
+            toggleLike={authGuard(toggleLike)}
         />
     )
 }

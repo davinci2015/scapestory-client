@@ -4,7 +4,6 @@ import {useMutation} from 'react-apollo'
 import CommentsSection from 'components/sections/AquascapeDetails/CommentsSection'
 import {LIKE, DISLIKE} from 'graphql/mutations'
 import {LikeEntityType, CommentEntityType} from 'graphql/generated/types'
-import {ModalContext} from 'providers/ModalProvider'
 import {AuthContext} from 'providers/AuthenticationProvider'
 import {ADD_COMMENT, REMOVE_COMMENT} from 'containers/AquascapeDetailsContainer/mutations'
 import {
@@ -23,6 +22,7 @@ import {
 } from 'graphql/generated/mutations'
 import {CommentFieldsFragment} from 'graphql/generated/queries'
 import logger from 'services/logger'
+import useAuthGuard from 'hooks/useAuthGuard'
 
 interface Props {
     aquascapeId: number
@@ -32,8 +32,8 @@ interface Props {
 const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comments}) => {
     const [comment, updateComment] = useState<string | null>(null)
     const [replies, setReply] = useState<{[key: number]: string | undefined}>({})
-    const {isAuthenticated, user} = useContext(AuthContext)
-    const {openModal} = useContext(ModalContext)
+    const {user} = useContext(AuthContext)
+    const authGuard = useAuthGuard()
 
     const handleCommentChange = (e: FormEvent<HTMLTextAreaElement>) => {
         const value = (e.target as HTMLTextAreaElement).value
@@ -74,8 +74,6 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
     )
 
     const onSubmit = () => {
-        if (!isAuthenticated) return openModal('register')
-
         if (!comment || comment.trim() === '') return
 
         updateComment(null)
@@ -91,8 +89,6 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
     }
 
     const onReply = (commentId: number) => {
-        if (!isAuthenticated) return openModal('register')
-
         const reply = replies[commentId]
 
         if (!reply || reply.trim() === '') return
@@ -110,23 +106,18 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
             .finally(() => setReply({...replies, [commentId]: ''}))
     }
 
-    const toggleLike = useCallback(
-        (comment: CommentFieldsFragment) => {
-            if (!isAuthenticated || !user) {
-                return openModal('register')
-            }
+    const toggleLike = (comment: CommentFieldsFragment) => {
+        if (!user) return
 
-            const alreadyLiked = comment.likes.some(like => like.userId === user.id)
-            const variables = {
-                aquascapeId,
-                entity: LikeEntityType.Comment,
-                entityId: comment.id,
-            }
+        const alreadyLiked = comment.likes.some(like => like.userId === user.id)
+        const variables = {
+            aquascapeId,
+            entity: LikeEntityType.Comment,
+            entityId: comment.id,
+        }
 
-            alreadyLiked ? dislike({variables}) : like({variables})
-        },
-        [isAuthenticated]
-    )
+        alreadyLiked ? dislike({variables}) : like({variables})
+    }
 
     const handleRemoveComment = useCallback((comment: CommentFieldsFragment) => {
         removeComment({variables: {id: comment.id}})
@@ -137,13 +128,13 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
             user={user}
             replies={replies}
             enteredComment={comment || ''}
-            toggleLike={toggleLike}
-            onReply={onReply}
             comments={comments}
             onCommentChange={handleCommentChange}
             onReplyChange={handleReplyChange}
             removeComment={handleRemoveComment}
-            onSubmit={onSubmit}
+            toggleLike={authGuard(toggleLike)}
+            onReply={authGuard(onReply)}
+            onSubmit={authGuard(onSubmit)}
         />
     )
 }

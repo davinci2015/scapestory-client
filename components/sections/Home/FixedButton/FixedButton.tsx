@@ -7,14 +7,15 @@ import {AddAquascapeButton} from 'components/molecules'
 
 interface Props {
     onCreateAquascape: VoidFunction
+    loading: boolean
     bottom?: string
 }
 
-const FixedButton = ({bottom = spaces.s12, onCreateAquascape}: Props) => (
+const FixedButton = ({bottom = spaces.s12, onCreateAquascape, loading}: Props) => (
     <>
         <Hide after={pxToNumber(breakpoints.small)}>
             <div className="fixed-button">
-                <AddAquascapeButton onClick={onCreateAquascape} />
+                <AddAquascapeButton loading={loading} onClick={onCreateAquascape} />
             </div>
         </Hide>
 
