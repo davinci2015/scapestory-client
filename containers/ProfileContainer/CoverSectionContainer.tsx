@@ -1,9 +1,7 @@
-import React, {useContext, useMemo} from 'react'
-import {useMutation, useApolloClient} from 'react-apollo'
+import React, {useContext, useMemo, useCallback} from 'react'
+import {useApolloClient} from 'react-apollo'
 
-import {UserBySlugQuery} from 'graphql/generated/queries'
-import {updateProfileCache, ProfileActions} from 'containers/ProfileContainer/cache'
-import {FOLLOW, UNFOLLOW} from 'graphql/mutations'
+import {UserBySlugQuery, User_ProfileQuery} from 'graphql/generated/queries'
 import {AuthContext} from 'providers/AuthenticationProvider'
 import CoverSection from 'components/sections/Profile/CoverSection'
 import {Button, FormattedMessage, Icon} from 'components/atoms'
@@ -16,42 +14,37 @@ import {UnfollowButton, FollowButton, AddAquascapeButton} from 'components/molec
 import {Hide} from 'components/core'
 import {pxToNumber} from 'utils/converter'
 import useCreateAquascape from 'hooks/useCreateAquascape'
-import {
-    FollowUserMutation,
-    FollowUserMutationVariables,
-    UnfollowUserMutation,
-    UnfollowUserMutationVariables,
-} from 'graphql/generated/mutations'
 import {isFollowedByCurrentUser} from 'utils/user'
 import logger from 'services/logger'
-import useAuthGuard from 'hooks/useAuthGuard'
 
 interface Props {
     user: UserBySlugQuery['user']
+    currentUser?: User_ProfileQuery['me']
     onEdit: VoidFunction
+    toggleFollow: (userId: number) => void
 }
 
-const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) => {
-    const {refreshAuthentication, user: currentUser} = useContext(AuthContext)
+const CoverSectionContainer: React.FunctionComponent<Props> = ({
+    currentUser,
+    onEdit,
+    toggleFollow,
+    user,
+}) => {
+    const {refreshAuthentication} = useContext(AuthContext)
     const onCreateAquascape = useCreateAquascape()
     const router = useRouter()
-    const authGuard = useAuthGuard()
     const apolloClient = useApolloClient()
+
+    const onFollow = useCallback(() => {
+        user && toggleFollow(user.id)
+    }, [user])
 
     if (!user) return null
 
-    const isFollowed = useMemo(
-        () => !!currentUser && isFollowedByCurrentUser(currentUser, user.id),
-        [currentUser, user]
-    )
-
-    const [follow] = useMutation<FollowUserMutation, FollowUserMutationVariables>(FOLLOW, {
-        update: updateProfileCache(ProfileActions.FOLLOW, {slug: user.slug}),
-    })
-
-    const [unfollow] = useMutation<UnfollowUserMutation, UnfollowUserMutationVariables>(UNFOLLOW, {
-        update: updateProfileCache(ProfileActions.UNFOLLOW, {slug: user.slug}),
-    })
+    const isFollowed = useMemo(() => currentUser && isFollowedByCurrentUser(currentUser, user.id), [
+        currentUser,
+        user,
+    ])
 
     const onLogout = () => {
         cookie.removeAuthToken()
@@ -63,13 +56,6 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) =
             })
             .catch(logger.error)
     }
-
-    const toggleFollow = () => {
-        const mutateFollow = isFollowed ? unfollow : follow
-        mutateFollow({variables: {userId: user.id}})
-    }
-
-    const authGuardedToggleFollow = authGuard(toggleFollow)
 
     const isProfileFromCurrentUser = currentUser?.id === user.id
 
@@ -85,9 +71,9 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) =
                     )}
                     {!isProfileFromCurrentUser &&
                         (isFollowed ? (
-                            <UnfollowButton toggleFollow={authGuardedToggleFollow} />
+                            <UnfollowButton toggleFollow={onFollow} />
                         ) : (
-                            <FollowButton toggleFollow={authGuardedToggleFollow} />
+                            <FollowButton toggleFollow={onFollow} />
                         ))}
 
                     {isProfileFromCurrentUser && (

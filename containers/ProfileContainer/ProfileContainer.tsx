@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {useRouter} from 'next/router'
-import {useQuery} from 'react-apollo'
+import {useQuery, useMutation} from 'react-apollo'
 
 import {UserBySlugQuery, UserBySlugQueryVariables} from 'graphql/generated/queries'
 import {Content, Grid} from 'components/core'
@@ -12,10 +12,23 @@ import CoverSectionContainer from './CoverSectionContainer'
 import UserSectionContainer from './UserSectionContainer'
 import AquascapesSection from 'components/sections/Profile/AquascapesSection.tsx'
 import {renderAquascapeCards} from 'utils/render'
+import {
+    FollowUserMutation,
+    FollowUserMutationVariables,
+    UnfollowUserMutation,
+    UnfollowUserMutationVariables,
+} from 'graphql/generated/mutations'
+import {updateProfileCache, ProfileActions} from './cache'
+import {FOLLOW, UNFOLLOW} from 'graphql/mutations'
+import {AuthContext} from 'providers/AuthenticationProvider'
+import {isFollowedByCurrentUser} from 'utils/user'
+import useAuthGuard from 'hooks/useAuthGuard'
 
 const ProfileContainer = () => {
     const router = useRouter()
     const slug = router.query.slug?.toString()
+    const {user: currentUser} = useContext(AuthContext)
+    const authGuard = useAuthGuard()
 
     if (!slug) return null
 
@@ -23,6 +36,21 @@ const ProfileContainer = () => {
         USER_BY_SLUG,
         {variables: {slug, pagination: {cursor: null}}, fetchPolicy: 'cache-and-network'}
     )
+
+    const [follow] = useMutation<FollowUserMutation, FollowUserMutationVariables>(FOLLOW, {
+        update: updateProfileCache(ProfileActions.FOLLOW, {slug}),
+    })
+
+    const [unfollow] = useMutation<UnfollowUserMutation, UnfollowUserMutationVariables>(UNFOLLOW, {
+        update: updateProfileCache(ProfileActions.UNFOLLOW, {slug}),
+    })
+
+    const toggleFollow = (userId: number) => {
+        const isFollowed = currentUser && isFollowedByCurrentUser(currentUser, userId)
+        const mutateFollow = isFollowed ? unfollow : follow
+
+        mutateFollow({variables: {userId}})
+    }
 
     if (error) {
         // TODO: handle error properly
@@ -36,11 +64,22 @@ const ProfileContainer = () => {
 
     const onEdit = () => router.push(createDynamicPath(routes.editProfile, {slug}))
 
+    const authGuardedToggleFollow = authGuard(toggleFollow)
+
     return (
         <Content>
-            <CoverSectionContainer user={userResult.user} onEdit={onEdit} />
+            <CoverSectionContainer
+                currentUser={currentUser}
+                toggleFollow={authGuardedToggleFollow}
+                user={userResult.user}
+                onEdit={onEdit}
+            />
             <Grid width={GridWidth.SMALL}>
-                <UserSectionContainer user={userResult.user} />
+                <UserSectionContainer
+                    currentUser={currentUser}
+                    toggleFollow={authGuardedToggleFollow}
+                    user={userResult.user}
+                />
                 {Boolean(userResult.user.aquascapes.rows.length) && (
                     <AquascapesSection name={userResult.user.name}>
                         <Grid.Row>

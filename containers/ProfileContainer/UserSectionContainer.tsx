@@ -1,6 +1,6 @@
-import React, {useContext, useState, useMemo} from 'react'
+import React, {useContext, useState, useMemo, useCallback} from 'react'
 
-import {UserBySlugQuery} from 'graphql/generated/queries'
+import {UserBySlugQuery, User_ProfileQuery} from 'graphql/generated/queries'
 import {UserImage, FormattedMessage, Paragraph, Headline} from 'components/atoms'
 import {UserImageSize, UserImageVariant} from 'components/atoms/UserImage/UserImage'
 import UserSection from 'components/sections/Profile/UserSection'
@@ -12,22 +12,13 @@ import {Hide} from 'components/core'
 import {pxToNumber} from 'utils/converter'
 import useModal from 'hooks/useModal'
 import {UserListModal} from 'components/molecules'
-import {AuthContext} from 'providers/AuthenticationProvider'
-import {useMutation} from 'react-apollo'
-import {
-    FollowUserMutationVariables,
-    UnfollowUserMutation,
-    FollowUserMutation,
-    UnfollowUserMutationVariables,
-} from 'graphql/generated/mutations'
-import {FOLLOW, UNFOLLOW} from 'graphql/mutations'
-import {ProfileActions, updateProfileCache} from './cache'
-import {isFollowedByCurrentUser} from 'utils/user'
-import useAuthGuard from 'hooks/useAuthGuard'
 import {getImageCharPlaceholder} from 'utils/user'
+import {ModalContext} from 'providers/ModalProvider'
 
 interface Props {
+    currentUser?: User_ProfileQuery['me']
     user: UserBySlugQuery['user']
+    toggleFollow: (useId: number) => void
 }
 
 enum ModalContent {
@@ -35,16 +26,24 @@ enum ModalContent {
     FOLLOWING,
 }
 
-const UserSectionContainer: React.FunctionComponent<Props> = ({user}) => {
-    const {close, isOpen, open} = useModal()
+const UserSectionContainer: React.FunctionComponent<Props> = ({
+    currentUser,
+    toggleFollow,
+    user,
+}) => {
+    const {close: closeFollowModal, isOpen, open} = useModal()
     const [modalContent, setModalContent] = useState(ModalContent.FOLLOWERS)
-    const {user: currentUser} = useContext(AuthContext)
-    const authGuard = useAuthGuard()
+    const {openModal} = useContext(ModalContext)
 
-    const openModal = (modal: ModalContent) => () => {
+    const openFollowModal = (modal: ModalContent) => () => {
         setModalContent(modal)
         open()
     }
+
+    const openRegisterModal = useCallback(() => {
+        openModal('register')
+        closeFollowModal()
+    }, [])
 
     if (!user) return null
 
@@ -55,22 +54,6 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({user}) => {
     const following = useMemo(() => user.follows.following.rows.map(follow => follow.followed), [
         user,
     ])
-
-    const [follow] = useMutation<FollowUserMutation, FollowUserMutationVariables>(FOLLOW, {
-        update: updateProfileCache(ProfileActions.FOLLOW, {slug: user.slug}),
-    })
-
-    const [unfollow] = useMutation<UnfollowUserMutation, UnfollowUserMutationVariables>(UNFOLLOW, {
-        update: updateProfileCache(ProfileActions.UNFOLLOW, {slug: user.slug}),
-    })
-
-    const toggleFollow = (userId: number) => {
-        const mutateFollow =
-            currentUser && isFollowedByCurrentUser(currentUser, userId) ? unfollow : follow
-        mutateFollow({variables: {userId}})
-    }
-
-    const authGuardedToggleFollow = authGuard(toggleFollow)
 
     return (
         <>
@@ -104,7 +87,9 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({user}) => {
                     <UserStats>
                         <UserStats.Item
                             onClick={
-                                followers.length ? openModal(ModalContent.FOLLOWERS) : undefined
+                                followers.length
+                                    ? openFollowModal(ModalContent.FOLLOWERS)
+                                    : undefined
                             }
                             title={
                                 <FormattedMessage
@@ -116,7 +101,9 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({user}) => {
                         />
                         <UserStats.Item
                             onClick={
-                                following.length ? openModal(ModalContent.FOLLOWING) : undefined
+                                following.length
+                                    ? openFollowModal(ModalContent.FOLLOWING)
+                                    : undefined
                             }
                             title={
                                 <FormattedMessage
@@ -182,11 +169,12 @@ const UserSectionContainer: React.FunctionComponent<Props> = ({user}) => {
             />
 
             <UserListModal
+                openRegisterModal={openRegisterModal}
                 isOpen={isOpen}
                 currentUser={currentUser}
                 users={modalContent === ModalContent.FOLLOWERS ? followers : following}
-                onClose={close}
-                toggleFollow={authGuardedToggleFollow}
+                onClose={closeFollowModal}
+                toggleFollow={toggleFollow}
                 title={
                     <Headline variant="h4">
                         {modalContent === ModalContent.FOLLOWERS ? (
