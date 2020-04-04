@@ -1,3 +1,4 @@
+import {analyticsEvents} from 'utils/analytics'
 import {useState} from 'react'
 import {useRouter} from 'next/router'
 import {useMutation} from 'react-apollo'
@@ -33,7 +34,10 @@ const useCreateAquascape = () => {
             .finally(() => setTimeout(() => setLoading(false), 1500)) // Wait for a redirect a little bit
     }
 
-    return {createAquascape: authGuard(createAquascape), loading}
+    return {
+        createAquascape: authGuard(createAquascape, analyticsEvents.anonymousUser.createAquascape),
+        loading,
+    }
 }
 
 export default useCreateAquascape

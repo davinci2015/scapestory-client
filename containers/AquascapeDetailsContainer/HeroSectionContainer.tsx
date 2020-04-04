@@ -27,6 +27,7 @@ import {shareOnFacebook} from 'utils/general'
 import {updateProfileCache, ProfileActions} from 'containers/ProfileContainer/cache'
 import {isFollowedByCurrentUser} from 'utils/user'
 import useAuthGuard from 'hooks/useAuthGuard'
+import {analyticsEvents, attachTrackEvent} from 'utils/analytics'
 
 interface Props {
     aquascape: AquascapeDetailsQuery['aquascape']
@@ -108,6 +109,8 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
         )
     }
 
+    const shareTracked = attachTrackEvent(onShare)(analyticsEvents.share.aquascape)
+
     const isCurrentUserAquascapeOwner =
         aquascape.user && user ? aquascape.user.id === user.id : false
 
@@ -116,12 +119,12 @@ const HeroSectionContainer: React.FunctionComponent<Props> = ({aquascape}) => {
             currentUser={user}
             isLikedByCurrentUser={isLikedByCurrentUser}
             isCurrentUserAquascapeOwner={isCurrentUserAquascapeOwner}
-            onShare={onShare}
+            onShare={shareTracked}
             onEdit={redirectToEdit}
             aquascape={aquascape}
             isFollowedByCurrentUser={isFollowed}
             toggleFollow={authGuard(toggleFollow)}
-            toggleLike={authGuard(toggleLike)}
+            toggleLike={authGuard(toggleLike, analyticsEvents.anonymousUser.aquascapeLike)}
         />
     )
 }

@@ -23,6 +23,7 @@ import {
 import {CommentFieldsFragment} from 'graphql/generated/queries'
 import logger from 'services/logger'
 import useAuthGuard from 'hooks/useAuthGuard'
+import {analyticsEvents} from 'utils/analytics'
 
 interface Props {
     aquascapeId: number
@@ -132,9 +133,9 @@ const CommentsContainer: React.FunctionComponent<Props> = ({aquascapeId, comment
             onCommentChange={handleCommentChange}
             onReplyChange={handleReplyChange}
             removeComment={handleRemoveComment}
-            toggleLike={authGuard(toggleLike)}
-            onReply={authGuard(onReply)}
-            onSubmit={authGuard(onSubmit)}
+            toggleLike={authGuard(toggleLike, analyticsEvents.anonymousUser.commentLike)}
+            onReply={authGuard(onReply, analyticsEvents.anonymousUser.reply)}
+            onSubmit={authGuard(onSubmit, analyticsEvents.anonymousUser.comment)}
         />
     )
 }

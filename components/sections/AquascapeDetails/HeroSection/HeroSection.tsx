@@ -20,6 +20,7 @@ import {pxToNumber} from 'utils/converter'
 import useModal from 'hooks/useModal'
 import {getImageCharPlaceholder} from 'utils/user'
 import {ModalContext} from 'providers/ModalProvider'
+import {attachTrackEvent, analyticsEvents} from 'utils/analytics'
 
 interface Props {
     currentUser?: User_ProfileQuery['me']
@@ -79,6 +80,11 @@ const HeroSection: React.FunctionComponent<Props> = ({
             ? `+${aquascape.likes.count - LIKES_STACK_COUNT}`
             : undefined
 
+    const openUserListModalTracked = attachTrackEvent(open)(analyticsEvents.like.likeUserListOpened)
+    const openRegisterModalTracked = attachTrackEvent(openRegisterModal)(
+        analyticsEvents.anonymousUser.follow
+    )
+
     return (
         <>
             <Hero
@@ -137,7 +143,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                         </Hero.TopLeft>
                         <Hero.TopRight className="top-right">
                             <Hide upTo={pxToNumber(breakpoints.medium)}>
-                                <a className="image-stack" onClick={open}>
+                                <a className="image-stack" onClick={openUserListModalTracked}>
                                     <ImageStack
                                         images={stackImages}
                                         placeholder={stackPlaceholder}
@@ -215,7 +221,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
                         </Hero.BottomLeft>
                         <Hero.BottomRight>
                             <Hide after={pxToNumber(breakpoints.medium)}>
-                                <a className="image-stack" onClick={open}>
+                                <a className="image-stack" onClick={openUserListModalTracked}>
                                     <ImageStack
                                         images={stackImages}
                                         placeholder={stackPlaceholder}
@@ -228,7 +234,7 @@ const HeroSection: React.FunctionComponent<Props> = ({
             />
 
             <UserListModal
-                openRegisterModal={openRegisterModal}
+                openRegisterModal={openRegisterModalTracked}
                 isOpen={isOpen}
                 currentUser={currentUser}
                 users={aquascape.likes.rows.map(like => like.user)}
