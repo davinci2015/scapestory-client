@@ -50,7 +50,7 @@ export const updateProfileCache = (action: ProfileActions, payload: Payload = {}
                 },
             })
 
-            if (payload.slug) {
+            if (payload.slug && data.me?.slug !== payload.slug) {
                 query = USER_BY_SLUG
                 data = cache.readQuery<any>({
                     query,
@@ -105,7 +105,7 @@ export const updateProfileCache = (action: ProfileActions, payload: Payload = {}
                 },
             })
 
-            if (payload.slug) {
+            if (payload.slug && data.me?.slug !== payload.slug) {
                 query = USER_BY_SLUG
                 data = cache.readQuery<any>({
                     query,

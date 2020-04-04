@@ -5,7 +5,6 @@ import {UserBySlugQuery} from 'graphql/generated/queries'
 import {updateProfileCache, ProfileActions} from 'containers/ProfileContainer/cache'
 import {FOLLOW, UNFOLLOW} from 'graphql/mutations'
 import {AuthContext} from 'providers/AuthenticationProvider'
-import {ModalContext} from 'providers/ModalProvider'
 import CoverSection from 'components/sections/Profile/CoverSection'
 import {Button, FormattedMessage, Icon} from 'components/atoms'
 import LogoutIcon from 'assets/icons/log-out.svg'
@@ -25,6 +24,7 @@ import {
 } from 'graphql/generated/mutations'
 import {isFollowedByCurrentUser} from 'utils/user'
 import logger from 'services/logger'
+import useAuthGuard from 'hooks/useAuthGuard'
 
 interface Props {
     user: UserBySlugQuery['user']
@@ -32,10 +32,10 @@ interface Props {
 }
 
 const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) => {
-    const {isAuthenticated, refreshAuthentication, user: currentUser} = useContext(AuthContext)
-    const {openModal} = useContext(ModalContext)
+    const {refreshAuthentication, user: currentUser} = useContext(AuthContext)
     const onCreateAquascape = useCreateAquascape()
     const router = useRouter()
+    const authGuard = useAuthGuard()
     const apolloClient = useApolloClient()
 
     if (!user) return null
@@ -65,13 +65,11 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) =
     }
 
     const toggleFollow = () => {
-        if (!isAuthenticated || !currentUser) {
-            return openModal('register')
-        }
-
         const mutateFollow = isFollowed ? unfollow : follow
         mutateFollow({variables: {userId: user.id}})
     }
+
+    const authGuardedToggleFollow = authGuard(toggleFollow)
 
     const isProfileFromCurrentUser = currentUser?.id === user.id
 
@@ -87,9 +85,9 @@ const CoverSectionContainer: React.FunctionComponent<Props> = ({onEdit, user}) =
                     )}
                     {!isProfileFromCurrentUser &&
                         (isFollowed ? (
-                            <UnfollowButton toggleFollow={toggleFollow} />
+                            <UnfollowButton toggleFollow={authGuardedToggleFollow} />
                         ) : (
-                            <FollowButton toggleFollow={toggleFollow} />
+                            <FollowButton toggleFollow={authGuardedToggleFollow} />
                         ))}
 
                     {isProfileFromCurrentUser && (
