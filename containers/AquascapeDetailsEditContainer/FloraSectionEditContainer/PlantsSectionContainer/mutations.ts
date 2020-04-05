@@ -14,6 +14,7 @@ export const ADD_PLANT = gql`
         addPlant(plantId: $plantId, name: $name, aquascapeId: $aquascapeId) {
             id
             name
+            infoFulfilled
         }
     }
 `
