@@ -1,9 +1,10 @@
 import React from 'react'
 import Modal from 'components/molecules/Modal'
 import {spaces, media, colors, typography} from 'styles'
-import {Plant} from 'graphql/generated/mutations'
-import {Icon, Paragraph} from 'components/atoms'
+import {Plant, PlantGrowthSpeed, PlantPosition} from 'graphql/generated/mutations'
+import {Icon, Paragraph, FormattedMessage} from 'components/atoms'
 import {PlantDifficulty} from 'graphql/generated/types'
+import {PlantLuminosity} from 'graphql/generated/queries'
 
 interface Props {
     plant: Plant
@@ -15,6 +16,66 @@ const plantDifficultyColor = {
     [PlantDifficulty.Easy]: colors.PRIMARY,
     [PlantDifficulty.Medium]: colors.WARNING,
     [PlantDifficulty.Advanced]: colors.SECONDARY,
+}
+
+const plantDifficultyMessage = {
+    [PlantDifficulty.Easy]: {
+        id: 'plant_modal.difficulty_easy',
+        defaultMessage: 'Easy',
+    },
+    [PlantDifficulty.Medium]: {
+        id: 'plant_modal.difficulty_easy',
+        defaultMessage: 'Medium',
+    },
+    [PlantDifficulty.Advanced]: {
+        id: 'plant_modal.difficulty_easy',
+        defaultMessage: 'Advanced',
+    },
+}
+
+const plantGrowthSpeedMessage = {
+    [PlantGrowthSpeed.Slow]: {
+        id: 'plant_modal.growth_speed_slow',
+        defaultMessage: 'Slow',
+    },
+    [PlantGrowthSpeed.Medium]: {
+        id: 'plant_modal.growth_speed_medium',
+        defaultMessage: 'Medium',
+    },
+    [PlantGrowthSpeed.High]: {
+        id: 'plant_modal.growth_speed_high',
+        defaultMessage: 'High',
+    },
+}
+
+const plantLuminosityMessage = {
+    [PlantLuminosity.Low]: {
+        id: 'plant_modal.luminosity_low',
+        defaultMessage: 'Slow',
+    },
+    [PlantLuminosity.Medium]: {
+        id: 'plant_modal.luminosity_medium',
+        defaultMessage: 'Medium',
+    },
+    [PlantLuminosity.High]: {
+        id: 'plant_modal.luminosity_high',
+        defaultMessage: 'High',
+    },
+}
+
+const plantPositionMessage = {
+    [PlantPosition.Front]: {
+        id: 'plant_modal.position_front',
+        defaultMessage: 'Foreground',
+    },
+    [PlantPosition.Middle]: {
+        id: 'plant_modal.position_middle',
+        defaultMessage: 'Middleground',
+    },
+    [PlantPosition.Back]: {
+        id: 'plant_modal.position_back',
+        defaultMessage: 'Background',
+    },
 }
 
 const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) => (
@@ -37,35 +98,95 @@ const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) =>
                         </Paragraph>
                     </div>
                     <div className="body">
-                        <Paragraph className="description">{plant.description}</Paragraph>
+                        {plant.description && (
+                            <Paragraph className="description">{plant.description}</Paragraph>
+                        )}
                         <table>
                             <tbody>
-                                <tr>
-                                    <td className="cell cell-description">Origin:</td>
-                                    <td className="cell">{plant.origin}</td>
-                                </tr>
-                                <tr>
-                                    <td className="cell cell-description">Growth speed:</td>
-                                    <td className="cell">{plant.growthSpeed}</td>
-                                </tr>
-                                <tr>
-                                    <td className="cell cell-description">Difficulty:</td>
-                                    <td className="cell">{plant.difficulty}</td>
-                                </tr>
-                                <tr>
-                                    <td className="cell cell-description">Light demand:</td>
-                                    <td className="cell">{plant.luminosity}</td>
-                                </tr>
-                                <tr>
-                                    <td className="cell cell-description">Height:</td>
-                                    <td className="cell">
-                                        {plant.minHeight} - {plant.maxHeight}+
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="cell cell-description">Tank position:</td>
-                                    <td className="cell">{plant.position}</td>
-                                </tr>
+                                {plant.origin && (
+                                    <tr>
+                                        <td className="cell cell-description">
+                                            <FormattedMessage
+                                                id="plant_modal.origin"
+                                                defaultMessage="Origin:"
+                                            />
+                                        </td>
+                                        <td className="cell">{plant.origin}</td>
+                                    </tr>
+                                )}
+                                {plant.growthSpeed && (
+                                    <tr>
+                                        <td className="cell cell-description">
+                                            <FormattedMessage
+                                                id="plant_modal.growth_speed"
+                                                defaultMessage="Growth speed:"
+                                            />
+                                        </td>
+                                        <td className="cell">
+                                            <FormattedMessage
+                                                {...plantGrowthSpeedMessage[plant.growthSpeed]}
+                                            />
+                                        </td>
+                                    </tr>
+                                )}
+                                {plant.difficulty && (
+                                    <tr>
+                                        <td className="cell cell-description">
+                                            <FormattedMessage
+                                                id="plant_modal.difficulty"
+                                                defaultMessage="Difficulty:"
+                                            />
+                                        </td>
+                                        <td className="cell cell-difficulty">
+                                            <FormattedMessage
+                                                {...plantDifficultyMessage[plant.difficulty]}
+                                            />
+                                        </td>
+                                    </tr>
+                                )}
+                                {plant.luminosity && (
+                                    <tr>
+                                        <td className="cell cell-description">
+                                            <FormattedMessage
+                                                id="plant_modal.light_demand"
+                                                defaultMessage="Light demand:"
+                                            />
+                                        </td>
+                                        <td className="cell">
+                                            <FormattedMessage
+                                                {...plantLuminosityMessage[plant.luminosity]}
+                                            />
+                                        </td>
+                                    </tr>
+                                )}
+                                {plant.minHeight && plant.maxHeight && (
+                                    <tr>
+                                        <td className="cell cell-description">
+                                            <FormattedMessage
+                                                id="plant_modal.height"
+                                                defaultMessage="Height:"
+                                            />
+                                        </td>
+                                        <td className="cell">
+                                            {plant.minHeight} - {plant.maxHeight}+
+                                        </td>
+                                    </tr>
+                                )}
+                                {plant.position && (
+                                    <tr>
+                                        <td className="cell cell-description">
+                                            <FormattedMessage
+                                                id="plant_modal.tank_position"
+                                                defaultMessage="Tank position:"
+                                            />
+                                        </td>
+                                        <td className="cell">
+                                            <FormattedMessage
+                                                {...plantPositionMessage[plant.position]}
+                                            />
+                                        </td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -98,6 +219,10 @@ const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) =>
                 font-weight: ${typography.fontWeight.bold};
             }
 
+            .body :global(.description) {
+                margin-bottom: ${spaces.s24};
+            }
+
             .body {
                 margin-top: ${spaces.s30};
             }
@@ -112,7 +237,7 @@ const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) =>
             }
 
             table {
-                margin-top: ${spaces.s24};
+                width: 100%;
                 border-collapse: collapse;
             }
 
@@ -121,13 +246,31 @@ const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) =>
             }
 
             table .cell {
-                padding-top: ${spaces.s8};
-                padding-bottom: ${spaces.s8};
+                padding-top: ${spaces.s16};
+                padding-bottom: ${spaces.s16};
             }
 
             table .cell-description {
                 font-weight: ${typography.fontWeight.bold};
-                padding-right: ${spaces.s36};
+                padding-right: ${spaces.s18};
+            }
+
+            table .cell-difficulty {
+                padding-left: ${spaces.s20};
+                position: relative;
+            }
+
+            table .cell-difficulty::after {
+                position: absolute;
+                content: '';
+
+                top: 19px;
+                width: ${spaces.s12};
+                height: ${spaces.s12};
+                left: 0;
+
+                border-radius: 50%;
+                background-color: ${plantDifficultyColor[plant.difficulty || PlantDifficulty.Easy]};
             }
         `}</style>
     </>
