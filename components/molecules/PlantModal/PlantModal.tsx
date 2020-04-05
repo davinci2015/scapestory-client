@@ -78,6 +78,18 @@ const plantPositionMessage = {
     },
 }
 
+const getPlantPositionMessage = (position: PlantPosition) =>
+    plantPositionMessage[position] || plantPositionMessage[PlantPosition.Middle]
+
+const getPlantLuminosityMessage = (luminosity: PlantLuminosity) =>
+    plantLuminosityMessage[luminosity] || plantLuminosityMessage[PlantLuminosity.Low]
+
+const getPlantGrowthSpeedMessage = (speed: PlantGrowthSpeed) =>
+    plantGrowthSpeedMessage[speed] || plantGrowthSpeedMessage[PlantGrowthSpeed.Medium]
+
+const getPlantDifficultyMessage = (difficulty: PlantDifficulty) =>
+    plantDifficultyMessage[difficulty] || plantDifficultyMessage[PlantDifficulty.Easy]
+
 const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) => (
     <>
         <Modal isOpen={isOpen} shouldCloseOnEsc>
@@ -133,7 +145,7 @@ const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) =>
                                         </td>
                                         <td className="cell">
                                             <FormattedMessage
-                                                {...plantGrowthSpeedMessage[plant.growthSpeed]}
+                                                {...getPlantGrowthSpeedMessage(plant.growthSpeed)}
                                             />
                                         </td>
                                     </tr>
@@ -148,7 +160,7 @@ const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) =>
                                         </td>
                                         <td className="cell cell-difficulty">
                                             <FormattedMessage
-                                                {...plantDifficultyMessage[plant.difficulty]}
+                                                {...getPlantDifficultyMessage(plant.difficulty)}
                                             />
                                         </td>
                                     </tr>
@@ -163,7 +175,7 @@ const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) =>
                                         </td>
                                         <td className="cell">
                                             <FormattedMessage
-                                                {...plantLuminosityMessage[plant.luminosity]}
+                                                {...getPlantLuminosityMessage(plant.luminosity)}
                                             />
                                         </td>
                                     </tr>
@@ -173,7 +185,7 @@ const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) =>
                                         <td className="cell cell-description">
                                             <FormattedMessage
                                                 id="plant_modal.height"
-                                                defaultMessage="Height:"
+                                                defaultMessage="Height (cm):"
                                             />
                                         </td>
                                         <td className="cell">
@@ -191,7 +203,7 @@ const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) =>
                                         </td>
                                         <td className="cell">
                                             <FormattedMessage
-                                                {...plantPositionMessage[plant.position]}
+                                                {...getPlantPositionMessage(plant.position)}
                                             />
                                         </td>
                                     </tr>
