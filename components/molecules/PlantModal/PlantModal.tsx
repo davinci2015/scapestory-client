@@ -76,6 +76,14 @@ const plantPositionMessage = {
         id: 'plant_modal.position_back',
         defaultMessage: 'Background',
     },
+    [PlantPosition.FrontMiddle]: {
+        id: 'plant_modal.position_front_middle',
+        defaultMessage: 'Foreground-middleground',
+    },
+    [PlantPosition.MiddleBack]: {
+        id: 'plant_modal.position_middle-back',
+        defaultMessage: 'Middleground-background',
+    },
 }
 
 const getPlantPositionMessage = (position: PlantPosition) =>

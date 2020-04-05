@@ -529,6 +529,7 @@ export type Plant = {
   luminosity?: Maybe<PlantLuminosity>,
   growthSpeed?: Maybe<PlantGrowthSpeed>,
   difficulty?: Maybe<PlantDifficulty>,
+  infoFulfilled: Scalars['Boolean'],
 };
 
 export enum PlantDifficulty {
@@ -552,7 +553,9 @@ export enum PlantLuminosity {
 export enum PlantPosition {
   Front = 'FRONT',
   Middle = 'MIDDLE',
-  Back = 'BACK'
+  Back = 'BACK',
+  FrontMiddle = 'FRONT_MIDDLE',
+  MiddleBack = 'MIDDLE_BACK'
 }
 
 export type Query = {
