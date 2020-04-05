@@ -150,11 +150,11 @@ export type Filter = Equipment & {
 
 export type Follow = {
    __typename?: 'Follow',
+  followed: User,
+  follower: User,
   id: Scalars['Int'],
   followedUserId: Scalars['Int'],
   followerUserId: Scalars['Int'],
-  followed: User,
-  follower: User,
   updatedAt: Scalars['String'],
   createdAt: Scalars['String'],
 };
@@ -525,11 +525,35 @@ export type Plant = {
   origin?: Maybe<Scalars['String']>,
   minHeight?: Maybe<Scalars['Int']>,
   maxHeight?: Maybe<Scalars['Int']>,
-  position?: Maybe<Scalars['String']>,
-  luminosity?: Maybe<Scalars['String']>,
-  growthSpeed?: Maybe<Scalars['String']>,
-  difficulty?: Maybe<Scalars['String']>,
+  position?: Maybe<PlantPosition>,
+  luminosity?: Maybe<PlantLuminosity>,
+  growthSpeed?: Maybe<PlantGrowthSpeed>,
+  difficulty?: Maybe<PlantDifficulty>,
 };
+
+export enum PlantDifficulty {
+  Easy = 'EASY',
+  Medium = 'MEDIUM',
+  Advanced = 'ADVANCED'
+}
+
+export enum PlantGrowthSpeed {
+  Slow = 'SLOW',
+  Medium = 'MEDIUM',
+  High = 'HIGH'
+}
+
+export enum PlantLuminosity {
+  Low = 'LOW',
+  Medium = 'MEDIUM',
+  High = 'HIGH'
+}
+
+export enum PlantPosition {
+  Front = 'FRONT',
+  Middle = 'MIDDLE',
+  Back = 'BACK'
+}
 
 export type Query = {
    __typename?: 'Query',
@@ -540,6 +564,7 @@ export type Query = {
   filters: Array<Filter>,
   lights: Array<Light>,
   plants: Array<Plant>,
+  plantById?: Maybe<Plant>,
   hardscape: Array<Hardscape>,
   livestock: Array<Livestock>,
   substrates: Array<Substrate>,
@@ -563,6 +588,11 @@ export type QueryUserArgs = {
 
 export type QueryUserBySlugArgs = {
   slug: Scalars['String']
+};
+
+
+export type QueryPlantByIdArgs = {
+  id: Scalars['Int']
 };
 
 

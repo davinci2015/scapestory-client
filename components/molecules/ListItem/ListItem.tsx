@@ -6,6 +6,7 @@ import {IconButton, Icon} from 'components/atoms'
 
 interface Props {
     children: React.ReactNode
+    onClick?: VoidFunction
     onDelete?: ((...args: any[]) => void) | undefined
 }
 
@@ -13,9 +14,14 @@ const classes = {
     root: 'list-item',
 }
 
-const ListItem = ({children, onDelete}: Props) => (
+const ListItem = ({children, onClick, onDelete}: Props) => (
     <>
-        <div className={classes.root}>
+        <a
+            className={classnames(classes.root, {
+                'list-item-clickable': !!onClick,
+            })}
+            onClick={onClick}
+        >
             <div
                 className={classnames('list-item-inner', {
                     'list-item-inner--edit': Boolean(onDelete),
@@ -29,7 +35,7 @@ const ListItem = ({children, onDelete}: Props) => (
                     </IconButton>
                 )}
             </div>
-        </div>
+        </a>
         <style jsx>{`
             .list-item {
                 display: flex;
@@ -39,7 +45,16 @@ const ListItem = ({children, onDelete}: Props) => (
                 line-height: ${typography.lineHeight.lh40};
 
                 border-radius: ${borderRadius.TERTIARY};
-                transition: background-color 100ms ease-in-out;
+                transition: background-color 100ms ease-in-out, color 120ms linear;
+            }
+
+            .list-item-clickable {
+                cursor: pointer;
+                text-decoration: underline;
+            }
+
+            .list-item-clickable:hover {
+                color: ${colors.PRIMARY};
             }
 
             .list-item-inner {

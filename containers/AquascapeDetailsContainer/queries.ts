@@ -30,6 +30,7 @@ export const AQUASCAPE_DETAILS = gql`
             plants {
                 id
                 name
+                infoFulfilled
             }
 
             livestock {

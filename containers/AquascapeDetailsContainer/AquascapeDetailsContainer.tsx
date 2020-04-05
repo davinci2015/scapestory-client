@@ -36,6 +36,7 @@ import {
 import {pxToNumber} from 'utils/converter'
 import SettingsIcon from 'assets/icons/settings.svg'
 import config from 'config'
+import PlantListContainer from 'containers/AquascapeDetailsContainer/PlantListContainer'
 
 const sections = {
     PHOTO_POSTS: 'PHOTO_POSTS',
@@ -172,29 +173,7 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
 
                     <Element name={sections.FLORA}>
                         <FloraSection>
-                            <FloraList
-                                entities={aquascapeResult.aquascape.plants}
-                                title={
-                                    <FormattedMessage
-                                        id="aquascape.flora_and_fauna.plants"
-                                        defaultMessage="Plants"
-                                    />
-                                }
-                                icon={
-                                    <Icon
-                                        d={Icon.PLANT}
-                                        color={colors.WHITE}
-                                        size={48}
-                                        viewBox="0 0 48 48"
-                                    />
-                                }
-                                noEntityText={
-                                    <FormattedMessage
-                                        id="aquascape.flora_and_fauna.no_plants"
-                                        defaultMessage="No plants added"
-                                    />
-                                }
-                            />
+                            <PlantListContainer plants={aquascapeResult.aquascape.plants} />
                             <FloraList
                                 entities={aquascapeResult.aquascape.livestock}
                                 title={

@@ -10,6 +10,7 @@ interface Props {
     color?: string
     children: React.ReactNode | string
     weight?: 'regular' | 'bold' | 'semibold'
+    className?: string
 }
 
 const classes = {
@@ -22,12 +23,13 @@ const Paragraph = ({
     color = colors.BLACK,
     type = 'body',
     weight = 'regular',
+    className,
     ...props
 }: Props) => {
     const Component = as
 
     return (
-        <Component className={cx(classes.root, type, weight)} {...props}>
+        <Component className={cx(classes.root, type, weight, className)} {...props}>
             {children}
 
             <style jsx>{`
