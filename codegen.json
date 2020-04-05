@@ -16,7 +16,8 @@
                 "./containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/PlantsSectionContainer/queries.ts",
                 "./containers/AquascapeDetailsEditContainer/EquipmentSectionEditContainer/queries.ts",
                 "./containers/NotificationsContainer/queries.ts",
-                "./containers/NavigationContainer/queries.ts"
+                "./containers/NavigationContainer/queries.ts",
+                "./containers/PlantListContainer/PlantModalContainer/queries.ts"
             ],
             "config": ["flattenGeneratedTypes"]
         },

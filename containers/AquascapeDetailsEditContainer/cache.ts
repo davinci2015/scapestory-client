@@ -1,7 +1,9 @@
 import {DataProxy} from 'apollo-cache'
 import {FetchResult} from 'apollo-link'
 import gql from 'graphql-tag'
+
 import {Plant, Livestock, Hardscape} from 'graphql/generated/types'
+import {AQUASCAPE_DETAILS} from 'containers/AquascapeDetailsContainer/queries'
 
 export enum AquascapeEditActions {
     AQUASCAPE_ADD_PLANT,
@@ -29,14 +31,15 @@ export const updateAquascapeEditCache = (action: AquascapeEditActions, payload: 
 
     switch (action) {
         case AquascapeEditActions.AQUASCAPE_REMOVE_PLANT:
-            query = gql`query { aquascape(id: ${payload.aquascapeId}) { id plants { id name } }}`
-            data = cache.readQuery<any>({query})
+            query = AQUASCAPE_DETAILS
+            data = cache.readQuery<any>({query, variables: {id: payload.aquascapeId}})
 
             if (!mutationData.removePlant || !mutationData.removePlant.id) return
 
             return cache.writeQuery({
                 query,
                 data: {
+                    ...data,
                     aquascape: {
                         ...data.aquascape,
                         plants: data.aquascape.plants.filter(
@@ -47,14 +50,15 @@ export const updateAquascapeEditCache = (action: AquascapeEditActions, payload: 
             })
 
         case AquascapeEditActions.AQUASCAPE_ADD_PLANT:
-            query = gql`query { aquascape(id: ${payload.aquascapeId}) { id plants { id name } }}`
-            data = cache.readQuery<any>({query})
+            query = AQUASCAPE_DETAILS
+            data = cache.readQuery<any>({query, variables: {id: payload.aquascapeId}})
 
             if (!mutationData.addPlant || !mutationData.addPlant.id) return
 
             return cache.writeQuery({
                 query,
                 data: {
+                    ...data,
                     aquascape: {
                         ...data.aquascape,
                         plants: [...data.aquascape.plants, mutationData.addPlant],

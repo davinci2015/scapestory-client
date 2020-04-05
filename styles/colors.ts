@@ -21,6 +21,7 @@ export default {
     SHADE_MIDDLE: '#b4b7bc',
 
     ERROR: '#e06979',
+    WARNING: '#FFCC00',
 
     GOOGLE: '#db4437',
     FACEBOOK: '#2174f2',
