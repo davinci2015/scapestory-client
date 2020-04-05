@@ -51,7 +51,7 @@ const plantGrowthSpeedMessage = {
 const plantLuminosityMessage = {
     [PlantLuminosity.Low]: {
         id: 'plant_modal.luminosity_low',
-        defaultMessage: 'Slow',
+        defaultMessage: 'Low',
     },
     [PlantLuminosity.Medium]: {
         id: 'plant_modal.luminosity_medium',
