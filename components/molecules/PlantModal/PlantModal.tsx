@@ -111,7 +111,16 @@ const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) =>
                                                 defaultMessage="Origin:"
                                             />
                                         </td>
-                                        <td className="cell">{plant.origin}</td>
+                                        <td className="cell">
+                                            <a
+                                                className="origin-link"
+                                                href={`https://www.google.com/maps/place/${plant.origin}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                {plant.origin}
+                                            </a>
+                                        </td>
                                     </tr>
                                 )}
                                 {plant.growthSpeed && (
@@ -258,6 +267,15 @@ const PlantModal: React.FunctionComponent<Props> = ({isOpen, onClose, plant}) =>
             table .cell-difficulty {
                 padding-left: ${spaces.s20};
                 position: relative;
+            }
+
+            table .cell .origin-link {
+                color: ${colors.BLACK};
+                transition: color 120ms ease-in-out;
+            }
+
+            table .cell .origin-link:hover {
+                color: ${colors.PRIMARY};
             }
 
             table .cell-difficulty::after {
