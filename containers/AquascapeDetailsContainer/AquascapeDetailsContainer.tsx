@@ -162,15 +162,6 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
 
                     <Divider />
 
-                    <Element name={sections.COMMENTS}>
-                        <CommentsContainer
-                            aquascapeId={aquascapeId}
-                            comments={aquascapeResult.aquascape.comments}
-                        />
-                    </Element>
-
-                    <Divider />
-
                     <Element name={sections.FLORA}>
                         <FloraSection>
                             <PlantListContainer plants={aquascapeResult.aquascape.plants} />
@@ -335,6 +326,15 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
                                 <Divider />
                             </>
                         )}
+
+                    <Element name={sections.COMMENTS}>
+                        <CommentsContainer
+                            aquascapeId={aquascapeId}
+                            comments={aquascapeResult.aquascape.comments}
+                        />
+                    </Element>
+
+                    <Divider />
 
                     {aquascapeResult.aquascapes &&
                         Boolean(aquascapeResult.aquascapes.rows.length) && (
