@@ -120,18 +120,6 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
                             <Icon d={Icon.CAMERA} />
                         </Hide>
                     </SubNavigation.Item>
-                    <SubNavigation.Item offset={90} id={sections.COMMENTS}>
-                        <Hide upTo={pxToNumber(breakpoints.small)}>
-                            <FormattedMessage
-                                id="aquascape.subnavigation.comments"
-                                defaultMessage="Comments ({count})"
-                                values={{count: aquascapeResult.aquascape.comments.length}}
-                            />
-                        </Hide>
-                        <Hide after={pxToNumber(breakpoints.small)}>
-                            <Icon d={Icon.COMMENT} />
-                        </Hide>
-                    </SubNavigation.Item>
                     <SubNavigation.Item offset={90} id={sections.FLORA}>
                         <Hide upTo={pxToNumber(breakpoints.small)}>
                             <FormattedMessage
@@ -152,6 +140,18 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
                         </Hide>
                         <Hide after={pxToNumber(breakpoints.small)}>
                             <SettingsIcon />
+                        </Hide>
+                    </SubNavigation.Item>
+                    <SubNavigation.Item offset={90} id={sections.COMMENTS}>
+                        <Hide upTo={pxToNumber(breakpoints.small)}>
+                            <FormattedMessage
+                                id="aquascape.subnavigation.comments"
+                                defaultMessage="Comments ({count})"
+                                values={{count: aquascapeResult.aquascape.comments.length}}
+                            />
+                        </Hide>
+                        <Hide after={pxToNumber(breakpoints.small)}>
+                            <Icon d={Icon.COMMENT} />
                         </Hide>
                     </SubNavigation.Item>
                 </SubNavigation>
