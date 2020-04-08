@@ -7,7 +7,7 @@ import {Element} from 'react-scroll'
 import {AQUASCAPE_DETAILS} from 'containers/AquascapeDetailsContainer/queries'
 import {Divider, Icon, Paragraph} from 'components/atoms'
 import {Grid, Content, Hide, OpenGraphMeta} from 'components/core'
-import {SubNavigation, EquipmentCard} from 'components/molecules'
+import {SubNavigation, EquipmentCard, DetailsPageSkeleton} from 'components/molecules'
 import {VISIT} from 'graphql/mutations'
 import CommentsContainer from 'containers/AquascapeDetailsContainer/CommentsContainer'
 import {
@@ -83,6 +83,10 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
         return null
     }
 
+    if (loading) {
+        return <DetailsPageSkeleton />
+    }
+
     if (!aquascapeResult || !aquascapeResult.aquascape) {
         // TODO: Return not found page
         return null
@@ -120,18 +124,6 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
                             <Icon d={Icon.CAMERA} />
                         </Hide>
                     </SubNavigation.Item>
-                    <SubNavigation.Item offset={90} id={sections.COMMENTS}>
-                        <Hide upTo={pxToNumber(breakpoints.small)}>
-                            <FormattedMessage
-                                id="aquascape.subnavigation.comments"
-                                defaultMessage="Comments ({count})"
-                                values={{count: aquascapeResult.aquascape.comments.length}}
-                            />
-                        </Hide>
-                        <Hide after={pxToNumber(breakpoints.small)}>
-                            <Icon d={Icon.COMMENT} />
-                        </Hide>
-                    </SubNavigation.Item>
                     <SubNavigation.Item offset={90} id={sections.FLORA}>
                         <Hide upTo={pxToNumber(breakpoints.small)}>
                             <FormattedMessage
@@ -154,19 +146,22 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
                             <SettingsIcon />
                         </Hide>
                     </SubNavigation.Item>
+                    <SubNavigation.Item offset={90} id={sections.COMMENTS}>
+                        <Hide upTo={pxToNumber(breakpoints.small)}>
+                            <FormattedMessage
+                                id="aquascape.subnavigation.comments"
+                                defaultMessage="Comments ({count})"
+                                values={{count: aquascapeResult.aquascape.comments.length}}
+                            />
+                        </Hide>
+                        <Hide after={pxToNumber(breakpoints.small)}>
+                            <Icon d={Icon.COMMENT} />
+                        </Hide>
+                    </SubNavigation.Item>
                 </SubNavigation>
                 <Grid>
                     <Element name={sections.PHOTO_POSTS}>
                         <PhotoSection images={aquascapeResult.aquascape.images} />
-                    </Element>
-
-                    <Divider />
-
-                    <Element name={sections.COMMENTS}>
-                        <CommentsContainer
-                            aquascapeId={aquascapeId}
-                            comments={aquascapeResult.aquascape.comments}
-                        />
                     </Element>
 
                     <Divider />
@@ -335,6 +330,15 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
                                 <Divider />
                             </>
                         )}
+
+                    <Element name={sections.COMMENTS}>
+                        <CommentsContainer
+                            aquascapeId={aquascapeId}
+                            comments={aquascapeResult.aquascape.comments}
+                        />
+                    </Element>
+
+                    <Divider />
 
                     {aquascapeResult.aquascapes &&
                         Boolean(aquascapeResult.aquascapes.rows.length) && (
