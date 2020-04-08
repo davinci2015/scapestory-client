@@ -7,7 +7,7 @@ import {toast} from 'react-toastify'
 
 import {Divider, Icon, ToastMessage} from 'components/atoms'
 import {Grid, Content, Hide} from 'components/core'
-import {SubNavigation} from 'components/molecules'
+import {SubNavigation, DetailsPageSkeleton} from 'components/molecules'
 import {AuthContext} from 'providers/AuthenticationProvider'
 import {AquascapeDetailsQuery, AquascapeDetailsQueryVariables} from 'graphql/generated/queries'
 import routes from 'routes'
@@ -45,7 +45,7 @@ const AquascapeDetailsEditContainer: React.FunctionComponent = () => {
 
     if (!aquascapeId || !user) return null
 
-    const {data: aquascapeResult, error} = useQuery<
+    const {data: aquascapeResult, error, loading} = useQuery<
         AquascapeDetailsQuery,
         AquascapeDetailsQueryVariables
     >(AQUASCAPE_DETAILS, {variables: {id: aquascapeId}})
@@ -98,6 +98,10 @@ const AquascapeDetailsEditContainer: React.FunctionComponent = () => {
     if (error) {
         // TODO: Show error
         return null
+    }
+
+    if (loading) {
+        return <DetailsPageSkeleton />
     }
 
     if (!aquascapeResult || !aquascapeResult.aquascape) {

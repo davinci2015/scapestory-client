@@ -7,7 +7,7 @@ import {Element} from 'react-scroll'
 import {AQUASCAPE_DETAILS} from 'containers/AquascapeDetailsContainer/queries'
 import {Divider, Icon, Paragraph} from 'components/atoms'
 import {Grid, Content, Hide, OpenGraphMeta} from 'components/core'
-import {SubNavigation, EquipmentCard} from 'components/molecules'
+import {SubNavigation, EquipmentCard, DetailsPageSkeleton} from 'components/molecules'
 import {VISIT} from 'graphql/mutations'
 import CommentsContainer from 'containers/AquascapeDetailsContainer/CommentsContainer'
 import {
@@ -81,6 +81,10 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
     if (error) {
         // TODO: Show error
         return null
+    }
+
+    if (loading) {
+        return <DetailsPageSkeleton />
     }
 
     if (!aquascapeResult || !aquascapeResult.aquascape) {
