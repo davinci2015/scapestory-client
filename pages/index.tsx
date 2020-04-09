@@ -15,7 +15,7 @@ const Index = () => {
     return (
         <>
             <Head>
-                <title>{config.APP_NAME}</title>
+                <title>{config.APP_NAME} - Only Place For Your Aquarium Or Aquascape</title>
             </Head>
             <ModalProvider>
                 <NavigationContainer />
