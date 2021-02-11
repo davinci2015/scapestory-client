@@ -35,11 +35,11 @@ const scrollOffset = 80
 
 const Navigation = ({
     isAuthenticated,
+    loading,
     onCreateAquascape,
     openLoginModal,
     openRegisterModal,
     unreadNotificationsCount,
-    loading,
     user,
 }: Props) => {
     const {position} = useScrollPosition()
