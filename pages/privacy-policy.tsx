@@ -182,9 +182,9 @@ const PrivacyPolicy = () => {
                             <Paragraph>
                                 I use infrastructure and storage services from Third-Party
                                 infrastructure providers to provide you with Scapestory services.
-                                Scapestory use Amazon Web Services (
+                                Scapestory use Heroku (
                                 <a
-                                    href="https://aws.amazon.com"
+                                    href="https://www.heroku.com/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
@@ -262,7 +262,7 @@ const PrivacyPolicy = () => {
                             <Headline variant="h4">Contact Us</Headline>
                             <Paragraph>
                                 If you have any questions or suggestions about my Privacy Policy, do
-                                not hesitate to contact me at contact@scapestory.com.
+                                not hesitate to contact me at {config.CONTACT_EMAIL}.
                             </Paragraph>
                         </div>
                     </Grid>
