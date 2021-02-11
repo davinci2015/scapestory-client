@@ -95,7 +95,7 @@ const Footer: FooterType = () => (
             <div className="bottom">
                 <div>
                     <Paragraph type="s1" color={colors.SHADE_DEEP}>
-                        Made with ❤️ in Osijek
+                        Made with ❤️ in Croatia
                     </Paragraph>
                 </div>
                 <div>
