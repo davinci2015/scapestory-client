@@ -50,8 +50,8 @@ const HeroSection: React.FunctionComponent<Props> = ({aquascape}) => {
                                     >
                                         <Paragraph type="body" color={colors.WHITE} weight="bold">
                                             <FormattedMessage
-                                                id="hero_section.editor_choice"
-                                                defaultMessage="Editor's Choice"
+                                                id="hero_section.featured"
+                                                defaultMessage="Featured"
                                             />
                                         </Paragraph>
                                     </Badge>

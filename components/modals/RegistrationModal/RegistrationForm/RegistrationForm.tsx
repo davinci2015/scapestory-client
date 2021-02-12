@@ -55,12 +55,13 @@ const RegistrationForm: React.FunctionComponent<Props> = () => {
     const onSubmit = async () => {
         try {
             const {data} = await register({variables: {email, password, name}})
-            if (data)
+            if (data) {
                 router.push(
                     createDynamicPath(routes.registerSuccess, {
                         email: btoa(email),
                     })
                 )
+            }
         } catch (e) {
             logger.error(e)
         }
