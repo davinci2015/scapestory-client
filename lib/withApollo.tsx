@@ -15,12 +15,14 @@ import {colors} from 'styles'
 
 export default withApollo(({headers, initialState}) => {
     const headersMiddleware = new ApolloLink((operation, forward) => {
-        const modifiedHeaders: {[key: string]: string} = {}
         const authToken = cookie.getAuthToken(headers)
         const visitorId = cookie.getVisitorId(headers)
 
+        const modifiedHeaders: {[key: string]: string} = {
+            [appConstants.HEADER_VISITOR_ID]: visitorId,
+        }
+
         if (authToken) modifiedHeaders[appConstants.HEADER_AUTH_TOKEN] = authToken
-        if (visitorId) modifiedHeaders[appConstants.HEADER_VISITOR_ID] = visitorId
 
         operation.setContext({headers: modifiedHeaders})
 
