@@ -16,5 +16,6 @@ module.exports = {
         GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
         COOKIE_DOMAIN: process.env.COOKIE_DOMAIN,
         GOOGLE_ANALYTICS_TRACKING_ID: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
+        SENTRY_DSN: process.env.SENTRY_DSN,
     },
 }
