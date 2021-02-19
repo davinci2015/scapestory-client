@@ -229,8 +229,7 @@ const AquascapeDetailsContainer: React.FunctionComponent = () => {
                                             <FiltersCard>
                                                 {filters.map(filter => (
                                                     <Paragraph key={filter.id}>
-                                                        {filter.brand?.name}
-                                                        {filter.model}
+                                                        {filter.brand?.name} {filter.model}
                                                     </Paragraph>
                                                 ))}
                                             </FiltersCard>
