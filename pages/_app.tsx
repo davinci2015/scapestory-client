@@ -4,13 +4,22 @@ import App from 'next/app'
 import {ApolloProvider} from 'react-apollo'
 import {IntlProvider} from 'react-intl'
 import {ToastContainer} from 'react-toastify'
+import * as Sentry from '@sentry/react'
+import {Integrations} from '@sentry/tracing'
+import {clearAllBodyScrollLocks} from 'body-scroll-lock'
+
 import {GlobalStyles} from 'components/core'
 import withApollo from 'lib/withApollo'
-import {clearAllBodyScrollLocks} from 'body-scroll-lock'
 
 interface Props {
     apollo: ApolloClient<NormalizedCacheObject>
 }
+
+Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [new Integrations.BrowserTracing()],
+    tracesSampleRate: 1.0,
+})
 
 class MyApp extends App<Props> {
     componentDidMount() {
