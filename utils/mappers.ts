@@ -10,7 +10,7 @@ export const groupEquipmentByBrand = (equipment: EquipmentInterface[]) => {
         equipment.reduce((acc, item) => {
             brand = item.brand ? item.brand.name : 'Other'
             acc[brand] = acc[brand] || {label: brand, options: []}
-            acc[brand].options.push({value: item.id, label: item.model})
+            acc[brand].options.push({value: item.id, label: `${brand} ${item.model}`})
 
             return acc
         }, {} as {[key: string]: {label: string; options: EquipmentOptionType[]}})
