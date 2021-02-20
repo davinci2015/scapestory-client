@@ -8,7 +8,7 @@ import {AuthContext} from 'providers/AuthenticationProvider'
 import {
     updateAquascapeDetailsCache,
     AquascapeDetailsActions,
-} from 'containers/AquascapeDetailsContainer/cache'
+} from 'views/AquascapeDetailsContainer/cache'
 import {HeroSection} from 'components/sections/AquascapeDetails'
 import {AquascapeDetailsQuery} from 'graphql/generated/queries'
 import {
@@ -24,7 +24,7 @@ import {
 import routes, {createDynamicPath, getAquascapeDetailsSlug} from 'routes'
 import config from 'config'
 import {shareOnFacebook} from 'utils/general'
-import {updateProfileCache, ProfileActions} from 'containers/ProfileContainer/cache'
+import {updateProfileCache, ProfileActions} from 'views/ProfileContainer/cache'
 import {isFollowedByCurrentUser} from 'utils/user'
 import useAuthGuard from 'hooks/useAuthGuard'
 import {analyticsEvents, attachTrackEvent} from 'utils/analytics'

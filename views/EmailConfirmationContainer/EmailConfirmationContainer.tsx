@@ -8,7 +8,7 @@ import {MutationConfirmEmailArgs} from 'graphql/generated/queries'
 import cookie from 'services/cookie'
 import routes, {createDynamicPath} from 'routes'
 import {ConfirmEmailMutation} from 'graphql/generated/mutations'
-import FooterContainer from 'containers/FooterContainer'
+import FooterContainer from 'views/FooterContainer'
 import {Content, Grid} from 'components/core'
 
 const EmailConfirmationContainer = () => {

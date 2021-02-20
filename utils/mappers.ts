@@ -1,7 +1,7 @@
 import {
     EquipmentOptionType,
     EquipmentInterface,
-} from 'containers/AquascapeDetailsEditContainer/EquipmentSectionEditContainer'
+} from 'views/AquascapeDetailsEditContainer/EquipmentSectionEditContainer'
 import {MessageDescriptor} from 'react-intl'
 
 export const groupEquipmentByBrand = (equipment: EquipmentInterface[]) => {

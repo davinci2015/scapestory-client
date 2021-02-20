@@ -2,15 +2,15 @@ import React from 'react'
 import {useMutation, useQuery} from 'react-apollo'
 
 import {AquascapeDetailsQuery} from 'graphql/generated/queries'
-import {LIVESTOCK} from 'containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/LivestockSectionContainer/queries'
+import {LIVESTOCK} from 'views/AquascapeDetailsEditContainer/FloraSectionEditContainer/LivestockSectionContainer/queries'
 import {
     updateAquascapeEditCache,
     AquascapeEditActions,
-} from 'containers/AquascapeDetailsEditContainer/cache'
+} from 'views/AquascapeDetailsEditContainer/cache'
 import {
     ADD_LIVESTOCK,
     REMOVE_LIVESTOCK,
-} from 'containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/LivestockSectionContainer/mutations'
+} from 'views/AquascapeDetailsEditContainer/FloraSectionEditContainer/LivestockSectionContainer/mutations'
 import {Icon, FormattedMessage} from 'components/atoms'
 import {colors} from 'styles'
 import FloraListEdit, {

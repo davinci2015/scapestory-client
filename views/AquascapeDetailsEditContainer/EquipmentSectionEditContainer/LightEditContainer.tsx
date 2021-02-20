@@ -8,7 +8,7 @@ import {LightsCard} from 'components/sections/AquascapeDetails/EquipmentSection/
 import {SelectCreatable, FormattedMessage} from 'components/atoms'
 import {LightsQuery} from 'graphql/generated/queries'
 import {groupEquipmentByBrand} from 'utils/mappers'
-import {EquipmentOptionType} from '../EquipmentSectionEditContainer'
+import {EquipmentOptionType} from '.'
 import {LIGHTS} from './queries'
 
 interface Props {

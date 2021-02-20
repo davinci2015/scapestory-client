@@ -5,11 +5,11 @@ import CommentsSection from 'components/sections/AquascapeDetails/CommentsSectio
 import {LIKE, DISLIKE} from 'graphql/mutations'
 import {LikeEntityType, CommentEntityType} from 'graphql/generated/types'
 import {AuthContext} from 'providers/AuthenticationProvider'
-import {ADD_COMMENT, REMOVE_COMMENT} from 'containers/AquascapeDetailsContainer/mutations'
+import {ADD_COMMENT, REMOVE_COMMENT} from 'views/AquascapeDetailsContainer/mutations'
 import {
     updateAquascapeDetailsCache,
     AquascapeDetailsActions,
-} from 'containers/AquascapeDetailsContainer/cache'
+} from 'views/AquascapeDetailsContainer/cache'
 import {
     LikeMutation,
     DislikeMutation,

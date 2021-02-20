@@ -4,16 +4,16 @@ import {useQuery, useMutation} from 'react-apollo'
 import {FormattedMessage} from 'react-intl'
 import {Element} from 'react-scroll'
 
-import {AQUASCAPE_DETAILS} from 'containers/AquascapeDetailsContainer/queries'
+import {AQUASCAPE_DETAILS} from 'views/AquascapeDetailsContainer/queries'
 import {Divider, Icon, Paragraph} from 'components/atoms'
 import {Grid, Content, Hide, OpenGraphMeta} from 'components/core'
 import {SubNavigation, EquipmentCard, DetailsPageSkeleton} from 'components/molecules'
 import {VISIT} from 'graphql/mutations'
-import CommentsContainer from 'containers/AquascapeDetailsContainer/CommentsContainer'
+import CommentsContainer from 'views/AquascapeDetailsContainer/CommentsContainer'
 import {
     updateAquascapeDetailsCache,
     AquascapeDetailsActions,
-} from 'containers/AquascapeDetailsContainer/cache'
+} from 'views/AquascapeDetailsContainer/cache'
 import {
     FloraSection,
     EquipmentSection,
@@ -23,8 +23,8 @@ import {
 } from 'components/sections/AquascapeDetails'
 import cookie from 'services/cookie'
 import {AquascapeDetailsQuery, AquascapeDetailsQueryVariables} from 'graphql/generated/queries'
-import HeroSectionContainer from 'containers/AquascapeDetailsContainer/HeroSectionContainer'
-import AddAquascapeContainer from 'containers/AddAquascapeContainer/AddAquascapeContainer'
+import HeroSectionContainer from 'views/AquascapeDetailsContainer/HeroSectionContainer'
+import AddAquascapeContainer from 'views/AddAquascapeContainer/AddAquascapeContainer'
 import FloraList from 'components/sections/AquascapeDetails/FloraSection/FloraList'
 import {colors, breakpoints} from 'styles'
 import {
@@ -36,7 +36,7 @@ import {
 import {pxToNumber} from 'utils/converter'
 import SettingsIcon from 'assets/icons/settings.svg'
 import config from 'config'
-import PlantListContainer from 'containers/AquascapeDetailsContainer/PlantListContainer'
+import PlantListContainer from 'views/AquascapeDetailsContainer/PlantListContainer'
 
 const sections = {
     PHOTO_POSTS: 'PHOTO_POSTS',

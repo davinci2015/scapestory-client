@@ -3,7 +3,7 @@ import {FetchResult} from 'apollo-link'
 import gql from 'graphql-tag'
 
 import {Plant, Livestock, Hardscape} from 'graphql/generated/types'
-import {AQUASCAPE_DETAILS} from 'containers/AquascapeDetailsContainer/queries'
+import {AQUASCAPE_DETAILS} from 'views/AquascapeDetailsContainer/queries'
 
 export enum AquascapeEditActions {
     AQUASCAPE_ADD_PLANT,

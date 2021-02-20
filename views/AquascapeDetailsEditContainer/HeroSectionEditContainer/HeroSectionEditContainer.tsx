@@ -17,7 +17,7 @@ import {UPDATE_AQUASCAPE_TITLE, UPDATE_AQUASCAPE_MAIN_IMAGE, REMOVE_AQUASCAPE} f
 import {
     updateAquascapeDetailsCache,
     AquascapeDetailsActions,
-} from 'containers/AquascapeDetailsContainer/cache'
+} from 'views/AquascapeDetailsContainer/cache'
 import config from 'config'
 import {showUploadImageToast} from 'utils/render'
 

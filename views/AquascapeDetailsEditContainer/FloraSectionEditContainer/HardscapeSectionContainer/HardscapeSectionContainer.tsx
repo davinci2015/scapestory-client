@@ -5,7 +5,7 @@ import {AquascapeDetailsQuery} from 'graphql/generated/queries'
 import {
     updateAquascapeEditCache,
     AquascapeEditActions,
-} from 'containers/AquascapeDetailsEditContainer/cache'
+} from 'views/AquascapeDetailsEditContainer/cache'
 import {Icon, FormattedMessage} from 'components/atoms'
 import {colors} from 'styles'
 import FloraListEdit, {
@@ -14,8 +14,8 @@ import FloraListEdit, {
 import {
     REMOVE_HARDSCAPE,
     ADD_HARDSCAPE,
-} from 'containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/HardscapeSectionContainer/mutations'
-import {HARDSCAPE} from 'containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/HardscapeSectionContainer/queries'
+} from 'views/AquascapeDetailsEditContainer/FloraSectionEditContainer/HardscapeSectionContainer/mutations'
+import {HARDSCAPE} from 'views/AquascapeDetailsEditContainer/FloraSectionEditContainer/HardscapeSectionContainer/queries'
 import {ValueType} from 'react-select'
 
 interface Props {

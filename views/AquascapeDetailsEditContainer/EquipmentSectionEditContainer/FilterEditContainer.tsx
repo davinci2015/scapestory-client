@@ -8,7 +8,7 @@ import {FiltersCard} from 'components/sections/AquascapeDetails/EquipmentSection
 import {SelectCreatable, FormattedMessage} from 'components/atoms'
 import {FiltersQuery} from 'graphql/generated/queries'
 import {groupEquipmentByBrand} from 'utils/mappers'
-import {EquipmentOptionType} from '../EquipmentSectionEditContainer'
+import {EquipmentOptionType} from '.'
 import {FILTERS} from './queries'
 
 interface Props {

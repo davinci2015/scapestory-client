@@ -3,9 +3,9 @@ import Head from 'next/head'
 
 import withAuth from 'hocs/withAuth'
 import ModalProvider from 'providers/ModalProvider'
-import NavigationContainer from 'containers/NavigationContainer'
-import FooterContainer from 'containers/FooterContainer'
-import ProfileEditContainer from 'containers/ProfileEditContainer'
+import NavigationContainer from 'views/NavigationContainer'
+import FooterContainer from 'views/FooterContainer'
+import ProfileEditContainer from 'views/ProfileEditContainer'
 import config from 'config'
 
 const UserProfileEdit = () => (

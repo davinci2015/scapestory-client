@@ -1,5 +1,5 @@
 import React from 'react'
-import EmailConfirmationContainer from 'containers/EmailConfirmationContainer'
+import EmailConfirmationContainer from 'views/EmailConfirmationContainer'
 
 const ConfirmationPage = () => <EmailConfirmationContainer />
 

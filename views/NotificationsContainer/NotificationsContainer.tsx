@@ -3,7 +3,7 @@ import {useQuery, useMutation, useApolloClient} from 'react-apollo'
 import Truncate from 'react-truncate'
 import {isToday, isYesterday} from 'date-fns'
 
-import {UNREAD_NOTIFICATIONS_COUNT} from 'containers/NavigationContainer/queries'
+import {UNREAD_NOTIFICATIONS_COUNT} from 'views/NavigationContainer/queries'
 import {AuthContext} from 'providers/AuthenticationProvider'
 import NotificationBlock from 'components/molecules/NotificationBlock'
 import Notification from 'components/atoms/Notification'

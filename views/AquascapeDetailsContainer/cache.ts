@@ -3,7 +3,7 @@ import {DataProxy} from 'apollo-cache'
 import {FetchResult} from 'apollo-link'
 import {Like} from 'graphql/generated/mutations'
 
-import {AQUASCAPE_DETAILS} from 'containers/AquascapeDetailsContainer/queries'
+import {AQUASCAPE_DETAILS} from 'views/AquascapeDetailsContainer/queries'
 import {Comment} from 'graphql/generated/types'
 
 export enum AquascapeDetailsActions {

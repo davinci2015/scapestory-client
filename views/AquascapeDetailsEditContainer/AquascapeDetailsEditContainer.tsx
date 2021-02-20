@@ -12,16 +12,16 @@ import {AuthContext} from 'providers/AuthenticationProvider'
 import {AquascapeDetailsQuery, AquascapeDetailsQueryVariables} from 'graphql/generated/queries'
 import routes from 'routes'
 
-import HeroSectionEditContainer from 'containers/AquascapeDetailsEditContainer/HeroSectionEditContainer'
-import FloraSectionEditContainer from 'containers/AquascapeDetailsEditContainer/FloraSectionEditContainer'
-import PhotoSectionEditContainer from 'containers/AquascapeDetailsEditContainer/PhotoSectionEditContainer'
-import EquipmentSectionEditContainer from 'containers/AquascapeDetailsEditContainer/EquipmentSectionEditContainer'
-import CommentsContainer from 'containers/AquascapeDetailsContainer/CommentsContainer'
+import HeroSectionEditContainer from 'views/AquascapeDetailsEditContainer/HeroSectionEditContainer'
+import FloraSectionEditContainer from 'views/AquascapeDetailsEditContainer/FloraSectionEditContainer'
+import PhotoSectionEditContainer from 'views/AquascapeDetailsEditContainer/PhotoSectionEditContainer'
+import EquipmentSectionEditContainer from 'views/AquascapeDetailsEditContainer/EquipmentSectionEditContainer'
+import CommentsContainer from 'views/AquascapeDetailsContainer/CommentsContainer'
 import {OtherAquascapesSection} from 'components/sections/AquascapeDetails'
 import {pxToNumber} from 'utils/converter'
 import {breakpoints} from 'styles'
 import SettingsIcon from 'assets/icons/settings.svg'
-import {AQUASCAPE_DETAILS} from 'containers/AquascapeDetailsContainer/queries'
+import {AQUASCAPE_DETAILS} from 'views/AquascapeDetailsContainer/queries'
 
 const sections = {
     PHOTO_POSTS: 'PHOTO_POSTS',

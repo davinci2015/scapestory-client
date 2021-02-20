@@ -8,15 +8,15 @@ import {
     RemovePlantMutation,
     RemovePlantMutationVariables,
 } from 'graphql/generated/mutations'
-import {PLANTS} from 'containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/PlantsSectionContainer/queries'
+import {PLANTS} from 'views/AquascapeDetailsEditContainer/FloraSectionEditContainer/PlantsSectionContainer/queries'
 import {
     ADD_PLANT,
     REMOVE_PLANT,
-} from 'containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/PlantsSectionContainer/mutations'
+} from 'views/AquascapeDetailsEditContainer/FloraSectionEditContainer/PlantsSectionContainer/mutations'
 import {
     updateAquascapeEditCache,
     AquascapeEditActions,
-} from 'containers/AquascapeDetailsEditContainer/cache'
+} from 'views/AquascapeDetailsEditContainer/cache'
 import FloraListEdit, {
     FloraEntityType,
 } from 'components/sections/AquascapeDetails/FloraSection/FloraListEdit'

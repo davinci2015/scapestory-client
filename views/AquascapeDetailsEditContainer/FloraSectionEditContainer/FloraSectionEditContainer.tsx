@@ -2,9 +2,9 @@ import React from 'react'
 
 import {FloraSection} from 'components/sections/AquascapeDetails'
 import {AquascapeDetailsQuery} from 'graphql/generated/queries'
-import PlantsSectionContainer from 'containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/PlantsSectionContainer'
-import LivestockSectionContainer from 'containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/LivestockSectionContainer'
-import HardscapeSectionContainer from 'containers/AquascapeDetailsEditContainer/FloraSectionEditContainer/HardscapeSectionContainer'
+import PlantsSectionContainer from 'views/AquascapeDetailsEditContainer/FloraSectionEditContainer/PlantsSectionContainer'
+import LivestockSectionContainer from 'views/AquascapeDetailsEditContainer/FloraSectionEditContainer/LivestockSectionContainer'
+import HardscapeSectionContainer from 'views/AquascapeDetailsEditContainer/FloraSectionEditContainer/HardscapeSectionContainer'
 
 interface Props {
     aquascape: AquascapeDetailsQuery['aquascape']

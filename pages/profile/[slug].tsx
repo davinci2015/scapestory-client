@@ -3,9 +3,9 @@ import Head from 'next/head'
 
 import withAuth from 'hocs/withAuth'
 import ModalProvider from 'providers/ModalProvider'
-import NavigationContainer from 'containers/NavigationContainer'
-import FooterContainer from 'containers/FooterContainer'
-import ProfileContainer from 'containers/ProfileContainer'
+import NavigationContainer from 'views/NavigationContainer'
+import FooterContainer from 'views/FooterContainer'
+import ProfileContainer from 'views/ProfileContainer'
 import config from 'config'
 import useLogPageView from 'hooks/analytics'
 

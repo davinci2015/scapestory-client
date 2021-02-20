@@ -1,6 +1,6 @@
 import React from 'react'
-import RegisterSuccessContainer from 'containers/RegisterSuccessContainer'
-import FooterContainer from 'containers/FooterContainer'
+import RegisterSuccessContainer from 'views/RegisterSuccessContainer'
+import FooterContainer from 'views/FooterContainer'
 
 const RegisterSuccess = () => (
     <>
