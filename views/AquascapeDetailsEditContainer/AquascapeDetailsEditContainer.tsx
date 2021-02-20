@@ -16,6 +16,7 @@ import HeroSectionEditContainer from 'views/AquascapeDetailsEditContainer/HeroSe
 import FloraSectionEditContainer from 'views/AquascapeDetailsEditContainer/FloraSectionEditContainer'
 import PhotoSectionEditContainer from 'views/AquascapeDetailsEditContainer/PhotoSectionEditContainer'
 import EquipmentSectionEditContainer from 'views/AquascapeDetailsEditContainer/EquipmentSectionEditContainer'
+import InfoEdit from 'views/AquascapeDetailsEditContainer/InfoEdit'
 import CommentsContainer from 'views/AquascapeDetailsContainer/CommentsContainer'
 import {OtherAquascapesSection} from 'components/sections/AquascapeDetails'
 import {pxToNumber} from 'utils/converter'
@@ -164,6 +165,7 @@ const AquascapeDetailsEditContainer: React.FunctionComponent = () => {
                 </SubNavigation.Item>
             </SubNavigation>
             <Grid>
+                <InfoEdit />
                 <Element name={sections.PHOTO_POSTS}>
                     <PhotoSectionEditContainer
                         aquascapeId={aquascapeId}
