@@ -24,11 +24,11 @@ export interface Props<OptionType> {
 }
 
 const styles = {
-    control: (styles: CSSProperties) => ({
+    control: (styles: CSSProperties, {isFocused, menuIsOpen}: any) => ({
         ...styles,
         height: 62,
         borderWidth: 2,
-        borderColor: colors.SHADE_LIGHT,
+        borderColor: menuIsOpen || isFocused ? colors.PRIMARY : colors.SHADE_LIGHT,
         borderRadius: borderRadius.SECONDARY,
         cursor: 'pointer',
     }),
